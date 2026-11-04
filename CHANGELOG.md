@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased — Phase 3 privacy and search
+
+- Added supported account/Sync, telemetry-upload and studies policies plus editable
+  tracking, partitioning and suggestion defaults using distribution configuration.
+- Added a minimal local new-tab search form using Mozilla SearchService and the
+  user-selected current provider; DuckDuckGo is the one-time initial default.
+- Added a privacy settings link and factual About/privacy/security documentation.
+- Fixed redesigned Settings account-category visibility to respect the account gate.
+- Preserved the official logo, pinned ESR/artifacts, isolated profiles, licenses,
+  native browsing functions and security mechanisms. No full engine compilation,
+  production update channel or Phase 4 optimization is claimed.
+- Added actual browser privacy/search/HTTPS verification and preservation checks;
+  exact final results and known upstream/cloud diagnostics are in VALIDATION.md.
+
 ## Unreleased — Restart Phase 1
 
 - Reused the exact official Firefox ESR 153.6.0esr source pin and preserved owner logo.

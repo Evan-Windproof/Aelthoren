@@ -1,0 +1,130 @@
+[
+  {
+    "host": "localhost:8765",
+    "path": "/"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/favicon.ico"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/"
+  },
+  {
+    "host": "localhost:8443",
+    "path": "/"
+  },
+  {
+    "host": "localhost:8443",
+    "path": "/favicon.ico"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/track"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/track"
+  },
+  {
+    "host": "tracking.example.com:8765",
+    "path": "/tracker.js"
+  },
+  {
+    "host": "sitea.test:8765",
+    "path": "/partition?set"
+  },
+  {
+    "host": "storage.test:8765",
+    "path": "/frame?set=site-a"
+  },
+  {
+    "host": "sitea.test:8765",
+    "path": "/favicon.ico"
+  },
+  {
+    "host": "siteb.test:8765",
+    "path": "/partition"
+  },
+  {
+    "host": "storage.test:8765",
+    "path": "/frame"
+  },
+  {
+    "host": "siteb.test:8765",
+    "path": "/favicon.ico"
+  },
+  {
+    "host": "sitea.test:8765",
+    "path": "/partition"
+  },
+  {
+    "host": "storage.test:8765",
+    "path": "/frame"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/favicon.ico"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/favicon.ico"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/first"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/second"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/first"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/second"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/new-tab"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/favicon.ico"
+  },
+  {
+    "host": "localhost:8765",
+    "path": "/"
+  }
+]

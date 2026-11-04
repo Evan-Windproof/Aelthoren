@@ -1,0 +1,21 @@
+diff --git a/browser/components/preferences/preferences.js b/browser/components/preferences/preferences.js
+index c76a0647e1..d49c0d906a 100644
+--- a/browser/components/preferences/preferences.js
++++ b/browser/components/preferences/preferences.js
+@@ -412,6 +412,7 @@ const CONFIG_PANES = Object.freeze({
+     replaces: "search",
+   },
+   sync: {
++    visible: () => Services.prefs.getBoolPref("identity.fxaccounts.enabled"),
+     l10nId: "account-sync-section",
+     iconSrc: "chrome://browser/skin/fxa/avatar-empty.svg",
+     groupIds: [
+@@ -547,7 +548,7 @@ function init_all() {
+     "identity.fxaccounts.enabled"
+   );
+   let categorySync = document.getElementById("category-sync");
+-  if (redesignEnabled) {
++  if (redesignEnabled && accountsEnabled) {
+     categorySync.setAttribute("data-l10n-id", "pane-account-sync-title2");
+     categorySync.iconSrc = "chrome://browser/skin/fxa/avatar-empty.svg";
+     categorySync.hidden = false;

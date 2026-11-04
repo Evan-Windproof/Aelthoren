@@ -1,0 +1,3 @@
+{
+  "error": "{'testError': 'Error: System modules must be loaded from a trusted scheme', 'stack': '@[System Principal]:2:103\\n@[System Principal]:2:287\\n@[System Principal]:3:8\\nevaluate.sandbox/promise<@chrome://remote/content/marionette/evaluate.sys.mjs:127:10\\nevaluate.sandbox@chrome://remote/content/marionette/evaluate.sys.mjs:103:17\\nexecuteScript@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:354:26\\nreceiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:210:31\\n'}"
+}

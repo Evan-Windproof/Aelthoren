@@ -1,0 +1,16 @@
+PASS: isolated genuine artifact browser
+PASS: fresh profile selected search provider
+PASS: fresh profile new-tab search routes through selected provider
+PASS: fresh profile native address-bar search and no pre-submit suggestion request
+PASS: ordinary website JavaScript, DOM, local storage and login cookie
+PASS: account/Sync gate and telemetry upload policies disabled; ordinary privacy defaults unlocked; security preferences retained
+Traceback (most recent call last):
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 328, in <module>
+    main()
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 221, in main
+    browser.navigate('https://localhost:8443/')
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 79, in navigate
+    self.b.command('WebDriver:Navigate', url=url)
+  File "/workspace/Aelthoren/tools/verify_phase2.py", line 49, in command
+    raise RuntimeError(str(message))
+RuntimeError: [1, 48, {'error': 'insecure certificate', 'message': '', 'stacktrace': 'RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8\nWebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:169:5\nInsecureCertificateError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:355:5\ncheckReadyState@chrome://remote/content/marionette/navigate.sys.mjs:56:24\nonNavigation@chrome://remote/content/marionette/navigate.sys.mjs:360:39\nemit@resource://gre/modules/EventEmitter.sys.mjs:156:19\nreceiveMessage@chrome://remote/content/marionette/actors/MarionetteEventsParent.sys.mjs:33:25\n'}, None]

@@ -1,0 +1,21 @@
+PASS: isolated genuine artifact browser
+PASS: fresh profile selected search provider
+PASS: fresh profile new-tab search routes through selected provider
+PASS: fresh profile native address-bar search and no pre-submit suggestion request
+PASS: ordinary website JavaScript, DOM, local storage and login cookie
+PASS: account/Sync gate and telemetry upload policies disabled; ordinary privacy defaults unlocked; security preferences retained
+PASS: HTTPS renders with trusted disposable fixture certificate
+PASS: untrusted HTTPS certificate rejected
+PASS: local bookmarks insert
+PASS: known cross-site tracker blocked before HTTP request
+PASS: native site exception permits the same tracker (positive control)
+PASS: third-party localStorage partitioned by top-level site
+Traceback (most recent call last):
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 352, in <module>
+    main()
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 243, in main
+    additional_checks(browser)
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 314, in additional_checks
+    assert browser.content('return localStorage.getItem("phase3-persist")') is None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

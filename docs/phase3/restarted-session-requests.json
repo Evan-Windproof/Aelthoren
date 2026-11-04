@@ -1,0 +1,32 @@
+[
+  {
+    "host": "www.bing.com",
+    "path": "/search",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "www.bing.com",
+    "path": "/search",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  }
+]

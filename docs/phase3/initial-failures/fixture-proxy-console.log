@@ -1,0 +1,20 @@
+PASS: isolated genuine artifact browser
+PASS: fresh profile selected search provider
+PASS: fresh profile new-tab search routes through selected provider
+PASS: fresh profile native address-bar search and no pre-submit suggestion request
+PASS: ordinary website JavaScript, DOM, local storage and login cookie
+PASS: account/Sync gate and telemetry upload policies disabled; ordinary privacy defaults unlocked; security preferences retained
+PASS: HTTPS renders with trusted disposable fixture certificate
+PASS: untrusted HTTPS certificate rejected
+PASS: local bookmarks insert
+PASS: known cross-site tracker blocked before HTTP request
+Traceback (most recent call last):
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 336, in <module>
+    main()
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 240, in main
+    additional_checks(browser)
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 278, in additional_checks
+    browser.wait(lambda: browser.content('return !!window.wrappedJSObject.trackerLoaded'))
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 91, in wait
+    raise TimeoutError('Browser condition not reached')
+TimeoutError: Browser condition not reached
