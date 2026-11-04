@@ -1,0 +1,40 @@
+ 0:00.60 Using Python 3.12.14 from /workspace/aelthoren-tools/mozbuild/srcdirs/aelthoren-gecko-1a87cdc19481/_virtualenvs/build/bin/python
+ 0:00.60 Adding configure options from /workspace/Aelthoren/config/mozconfig.linux-artifact
+ 0:00.60   --enable-application=browser
+ 0:00.60   --enable-artifact-builds
+ 0:00.60   --disable-bootstrap
+ 0:00.60   --disable-official-branding
+ 0:00.60 checking for vcs source checkout... git
+ 0:00.78 checking for a shell... /usr/bin/sh
+ 0:00.81 checking for host system type... x86_64-pc-linux-gnu
+ 0:00.82 checking for target system type... x86_64-pc-linux-gnu
+ 0:00.88 checking whether cross compiling... no
+ 0:00.99 checking if configuration file confvars.sh exists... /workspace/aelthoren-gecko/browser/confvars.sh
+ 0:00.99 checking if configuration file configure.sh exists... /workspace/aelthoren-gecko/browser/branding/unofficial/configure.sh
+ 0:01.01 checking for Python 3... /workspace/aelthoren-tools/mozbuild/srcdirs/aelthoren-gecko-1a87cdc19481/_virtualenvs/build/bin/python (3.12.14)
+ 0:01.01 checking for git... /usr/local/bin/git
+ 0:01.01 checking for Git version... 2.52.0
+ 0:01.03 checking for nodejs... /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node (24.22.1)
+ 0:01.04 checking for tar... /usr/bin/tar
+ 0:01.04 checking for unzip... /usr/bin/unzip
+ 0:01.04 checking for the Mozilla API key... no
+ 0:01.04 checking for the Google Location Service API key... no
+ 0:01.04 checking for the Google Safebrowsing API key... no
+ 0:01.04 checking for the Bing API key... no
+ 0:01.04 checking for the Adjust SDK key... no
+ 0:01.04 checking for the Leanplum SDK key... no
+ 0:01.04 checking for the Pocket API key... no
+ 0:01.04 checking for gmake... /usr/bin/gmake
+ 0:01.08 checking for gmake version... 4.4.1
+ 0:01.08 checking for watchman... not found
+ 0:01.08 checking for xargs... /usr/bin/xargs
+ 0:01.08 Creating config.status
+ 0:01.36 Reticulating splines...
+ 0:07.69 Finished reading 2499 moz.build files in 2.09s
+ 0:07.69 Read 0 gyp files in parallel contributing 0.00s to total wall time
+ 0:07.69 Processed into 16693 build config descriptors in 1.91s
+ 0:07.69 FasterMake+RecursiveMake backend executed in 1.28s
+ 0:07.69   4154 total backend files; 4154 created; 0 updated; 0 unchanged; 0 deleted
+ 0:07.69 Total wall time: 6.37s; CPU time: 6.36s; Efficiency: 100%; Untracked: 1.09s
+ 0:09.93 Configure complete!
+ 0:09.93 Be sure to run |mach build| to pick up any changes

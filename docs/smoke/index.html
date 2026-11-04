@@ -1,0 +1,19 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Aelthoren Phase 1 Gecko smoke test</title>
+<style>body { font: 20px sans-serif; } #layout { width: 200px; height: 80px; background: #1678bd; }</style>
+<h1>Aelthoren Phase 1 engine verification</h1>
+<p id="result">PENDING: JavaScript has not run</p>
+<div id="layout"></div>
+<script>
+try {
+  localStorage.setItem('aelthoren-smoke', 'ok');
+  if (localStorage.getItem('aelthoren-smoke') !== 'ok') throw Error('Storage mismatch');
+  localStorage.removeItem('aelthoren-smoke');
+  document.getElementById('result').textContent = 'PASS: JavaScript, DOM, and storage';
+  fetch('/result?status=pass', {cache: 'no-store'});
+} catch (error) {
+  document.getElementById('result').textContent = 'FAIL: ' + error.message;
+  fetch('/result?status=fail', {cache: 'no-store'});
+}
+</script>

@@ -1,0 +1,2 @@
+ 0:00.51 /workspace/aelthoren-gecko/obj-aelthoren-restart/dist/bin/firefox --headless --version -profile /workspace/aelthoren-gecko/obj-aelthoren-restart/tmp/profile-default
+Mozilla Firefox 153.6.0esr
