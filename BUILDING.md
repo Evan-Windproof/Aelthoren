@@ -98,3 +98,13 @@ full engine source build is claimed here.
 
 Before any environment switch/publication, commit and run tools/preserve_milestone.sh;
 verify remote SHA and update existing PR #1. Local caches/snapshots are disposable.
+
+
+## Phase 2 branded frontend
+
+The Phase 1 build remains preserved, but its strict clean-source guard intentionally
+rejects the reviewed Phase 2 frontend patch. Use tools/phase2.py and the separate
+config/mozconfig.linux-aelthoren for current branded work. See docs/BRANDING.md.
+Do not reset upstream work to satisfy the old guard. The pinned HEAD is unchanged;
+only the explicit patch/derived branding directory differ. All archives remain
+outside Git and no additional environment, source tree or PR is created.

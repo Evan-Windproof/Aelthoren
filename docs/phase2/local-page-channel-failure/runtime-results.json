@@ -1,0 +1,26 @@
+[
+  {
+    "profile": "/workspace/aelthoren-user-data/profiles/phase2-verification",
+    "browser_version": "153.6.0",
+    "acceptInsecureCerts": false,
+    "checks": [
+      "isolated profile",
+      "certificate errors not accepted",
+      "real HTTP JavaScript/DOM/localStorage",
+      "native back/forward history",
+      "native tab creation/switch/close"
+    ],
+    "exit_code": 0
+  },
+  {
+    "profile": "/workspace/aelthoren-user-data/profiles/phase2-second",
+    "browser_version": "153.6.0",
+    "acceptInsecureCerts": false,
+    "checks": [
+      "isolated profile",
+      "certificate errors not accepted",
+      "real HTTP JavaScript/DOM/localStorage"
+    ],
+    "exit_code": 0
+  }
+]

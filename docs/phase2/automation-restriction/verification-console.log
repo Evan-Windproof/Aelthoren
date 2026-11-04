@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/workspace/Aelthoren/tools/verify_phase2.py", line 181, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/Aelthoren/tools/verify_phase2.py", line 171, in main
+    results.append(browser_case(profile, comprehensive))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Aelthoren/tools/verify_phase2.py", line 87, in browser_case
+    browser.command('WebDriver:Navigate', url='about:newtab')
+  File "/workspace/Aelthoren/tools/verify_phase2.py", line 49, in command
+    raise RuntimeError(str(message))
+RuntimeError: [1, 2, {'error': 'unsupported operation', 'message': 'Navigation to "about:newtab" is not allowed in this context', 'stacktrace': 'RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8\nWebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:169:5\nUnsupportedOperationError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:961:5\nnavigateTo@chrome://remote/content/marionette/driver.sys.mjs:2382:13\n'}, None]

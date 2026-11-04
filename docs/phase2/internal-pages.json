@@ -1,0 +1,17 @@
+[
+  {
+    "page": "about:newtab",
+    "exit_code": 0,
+    "screenshot": "/workspace/Aelthoren/docs/phase2/newtab.png"
+  },
+  {
+    "page": "chrome://branding/content/about-aelthoren.html",
+    "exit_code": 0,
+    "screenshot": "/workspace/Aelthoren/docs/phase2/about.png"
+  },
+  {
+    "page": "about:preferences",
+    "exit_code": 0,
+    "screenshot": "/workspace/Aelthoren/docs/phase2/settings.png"
+  }
+]

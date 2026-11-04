@@ -1,0 +1,17 @@
+{
+  "app": {
+    "vendor": "Aelthoren",
+    "name": "Aelthoren",
+    "remotingname": "aelthoren",
+    "codename": "Aelthoren",
+    "version": "153.6.0",
+    "buildid": "20261104213823",
+    "id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+    "profile": "aelthoren"
+  },
+  "gecko": {
+    "minversion": "153.6.0",
+    "maxversion": "153.6.0"
+  },
+  "owner_logo_sha256": "3902f792ae0e8de87ff71f33f4394674c91a33058b77596456088d28bff805f1"
+}

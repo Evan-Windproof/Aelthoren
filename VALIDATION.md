@@ -1,3 +1,15 @@
+# Aelthoren validation
+
+## Current Phase 2 result — 2026-11-05
+
+The branded Linux artifact configure, install and standard build passed. Actual
+browser HTTP/JavaScript/DOM/storage, native history/tab handling and two profile
+paths passed automated checks. Normal browser launches rendered the branded
+new-tab/About/Settings pages; screenshots were inspected. Nine tooling tests pass.
+The engine binary/pin are unchanged. Native GUID/OS identity and release branding
+remain limited; Phase 3 is not implemented. Detailed evidence follows the retained
+Phase 1 record below.
+
 # Phase 1 restart validation — 2026-11-04
 
 ## Actual outcome
@@ -138,3 +150,170 @@ codex/aelthoren-restart branch with tools/preserve_milestone.sh. Its remote SHA 
 match local HEAD, and existing PR #1 must be updated with these actual results.
 The final task report gives the remotely verified commit link. No environment
 snapshot or local-only commit is treated as durable preservation.
+
+
+# Phase 2 branding/interface — 2026-11-05
+
+## Repository preflight and scope
+
+Initial project branch was codex/aelthoren-restart at 5af403b (published Phase 1).
+Read-only GitHub checks showed PR #1 closed and main at
+0172d112b11b9870aba8975a0a0a6e07a9cd461c. Fetched main and fast-forwarded the
+same development branch to that merge commit. No history was rewritten, work
+removed, new branch/environment created or extra PR opened.
+
+Reused official Firefox ESR 153.6.0esr source at
+**a34c4160e3f75ab9918fbe4669ff7ae56f1977c8** and the verified Phase 1 local browser,
+XPT and common-test archives. upstream.lock.json and the original owner SVG are
+unchanged. Owner asset SHA-256 remains
+3902f792ae0e8de87ff71f33f4394674c91a33058b77596456088d28bff805f1.
+
+## Implemented frontend and identity
+
+- Generated a separate browser/branding/aelthoren overlay from the pinned unofficial
+  template, preserving MPL headers. Inkscape generated Linux PNG icons from the
+  owner's exact SVG artwork. Integration viewBox/dimensions encompass negative
+  artwork coordinates without redesigning shapes/colors or changing the original.
+- Aelthoren Fluent/properties names, wordmarks and About assets; Settings screenshot
+  shows the owner icon, product labels, About Aelthoren and Aelthoren support.
+- Script-free, strict-CSP local about:newtab with logo, slogan, instruction to use
+  the native address bar, and Bookmarks/Settings/About links. No new page scripts,
+  remote assets, fonts, recommendation services or animations.
+- A packaged About page with Mozilla attribution/license links and explicit
+  development/Phase 3/identity limitations. This is content inside the real browser,
+  not an HTML replacement for native browser navigation or rendering.
+- Preserved native toolbar/address bar/reload/tabs/history controls. No engine,
+  networking or browser-security implementation changes.
+- Runtime launcher uses supported -app metadata with Name/Vendor Aelthoren,
+  RemotingName aelthoren and own Profile field, retaining native Firefox GUID and
+  Gecko version requirements. Separate named profiles under
+  /workspace/aelthoren-user-data/profiles; arbitrary paths/app/profile passthrough
+  are rejected and nonempty unmarked user profiles are not adopted. --no-remote
+  prevents attaching to another Firefox process. No personal profile migration.
+
+Only two tracked upstream frontend files change, captured in
+patches/0001-phase2-ui.patch: the new-tab redirector and two About attribution lines.
+The local static page avoids waiting for the unused Activity Stream renderer;
+URI security flags, process guard and loadInfo remain intact. Other inherited
+new-tab addon services/remote behavior remain present, not globally disabled.
+Expected source/branding files are content-hashed; repeated preparation verifies
+them and refuses unknown modifications instead of overwriting/resetting work.
+
+## Commands and build results
+
+```sh
+cd /workspace/Aelthoren
+python3 tools/phase2.py prepare
+python3 tools/phase2.py build
+python3 -m unittest discover -s tools -p 'test_*.py' -v
+python3 tools/verify_phase2.py
+```
+
+The build helper sets the same inherited proxy/trust environment, local verified
+MOZ_ARTIFACT_FILE list, explicit Node and workspace-local state as Phase 1, selecting
+config/mozconfig.linux-aelthoren and obj-aelthoren-phase2. Final commands, source cwd:
+
+| Command | Exit | Actual result |
+| --- | ---: | --- |
+| ./mach --no-interactive configure | 0 | Branded artifact configuration |
+| ./mach artifact install | 0 | Verified local browser/XPT/test inputs |
+| ./mach build | 0 | Standard artifact build completed |
+
+Initial branding build also passed; initial UI verification exposed a routing/loading
+problem described below. The final corrected overlay was rebuilt and all runtime
+checks then passed. Existing Inkscape user-config/GTK warnings were nonfatal.
+Preparation was repeated successfully: existing overlay verified, no files replaced.
+
+Precompiled libxul.so is byte-identical to Phase 1: 185,074,264 bytes, SHA-256
+4c2cbbfb8a0b85effa9a623fd3ffd293db3fb16bcacf5f1bf9acc7aa32ef02fc.
+See docs/phase2/engine-comparison.json. No local Gecko/SpiderMonkey source
+compilation is claimed. No additional dependencies were fetched for Phase 2.
+
+## Actual browser verification
+
+The HTTP harness temporarily enabled Mozilla's loopback-only Marionette interface
+on dedicated test profiles. No privileged system-access opt-in was used; production
+launcher does not enable automation. All HTTP tests use the actual browser/native
+WebDriver operations, not mock objects. Both sessions ended through Marionette's
+normal quit command and browser exit **0**:
+
+1. Profile /workspace/aelthoren-user-data/profiles/phase2-verification:
+   capabilities confirmed exact profile and version 153.6.0,
+   acceptInsecureCerts=false. Real HTTP page rendered; JS DOM text was
+   PASS: JavaScript, DOM, and storage; the fixture's localStorage key was removed
+   after its write/read/delete assertion. Screenshot captured and inspected.
+   Native Back/Forward navigated between two actual HTTP pages. Created a native
+   second tab, switched, navigated, verified two handles, closed it and verified
+   only the original handle remained.
+2. Profile /workspace/aelthoren-user-data/profiles/phase2-second:
+   independently confirmed profile path, version, acceptInsecureCerts=false and
+   the same real JS/DOM/storage assertions; exit **0**.
+
+Result JSON: docs/phase2/runtime-results.json. HTTP requests and successful JS
+callbacks are retained in http.log. The page could be served from cache on repeat
+navigation, so logs are not claimed to count every navigation as a network fetch.
+
+Internal UI used normal browser command-line launches instead of privileged
+WebDriver navigation. Commands were run via tools/run_aelthoren.py with own
+phase2-ui-final profile, --headless, --window-size 1366,1000, --screenshot and the
+respective real browser URL. Each exited **0**:
+
+| URL | Visually inspected output |
+| --- | --- |
+| about:newtab | Owner logo, Aelthoren, official slogan, address-bar instruction, local shortcuts |
+| chrome://branding/content/about-aelthoren.html | Branded About page, version, attribution/license links and development limitations |
+| about:preferences | Owner icon and Aelthoren labels; inherited account/sync UI still present |
+
+Images: docs/phase2/newtab.png, about.png, settings.png and smoke.png. Metadata is
+in internal-pages.json and identity.json. Normal screenshots verify visible UI;
+HTTP automation separately verifies live behavior. Browser/server instances were
+stopped after tests. Headless graphics and inherited remote-service/shutdown errors
+remain in logs, but final assertions, screenshots and all five normal exits passed.
+No SSL acceptance, sandbox-disabling flags or security preference overrides were
+introduced. acceptInsecureCerts=false is a capability check, not a separate invalid
+certificate/HTTPS site test; that broader behavior remains unverified.
+
+## Initial failures, supported correction and test limits
+
+The initial local page used a chrome URI through the inherited new-tab redirector.
+WebDriver refused about:newtab navigation as unsupported in that context. That
+failure is recorded under docs/phase2/automation-restriction; no system-access
+permission or browser security restriction was disabled to bypass it.
+
+Normal headless about:newtab navigation in that initial form then timed out at
+60 seconds without a screenshot. The test process group was stopped. Evidence is
+under local-page-channel-failure. Final source uses an explicitly registered local
+resource URI and skips only the renderer-startup wait for that specific static
+resource. Security URI/process/loadInfo flags were not changed. The final build
+and runtime suite above were run after this correction. No incomplete attempt is
+reported as passed, and the failed trace files are retained as diagnostic evidence.
+
+Nine tooling tests passed, zero failed/skipped: the four preserved Phase 1 pin
+checks plus five profile/identity tests (path escape, preservation of unmarked user
+data, separate named storage, runtime name with preserved GUID/version, and reserved
+profile argument rejection before browser execution). Unit fixtures are synthetic
+and are not substituted for the real browser checks above.
+
+## Remaining limitations and integration
+
+- Artifact launcher retains native Firefox GUID, executable basename, user agent
+  and some OS identifiers. Fully independent native identity/platform integration
+  remains full-build work; no such change was tested or claimed here.
+- Mozilla illustrations, Firefox Labs/More from Mozilla and some upstream service/
+  legal links remain. No comprehensive trademark/distribution audit, independent
+  signing/update infrastructure or supported release is claimed. Owner asset
+  rights and upstream MPL notices remain; public redistribution needs review.
+- No account/sync removal, default-search changes, telemetry audit or privacy
+  behavior changes: Phase 3 has not started. The new-tab slogan is a product goal;
+  the About page explains that the corresponding privacy functionality is pending.
+- Full engine compilation, Windows/macOS packaging, native About-dialog visual
+  inspection, exhaustive security/HTTPS/extension/default-browser interoperability
+  checks remain unverified. Equivalent packaged About UI is what passed.
+- Phase 1 object files/scripts are preserved; its clean-source guard now correctly
+  rejects this intentional overlay. Use phase2.py for current builds; do not reset
+  source work or infer that the Phase 1 implementation was deleted.
+- Work is committed/pushed on the existing codex/aelthoren-restart branch and remote
+  SHA must be verified by the preservation helper. PR #1 was already closed/merged
+  at preflight; no extra PR is created. The branch's changes relative to main are
+  ready for the next integration review. No release/environment publication or
+  main-branch push is performed by this task.

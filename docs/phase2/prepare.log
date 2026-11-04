@@ -1,0 +1,156 @@
+
+** (process:33111): WARNING **: 21:38:05.360: Unable to create profile directory (Read-only file system) (30)
+
+** (inkscape:33111): WARNING **: 21:38:05.373: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
+** Message: 21:38:05.381: Cannot create profile directory /home/agent/.config/inkscape.
+** Message: 21:38:05.381: Inkscape will run with default settings, and new settings will not be saved.
+
+** (inkscape:33111): WARNING **: 21:38:05.468: Could not create directory '/home/agent/.config/inkscape'
+
+** (inkscape:33111): WARNING **: 21:38:05.468: Could not create extension error log file '/home/agent/.config/inkscape/extension-errors.log'
+
+** (inkscape:33111): WARNING **: 21:38:05.535: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
+
+** (process:33117): WARNING **: 21:38:05.639: Unable to create profile directory (Read-only file system) (30)
+
+** (inkscape:33117): WARNING **: 21:38:05.644: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
+** Message: 21:38:05.651: Cannot create profile directory /home/agent/.config/inkscape.
+** Message: 21:38:05.651: Inkscape will run with default settings, and new settings will not be saved.
+
+** (inkscape:33117): WARNING **: 21:38:05.704: Could not create directory '/home/agent/.config/inkscape'
+
+** (inkscape:33117): WARNING **: 21:38:05.704: Could not create extension error log file '/home/agent/.config/inkscape/extension-errors.log'
+
+** (inkscape:33117): WARNING **: 21:38:05.724: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
+
+** (process:33123): WARNING **: 21:38:05.816: Unable to create profile directory (Read-only file system) (30)
+
+** (inkscape:33123): WARNING **: 21:38:05.821: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
+** Message: 21:38:05.828: Cannot create profile directory /home/agent/.config/inkscape.
+** Message: 21:38:05.828: Inkscape will run with default settings, and new settings will not be saved.
+
+** (inkscape:33123): WARNING **: 21:38:05.887: Could not create directory '/home/agent/.config/inkscape'
+
+** (inkscape:33123): WARNING **: 21:38:05.887: Could not create extension error log file '/home/agent/.config/inkscape/extension-errors.log'
+
+** (inkscape:33123): WARNING **: 21:38:05.909: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
+
+** (process:33129): WARNING **: 21:38:05.976: Unable to create profile directory (Read-only file system) (30)
+
+** (inkscape:33129): WARNING **: 21:38:05.981: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
+** Message: 21:38:05.988: Cannot create profile directory /home/agent/.config/inkscape.
+** Message: 21:38:05.988: Inkscape will run with default settings, and new settings will not be saved.
+
+** (inkscape:33129): WARNING **: 21:38:06.045: Could not create directory '/home/agent/.config/inkscape'
+
+** (inkscape:33129): WARNING **: 21:38:06.045: Could not create extension error log file '/home/agent/.config/inkscape/extension-errors.log'
+
+** (inkscape:33129): WARNING **: 21:38:06.064: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
+
+** (process:33135): WARNING **: 21:38:06.148: Unable to create profile directory (Read-only file system) (30)
+
+** (inkscape:33135): WARNING **: 21:38:06.153: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
+** Message: 21:38:06.160: Cannot create profile directory /home/agent/.config/inkscape.
+** Message: 21:38:06.160: Inkscape will run with default settings, and new settings will not be saved.
+
+** (inkscape:33135): WARNING **: 21:38:06.214: Could not create directory '/home/agent/.config/inkscape'
+
+** (inkscape:33135): WARNING **: 21:38:06.214: Could not create extension error log file '/home/agent/.config/inkscape/extension-errors.log'
+
+** (inkscape:33135): WARNING **: 21:38:06.241: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
+
+** (process:33141): WARNING **: 21:38:06.333: Unable to create profile directory (Read-only file system) (30)
+
+** (inkscape:33141): WARNING **: 21:38:06.339: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
+** Message: 21:38:06.347: Cannot create profile directory /home/agent/.config/inkscape.
+** Message: 21:38:06.347: Inkscape will run with default settings, and new settings will not be saved.
+
+** (inkscape:33141): WARNING **: 21:38:06.407: Could not create directory '/home/agent/.config/inkscape'
+
+** (inkscape:33141): WARNING **: 21:38:06.407: Could not create extension error log file '/home/agent/.config/inkscape/extension-errors.log'
+
+** (inkscape:33141): WARNING **: 21:38:06.428: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
+
+** (process:33147): WARNING **: 21:38:06.513: Unable to create profile directory (Read-only file system) (30)
+
+** (inkscape:33147): WARNING **: 21:38:06.518: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
+** Message: 21:38:06.525: Cannot create profile directory /home/agent/.config/inkscape.
+** Message: 21:38:06.525: Inkscape will run with default settings, and new settings will not be saved.
+
+** (inkscape:33147): WARNING **: 21:38:06.578: Could not create directory '/home/agent/.config/inkscape'
+
+** (inkscape:33147): WARNING **: 21:38:06.578: Could not create extension error log file '/home/agent/.config/inkscape/extension-errors.log'
+
+** (inkscape:33147): WARNING **: 21:38:06.598: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
+
+** (process:33153): WARNING **: 21:38:06.670: Unable to create profile directory (Read-only file system) (30)
+
+** (inkscape:33153): WARNING **: 21:38:06.675: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
+** Message: 21:38:06.682: Cannot create profile directory /home/agent/.config/inkscape.
+** Message: 21:38:06.682: Inkscape will run with default settings, and new settings will not be saved.
+
+** (inkscape:33153): WARNING **: 21:38:06.743: Could not create directory '/home/agent/.config/inkscape'
+
+** (inkscape:33153): WARNING **: 21:38:06.743: Could not create extension error log file '/home/agent/.config/inkscape/extension-errors.log'
+
+** (inkscape:33153): WARNING **: 21:38:06.762: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
+
+** (process:33159): WARNING **: 21:38:06.844: Unable to create profile directory (Read-only file system) (30)
+
+** (inkscape:33159): WARNING **: 21:38:06.849: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
+** Message: 21:38:06.857: Cannot create profile directory /home/agent/.config/inkscape.
+** Message: 21:38:06.857: Inkscape will run with default settings, and new settings will not be saved.
+
+** (inkscape:33159): WARNING **: 21:38:06.905: Could not create directory '/home/agent/.config/inkscape'
+
+** (inkscape:33159): WARNING **: 21:38:06.905: Could not create extension error log file '/home/agent/.config/inkscape/extension-errors.log'
+
+** (inkscape:33159): WARNING **: 21:38:06.925: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
+
+** (process:33165): WARNING **: 21:38:06.991: Unable to create profile directory (Read-only file system) (30)
+
+** (inkscape:33165): WARNING **: 21:38:06.996: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
+** Message: 21:38:07.003: Cannot create profile directory /home/agent/.config/inkscape.
+** Message: 21:38:07.003: Inkscape will run with default settings, and new settings will not be saved.
+
+** (inkscape:33165): WARNING **: 21:38:07.051: Could not create directory '/home/agent/.config/inkscape'
+
+** (inkscape:33165): WARNING **: 21:38:07.051: Could not create extension error log file '/home/agent/.config/inkscape/extension-errors.log'
+
+** (inkscape:33165): WARNING **: 21:38:07.071: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
+
+** (process:33171): WARNING **: 21:38:07.143: Unable to create profile directory (Read-only file system) (30)
+
+** (inkscape:33171): WARNING **: 21:38:07.148: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
+** Message: 21:38:07.154: Cannot create profile directory /home/agent/.config/inkscape.
+** Message: 21:38:07.154: Inkscape will run with default settings, and new settings will not be saved.
+
+** (inkscape:33171): WARNING **: 21:38:07.202: Could not create directory '/home/agent/.config/inkscape'
+
+** (inkscape:33171): WARNING **: 21:38:07.202: Could not create extension error log file '/home/agent/.config/inkscape/extension-errors.log'
+
+** (inkscape:33171): WARNING **: 21:38:07.220: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
+
+** (process:33177): WARNING **: 21:38:07.285: Unable to create profile directory (Read-only file system) (30)
+
+** (inkscape:33177): WARNING **: 21:38:07.290: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
+** Message: 21:38:07.296: Cannot create profile directory /home/agent/.config/inkscape.
+** Message: 21:38:07.296: Inkscape will run with default settings, and new settings will not be saved.
+
+** (inkscape:33177): WARNING **: 21:38:07.344: Could not create directory '/home/agent/.config/inkscape'
+
+** (inkscape:33177): WARNING **: 21:38:07.344: Could not create extension error log file '/home/agent/.config/inkscape/extension-errors.log'
+
+** (inkscape:33177): WARNING **: 21:38:07.363: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
+
+** (process:33183): WARNING **: 21:38:07.428: Unable to create profile directory (Read-only file system) (30)
+
+** (inkscape:33183): WARNING **: 21:38:07.432: Failed to wrap object of type 'PangoFT2FontMap'. Hint: this error is commonly caused by failing to call a library init() function.
+** Message: 21:38:07.439: Cannot create profile directory /home/agent/.config/inkscape.
+** Message: 21:38:07.439: Inkscape will run with default settings, and new settings will not be saved.
+
+** (inkscape:33183): WARNING **: 21:38:07.486: Could not create directory '/home/agent/.config/inkscape'
+
+** (inkscape:33183): WARNING **: 21:38:07.486: Could not create extension error log file '/home/agent/.config/inkscape/extension-errors.log'
+
+** (inkscape:33183): WARNING **: 21:38:07.505: Failed to wrap object of type 'GtkRecentManager'. Hint: this error is commonly caused by failing to call a library init() function.
