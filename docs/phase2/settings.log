@@ -1,0 +1,32 @@
+*** You are running in headless mode.
+console.error: (new TypeError("NetworkError: Network request failed", "resource://services-settings/Utils.sys.mjs", 257))
+console.error: (new TypeError("NetworkError: Network request failed", "resource://services-settings/Utils.sys.mjs", 257))
+console.error: services.settings:
+  Remote Settings startup changesets bundle could not be extracted (TypeError: NetworkError: Network request failed)
+console.error: Region.sys.mjs: "Error fetching region" (new TypeError("NetworkError when attempting to fetch resource.", ""))
+console.error: Region.sys.mjs: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.sys.mjs", 394))
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+JavaScript error: chrome://browser/content/preferences/config/accessibility.mjs, line 164: TypeError: can't access property "zoomValues", this.ZoomManager is undefined
+console.warn: BackupService: "There was an error while trying to get the Document's directory" [Exception... "Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIProperties.get]"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: resource:///modules/backup/BackupService.sys.mjs :: get docsDirFolderPath :: line 1299"  data: no]
+console.warn: BackupService: "There was an error while trying to get the Document's directory" [Exception... "Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIProperties.get]"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: resource:///modules/backup/BackupService.sys.mjs :: get docsDirFolderPath :: line 1299"  data: no]
+console.warn: BackupService: "There was an error while trying to get the Document's directory" [Exception... "Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIProperties.get]"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: resource:///modules/backup/BackupService.sys.mjs :: get docsDirFolderPath :: line 1299"  data: no]
+console.warn: BackupService: "There was an error while trying to get the Document's directory" [Exception... "Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIProperties.get]"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: resource:///modules/backup/BackupService.sys.mjs :: get docsDirFolderPath :: line 1299"  data: no]
+Screenshot saved to: /workspace/Aelthoren/docs/phase2/settings.png
+console.error: AboutHomeStartupCache: "requestCache called with no _procManager!"
+JavaScript error: resource://nimbus/lib/SharedDataMap.sys.mjs, line 247: Error: SharedDataMap: in shutdown
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: EnvironmentAddonBuilder: "init - Exception in _updateAddons" (new Error("XPIDatabase.asyncLoadDB attempt after XPIProvider shutdown.", "resource://gre/modules/addons/XPIDatabase.sys.mjs", 2070))
+JavaScript error: resource://gre/modules/addons/XPIDatabase.sys.mjs, line 2070: Error: XPIDatabase.asyncLoadDB attempt after XPIProvider shutdown.

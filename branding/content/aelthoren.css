@@ -1,0 +1,9 @@
+:root { color-scheme: light dark; font: 16px/1.6 system-ui, sans-serif; }
+body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: light-dark(#f7f9fc, #171b21); color: light-dark(#202b3a, #e5ebf3); }
+main { max-width: 660px; padding: 40px 24px; text-align: center; }
+.logo { display: block; margin: 0 auto 18px; }
+h1 { font-size: 2.2rem; line-height: 1.2; margin: 0 0 12px; }
+.slogan { color: light-dark(#45617f, #a5bdd8); }
+nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
+a { color: light-dark(#145da8, #94c5ff); padding: 8px 12px; border-radius: 6px; text-underline-offset: 3px; }
+a:focus-visible { outline: 3px solid currentColor; outline-offset: 2px; }

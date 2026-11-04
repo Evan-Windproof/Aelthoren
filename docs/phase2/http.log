@@ -1,0 +1,5 @@
+"GET /result?status=pass HTTP/1.1" 200 -
+"GET /result?status=pass HTTP/1.1" 200 -
+"GET /second HTTP/1.1" 200 -
+"GET /second HTTP/1.1" 200 -
+"GET /result?status=pass HTTP/1.1" 200 -

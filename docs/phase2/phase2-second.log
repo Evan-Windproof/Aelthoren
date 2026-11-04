@@ -1,0 +1,33 @@
+*** You are running in headless mode.
+1793828724708	Marionette	INFO	Marionette enabled
+1793828724729	Marionette	INFO	Listening on port 2828
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+1793828725381	Marionette	INFO	Stopped listening on port 2828
+console.error: RSLoader:
+  Failed to retrieve recipes from Remote Settings
+  Message: Error: Shutdown started
+  Stack:
+    ShutdownStartedError@resource://nimbus/lib/RemoteSettingsExperimentLoader.sys.mjs:1578:5
+listener@resource://nimbus/lib/RemoteSettingsExperimentLoader.sys.mjs:748:35
+@resource://nimbus/lib/RemoteSettingsExperimentLoader.sys.mjs:311:31
+trigger@resource://gre/modules/AsyncShutdown.sys.mjs:773:23
+_wait@resource://gre/modules/AsyncShutdown.sys.mjs:933:15
+wait@resource://gre/modules/AsyncShutdown.sys.mjs:914:34
+observe@resource://gre/modules/AsyncShutdown.sys.mjs:573:10
+
+console.error: ExperimentAPI:
+  Failed to enable RemoteSettingsExperimentLoader:
+  Message: Error: Shutdown started
+  Stack:
+    ShutdownStartedError@resource://nimbus/lib/RemoteSettingsExperimentLoader.sys.mjs:1578:5
+listener@resource://nimbus/lib/RemoteSettingsExperimentLoader.sys.mjs:748:35
+@resource://nimbus/lib/RemoteSettingsExperimentLoader.sys.mjs:311:31
+trigger@resource://gre/modules/AsyncShutdown.sys.mjs:773:23
+_wait@resource://gre/modules/AsyncShutdown.sys.mjs:933:15
+wait@resource://gre/modules/AsyncShutdown.sys.mjs:914:34
+observe@resource://gre/modules/AsyncShutdown.sys.mjs:573:10
+
+console.error: AboutHomeStartupCache: "A privileged about content process shut down while cache streams were still en route."
+console.error: (new TypeError("NetworkError: Network request failed", "resource://services-settings/Utils.sys.mjs", 257))
+console.error: (new TypeError("NetworkError: Network request failed", "resource://services-settings/Utils.sys.mjs", 257))
+console.error: (new TypeError("NetworkError: Network request failed", "resource://services-settings/Utils.sys.mjs", 257))

@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/workspace/Aelthoren/tools/verify_phase2.py", line 184, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/Aelthoren/tools/verify_phase2.py", line 177, in main
+    pages = internal_pages()
+            ^^^^^^^^^^^^^^^^
+  File "/workspace/Aelthoren/tools/verify_phase2.py", line 137, in internal_pages
+    code = process.wait(timeout=60)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 2045, in _wait
+    raise TimeoutExpired(self.args, timeout)
+subprocess.TimeoutExpired: Command '['/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3', '/workspace/Aelthoren/tools/run_aelthoren.py', '--profile', 'phase2-ui', '--', '--headless', '--window-size', '1366,1000', '--screenshot', '/workspace/Aelthoren/docs/phase2/newtab.png', 'about:newtab']' timed out after 60 seconds
