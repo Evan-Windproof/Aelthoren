@@ -1,0 +1,22 @@
+{
+  "source_revision": "a34c4160e3f75ab9918fbe4669ff7ae56f1977c8",
+  "version": "153.6.0esr",
+  "build_type": "official precompiled Gecko artifact + local browser frontend",
+  "command": [
+    "./mach",
+    "run",
+    "--headless",
+    "--no-remote",
+    "-profile",
+    "/workspace/aelthoren-phase1-profile",
+    "--screenshot",
+    "/workspace/Aelthoren/docs/phase1/smoke.png",
+    "http://127.0.0.1:8765/"
+  ],
+  "exit_code": 0,
+  "fixture_callbacks": [
+    "pass"
+  ],
+  "passed": true,
+  "screenshot_sha256": "2f087d030c58f237a8cfa4ec081b10e21aeb8ee3a65c7c521deae666fd379dd1"
+}

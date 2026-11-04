@@ -1,0 +1,31 @@
+ 0:00.96 W Warnings in third-party code are being suppressed from the terminal output. Use --show-all-warnings or --verbose to see them.
+ 0:00.96 W All warnings will still be dumped to /workspace/aelthoren-gecko/obj-aelthoren-restart/.mozbuild/logs/build/warnings_*.json at the end of the build.
+ 0:01.05 Clobber not needed.
+ 0:01.18 W Adding make options from /workspace/Aelthoren/config/mozconfig.linux-artifact
+    MOZ_MAKE_FLAGS=-j4
+    MOZ_OBJDIR=/workspace/aelthoren-gecko/obj-aelthoren-restart
+    OBJDIR=/workspace/aelthoren-gecko/obj-aelthoren-restart
+    FOUND_MOZCONFIG=/workspace/Aelthoren/config/mozconfig.linux-artifact
+    export FOUND_MOZCONFIG
+ 0:01.18 /usr/bin/gmake -f client.mk -j4 -s
+ 0:04.99 Elapsed: 0.08s; From dist/xpi-stage: Kept 154 existing; Added/updated 939; Removed 0 files and 0 directories.
+ 0:05.09 Elapsed: 0.10s; From _tests: Kept 12 existing; Added/updated 1461; Removed 0 files and 0 directories.
+ 0:05.24 Elapsed: 0.02s; From /workspace/aelthoren-gecko/obj-aelthoren-restart/dist/bin/gmp-clearkey/0.1: Kept 0 existing; Added/updated 1; Removed 0 files and 0 directories.
+ 0:05.48 Elapsed: 0.37s; From /workspace/aelthoren-gecko/obj-aelthoren-restart/dist/bin/browser: Kept 4783 existing; Added/updated 26; Removed 0 files and 0 directories.
+ 0:07.03 Elapsed: 0.16s; From /workspace/aelthoren-gecko/obj-aelthoren-restart/dist/bin: Kept 2062 existing; Added/updated 25; Removed 0 files and 0 directories.
+ 0:07.50 ./built_in_addons.json.stub
+ 0:07.97 Packaging long-fields.xpi...
+ 0:08.11 Packaging restartless.xpi...
+ 0:08.23 Packaging system.xpi...
+ 0:11.33 Packaging specialpowers@mozilla.org.xpi...
+ 0:11.46 Packaging ipp-activator@mozilla.com.xpi...
+ 0:11.56 Packaging webcompat@mozilla.org.xpi...
+ 0:11.76 Packaging newtab@mozilla.org.xpi...
+ 0:12.43 Packaging mozscreenshots@mozilla.org.xpi...
+ 0:12.64 W 0 compiler warnings present.
+ 0:12.65 W Overall system resources - Wall time: 12s; CPU: 49%; Read bytes: 0; Write bytes: 9830400; Read time: 0; Write time: 342
+ 0:12.66 To view a profile of the build, run |mach resource-usage|.
+ 0:12.66 Your build was successful!
+ 0:12.66 To take your build for a test drive, run: |mach run|
+ 0:12.66 For more information on what to do now, see https://firefox-source-docs.mozilla.org/setup/contributing_code.html
+Streaming resource usage profile to: /workspace/aelthoren-gecko/obj-aelthoren-restart/.mozbuild/logs/build/profile_log_20261104_155839.json
