@@ -1,0 +1,21 @@
+ 0:00.31 W Warnings in third-party code are being suppressed from the terminal output. Use --show-all-warnings or --verbose to see them.
+ 0:00.31 W All warnings will still be dumped to /workspace/aelthoren-gecko/obj-aelthoren-phase2/.mozbuild/logs/build/warnings_*.json at the end of the build.
+ 0:00.38 Clobber not needed.
+ 0:00.40 W Adding make options from /workspace/Aelthoren/config/mozconfig.linux-aelthoren
+    MOZ_MAKE_FLAGS=-j4
+    MOZ_OBJDIR=/workspace/aelthoren-gecko/obj-aelthoren-phase2
+    OBJDIR=/workspace/aelthoren-gecko/obj-aelthoren-phase2
+    FOUND_MOZCONFIG=/workspace/Aelthoren/config/mozconfig.linux-aelthoren
+    export FOUND_MOZCONFIG
+ 0:00.40 /usr/bin/gmake -f client.mk -j4 -s
+ 0:03.65 Elapsed: 0.03s; From /workspace/aelthoren-gecko/obj-aelthoren-phase2/dist/bin/gmp-clearkey/0.1: Kept 0 existing; Added/updated 1; Removed 0 files and 0 directories.
+ 0:03.77 Elapsed: 0.33s; From /workspace/aelthoren-gecko/obj-aelthoren-phase2/dist/bin/browser: Kept 4786 existing; Added/updated 26; Removed 0 files and 0 directories.
+ 0:05.37 Elapsed: 0.18s; From /workspace/aelthoren-gecko/obj-aelthoren-phase2/dist/bin: Kept 2062 existing; Added/updated 25; Removed 0 files and 0 directories.
+ 0:05.75 ./built_in_addons.json.stub
+ 0:06.86 W 0 compiler warnings present.
+ 0:06.88 W Overall system resources - Wall time: 7s; CPU: 41%; Read bytes: 0; Write bytes: 13361152; Read time: 0; Write time: 55
+ 0:06.88 To view a profile of the build, run |mach resource-usage|.
+ 0:06.88 Your build was successful!
+ 0:06.88 To take your build for a test drive, run: |mach run|
+ 0:06.88 For more information on what to do now, see https://firefox-source-docs.mozilla.org/setup/contributing_code.html
+Streaming resource usage profile to: /workspace/aelthoren-gecko/obj-aelthoren-phase2/.mozbuild/logs/build/profile_log_20261104_223311.json

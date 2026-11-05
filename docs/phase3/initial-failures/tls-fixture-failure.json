@@ -1,0 +1,3 @@
+{
+  "error": "[1, 48, {'error': 'insecure certificate', 'message': '', 'stacktrace': 'RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8\\nWebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:169:5\\nInsecureCertificateError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:355:5\\ncheckReadyState@chrome://remote/content/marionette/navigate.sys.mjs:56:24\\nonNavigation@chrome://remote/content/marionette/navigate.sys.mjs:360:39\\nemit@resource://gre/modules/EventEmitter.sys.mjs:156:19\\nreceiveMessage@chrome://remote/content/marionette/actors/MarionetteEventsParent.sys.mjs:33:25\\n'}, None]"
+}

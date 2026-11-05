@@ -1,0 +1,302 @@
+[
+  {
+    "check": "isolated genuine artifact browser",
+    "result": "PASS",
+    "evidence": {
+      "browserName": "aelthoren",
+      "browserVersion": "153.6.0",
+      "moz:profile": "/workspace/aelthoren-user-data/profiles/phase3-37b4ec6a304f",
+      "acceptInsecureCerts": false,
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:153.0) Gecko/20100101 Aelthoren/153.6.0"
+    }
+  },
+  {
+    "check": "fresh profile selected search provider",
+    "result": "PASS",
+    "evidence": {
+      "name": "DuckDuckGo",
+      "private": "DuckDuckGo",
+      "choices": [
+        "DuckDuckGo",
+        "Bing",
+        "Google",
+        "Perplexity",
+        "Wikipedia (en)"
+      ]
+    }
+  },
+  {
+    "check": "fresh profile new-tab search routes through selected provider",
+    "result": "PASS",
+    "evidence": [
+      "https://duckduckgo.com/?t=ftsa&q=aelthoren-phase3-newtab"
+    ]
+  },
+  {
+    "check": "fresh profile native address-bar search and no pre-submit suggestion request",
+    "result": "PASS",
+    "evidence": [
+      "https://duckduckgo.com/?t=ftsa&q=aelthoren-phase3-typed"
+    ]
+  },
+  {
+    "check": "ordinary website JavaScript, DOM, local storage and login cookie",
+    "result": "PASS",
+    "evidence": true
+  },
+  {
+    "check": "account/Sync gate and telemetry upload policies disabled; ordinary privacy defaults unlocked; security preferences retained",
+    "result": "PASS",
+    "evidence": {
+      "identity.fxaccounts.enabled": {
+        "value": false,
+        "locked": true
+      },
+      "datareporting.healthreport.uploadEnabled": {
+        "value": false,
+        "locked": true
+      },
+      "datareporting.policy.dataSubmissionEnabled": {
+        "value": false,
+        "locked": true
+      },
+      "toolkit.telemetry.archive.enabled": {
+        "value": false,
+        "locked": true
+      },
+      "datareporting.usage.uploadEnabled": {
+        "value": false,
+        "locked": true
+      },
+      "privacy.trackingprotection.enabled": {
+        "value": true,
+        "locked": false
+      },
+      "privacy.trackingprotection.pbmode.enabled": {
+        "value": true,
+        "locked": false
+      },
+      "privacy.trackingprotection.cryptomining.enabled": {
+        "value": true,
+        "locked": false
+      },
+      "privacy.trackingprotection.fingerprinting.enabled": {
+        "value": true,
+        "locked": false
+      },
+      "privacy.fingerprintingProtection": {
+        "value": true,
+        "locked": false
+      },
+      "network.cookie.cookieBehavior": {
+        "value": 5,
+        "locked": false
+      },
+      "privacy.partition.network_state": {
+        "value": true,
+        "locked": false
+      },
+      "browser.search.suggest.enabled": {
+        "value": false,
+        "locked": false
+      },
+      "browser.urlbar.suggest.searches": {
+        "value": false,
+        "locked": false
+      },
+      "security.sandbox.content.level": {
+        "value": 6,
+        "locked": false
+      },
+      "fission.autostart": {
+        "value": true,
+        "locked": false
+      },
+      "browser.safebrowsing.malware.enabled": {
+        "value": true,
+        "locked": false
+      },
+      "browser.safebrowsing.phishing.enabled": {
+        "value": true,
+        "locked": false
+      },
+      "security.OCSP.enabled": {
+        "value": 1,
+        "locked": false
+      },
+      "javascript.enabled": {
+        "value": true,
+        "locked": false
+      },
+      "toolkit.telemetry.enabled": {
+        "value": false,
+        "locked": true
+      },
+      "toolkit.telemetry.unified": {
+        "value": false,
+        "locked": false
+      },
+      "toolkit.telemetry.newProfilePing.enabled": {
+        "value": false,
+        "locked": false
+      },
+      "toolkit.telemetry.shutdownPingSender.enabled": {
+        "value": false,
+        "locked": false
+      },
+      "toolkit.telemetry.updatePing.enabled": {
+        "value": false,
+        "locked": false
+      },
+      "app.shield.optoutstudies.enabled": {
+        "value": false,
+        "locked": false
+      },
+      "app.normandy.enabled": {
+        "value": false,
+        "locked": false
+      },
+      "browser.crashReports.unsubmittedCheck.autoSubmit2": {
+        "value": false,
+        "locked": false
+      }
+    }
+  },
+  {
+    "check": "HTTPS renders with trusted disposable fixture certificate",
+    "result": "PASS",
+    "evidence": true
+  },
+  {
+    "check": "untrusted HTTPS certificate rejected",
+    "result": "PASS",
+    "evidence": "insecure certificate; acceptInsecureCerts=false"
+  },
+  {
+    "check": "local bookmarks insert",
+    "result": "PASS",
+    "evidence": {
+      "guid": "D7tk3OP1_l9f"
+    }
+  },
+  {
+    "check": "native local password store accepts fixture login",
+    "result": "PASS",
+    "evidence": true
+  },
+  {
+    "check": "known cross-site tracker blocked before HTTP request",
+    "result": "PASS",
+    "evidence": {
+      "log": "{\n \"http://tracking.example.com:8765\": [[4096, true, 1]],\n \"http://localhost:8765\": [[32768, true, 1]]\n}\n",
+      "flag": 4096
+    }
+  },
+  {
+    "check": "native site exception permits the same tracker (positive control)",
+    "result": "PASS",
+    "evidence": true
+  },
+  {
+    "check": "third-party localStorage partitioned by top-level site",
+    "result": "PASS",
+    "evidence": [
+      "site-a",
+      null,
+      "site-a"
+    ]
+  },
+  {
+    "check": "private windows isolate normal storage and clear private storage after last private window closes",
+    "result": "PASS",
+    "evidence": true
+  },
+  {
+    "check": "privacy/site-data controls visible and Sync category/account toolbar hidden",
+    "result": "PASS",
+    "evidence": {
+      "tracking": true,
+      "clearSiteData": true,
+      "siteData": true,
+      "history": false,
+      "syncVisible": false
+    }
+  },
+  {
+    "check": "tracking settings expose native manage-exceptions control",
+    "result": "PASS",
+    "evidence": true
+  },
+  {
+    "check": "native back, forward, new tab, switch and close",
+    "result": "PASS",
+    "evidence": true
+  },
+  {
+    "check": "native search settings control available; user-change API selects alternative",
+    "result": "PASS",
+    "evidence": "Bing"
+  },
+  {
+    "check": "fresh-session bounded post-start HTTP observation",
+    "result": "PASS",
+    "evidence": {
+      "requests": 170,
+      "telemetry_uploads_observed": 0,
+      "scope": "HTTP observer after automation attached; not exhaustive startup/shutdown or packet capture"
+    }
+  },
+  {
+    "check": "restarted user-choice profile selected search provider",
+    "result": "PASS",
+    "evidence": {
+      "name": "Bing",
+      "private": "Bing",
+      "choices": [
+        "DuckDuckGo",
+        "Bing",
+        "Google",
+        "Perplexity",
+        "Wikipedia (en)"
+      ]
+    }
+  },
+  {
+    "check": "restarted user-choice profile new-tab search routes through selected provider",
+    "result": "PASS",
+    "evidence": [
+      "https://www.bing.com/search?pc=MOZR&form=MOZLBR&q=aelthoren-phase3-newtab"
+    ]
+  },
+  {
+    "check": "restarted user-choice profile native address-bar search and no pre-submit suggestion request",
+    "result": "PASS",
+    "evidence": [
+      "https://www.bing.com/search?pc=MOZR&form=MOZLBR&q=aelthoren-phase3-typed"
+    ]
+  },
+  {
+    "check": "native local password store survives restart",
+    "result": "PASS",
+    "evidence": {
+      "fixture_logins": 1
+    }
+  },
+  {
+    "check": "bookmarks, real navigation history and localStorage survive restart",
+    "result": "PASS",
+    "evidence": {
+      "bookmark": true,
+      "history": true
+    }
+  },
+  {
+    "check": "restarted-session bounded post-start HTTP observation",
+    "result": "PASS",
+    "evidence": {
+      "requests": 6,
+      "telemetry_uploads_observed": 0,
+      "scope": "HTTP observer after automation attached; not exhaustive startup/shutdown or packet capture"
+    }
+  }
+]

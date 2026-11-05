@@ -13,7 +13,7 @@ from prepare_phase1 import DOWNLOADS, LOCK, ROOT, SOURCE, verify
 BRAND = SOURCE / 'browser/branding/aelthoren'
 OBJECT = SOURCE / 'obj-aelthoren-phase2'
 OUTPUT = ROOT / 'docs/phase2'
-PATCHED = ['browser/components/newtab/AboutNewTabRedirector.sys.mjs', 'browser/locales/en-US/browser/aboutDialog.ftl']
+PATCHED = ['browser/components/newtab/AboutNewTabRedirector.sys.mjs', 'browser/locales/en-US/browser/aboutDialog.ftl', 'browser/actors/AboutNewTabChild.sys.mjs', 'browser/actors/AboutNewTabParent.sys.mjs', 'browser/components/preferences/preferences.js']
 
 
 def digest(path):
@@ -21,7 +21,7 @@ def digest(path):
 
 
 def inputs():
-    paths = [ROOT / 'assets/A_text.svg', ROOT / 'patches/0001-phase2-ui.patch', Path(__file__)] + sorted((ROOT / 'branding/content').iterdir())
+    paths = [ROOT / 'assets/A_text.svg', ROOT / 'patches/0001-phase2-ui.patch', ROOT / 'patches/0002-phase3-search.patch', ROOT / 'patches/0003-phase3-account-settings.patch', Path(__file__)] + sorted((ROOT / 'branding/content').iterdir())
     return {str(p.relative_to(ROOT)): digest(p) for p in paths}
 
 
@@ -76,6 +76,9 @@ def prepare():
     p = BRAND / 'content/jar.mn'
     p.write_text(p.read_text() + ''.join('  content/branding/' + name + '\n' for name in ('newtab.html', 'about-aelthoren.html', 'aelthoren.css')) + '% resource aelthoren %content/branding/\n')
     subprocess.run(['git', '-C', str(SOURCE), 'apply', str(patch)], check=True)
+    for name in ('0002-phase3-search.patch', '0003-phase3-account-settings.patch'):
+        subprocess.run(['git', '-C', str(SOURCE), 'apply', '--check', str(ROOT / 'patches' / name)], check=True)
+        subprocess.run(['git', '-C', str(SOURCE), 'apply', str(ROOT / 'patches' / name)], check=True)
     marker = {'revision': LOCK['revision'], 'inputs': inputs(), 'files': content_hashes(), 'patched': {p: digest(SOURCE / p) for p in PATCHED}}
     (BRAND / '.aelthoren-overlay.json').write_text(json.dumps(marker, indent=2) + '\n')
     verify_overlay()

@@ -1,0 +1,852 @@
+[
+  {
+    "host": "duckduckgo.com",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "duckduckgo.com",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "push.services.mozilla.com",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "push.services.mozilla.com",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/track",
+    "method": "GET"
+  },
+  {
+    "host": "tracking.example.com",
+    "path": "/tracker.js",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox-settings.mozilla-backup.org",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/track",
+    "method": "GET"
+  },
+  {
+    "host": "tracking.example.com",
+    "path": "/tracker.js",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "sitea.test",
+    "path": "/partition",
+    "method": "GET"
+  },
+  {
+    "host": "push.services.mozilla.com",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "storage.test",
+    "path": "/frame",
+    "method": "GET"
+  },
+  {
+    "host": "sitea.test",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "aus5.mozilla.org",
+    "path": "/update/3/GMP/153.6.0/20261104213823/Linux_x86_64-gcc3/en-US/default/Linux%25206.18.57%2520(GTK%25203.24.49%252Clibpulse%252017.0.0)/aelthoren-dev/3/update.xml",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "aus5.mozilla-backup.org",
+    "path": "/update/3/GMP/153.6.0/20261104213823/Linux_x86_64-gcc3/en-US/default/Linux%25206.18.57%2520(GTK%25203.24.49%252Clibpulse%252017.0.0)/aelthoren-dev/3/update.xml",
+    "method": "GET"
+  },
+  {
+    "host": "siteb.test",
+    "path": "/partition",
+    "method": "GET"
+  },
+  {
+    "host": "storage.test",
+    "path": "/frame",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "update.googleapis.com",
+    "path": "/service/update2/crx",
+    "method": "GET"
+  },
+  {
+    "host": "siteb.test",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "ciscobinary.openh264.org",
+    "path": "/openh264-linux64-652bdb7719f30b52b08e506645a7322ff1b2cc6f.zip",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "sitea.test",
+    "path": "/partition",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "storage.test",
+    "path": "/frame",
+    "method": "GET"
+  },
+  {
+    "host": "sitea.test",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "firefox.settings.services.mozilla.com",
+    "path": "/v1/buckets/monitor/collections/changes/changeset",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "aus5.mozilla.org",
+    "path": "/update/6/Aelthoren/153.6.0/20261104213823/Linux_x86_64-gcc3/en-US/default/Linux%25206.18.57%2520(GTK%25203.24.49%252Clibpulse%252017.0.0)/ISET%3ASSE4_2%2CMEM%3A34088/aelthoren-dev/3/update.xml",
+    "method": "GET"
+  },
+  {
+    "host": "aus5.mozilla-backup.org",
+    "path": "/update/6/Aelthoren/153.6.0/20261104213823/Linux_x86_64-gcc3/en-US/default/Linux%25206.18.57%2520(GTK%25203.24.49%252Clibpulse%252017.0.0)/ISET%3ASSE4_2%2CMEM%3A34088/aelthoren-dev/3/update.xml",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/first",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/second",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/first",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/second",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/new-tab",
+    "method": "GET"
+  },
+  {
+    "host": "localhost",
+    "path": "/favicon.ico",
+    "method": "GET"
+  },
+  {
+    "host": "aus5.mozilla.org",
+    "path": "/update/6/Aelthoren/153.6.0/20261104213823/Linux_x86_64-gcc3/en-US/default/Linux%25206.18.57%2520(GTK%25203.24.49%252Clibpulse%252017.0.0)/ISET%3ASSE4_2%2CMEM%3A34088/aelthoren-dev/3/update.xml",
+    "method": "GET"
+  },
+  {
+    "host": "aus5.mozilla-backup.org",
+    "path": "/update/6/Aelthoren/153.6.0/20261104213823/Linux_x86_64-gcc3/en-US/default/Linux%25206.18.57%2520(GTK%25203.24.49%252Clibpulse%252017.0.0)/ISET%3ASSE4_2%2CMEM%3A34088/aelthoren-dev/3/update.xml",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/canonical.html",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  },
+  {
+    "host": "detectportal.firefox.com",
+    "path": "/success.txt",
+    "method": "GET"
+  }
+]

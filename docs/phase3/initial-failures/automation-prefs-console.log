@@ -1,0 +1,12 @@
+PASS: isolated genuine artifact browser
+PASS: fresh profile selected search provider
+PASS: fresh profile new-tab search routes through selected provider
+PASS: fresh profile native address-bar search and no pre-submit suggestion request
+PASS: ordinary website JavaScript, DOM, local storage and login cookie
+Traceback (most recent call last):
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 326, in <module>
+    main()
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 213, in main
+    assert configuration[key]['value'] is True and not configuration[key]['locked'], (key, configuration[key])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('privacy.trackingprotection.pbmode.enabled', {'value': False, 'locked': False})

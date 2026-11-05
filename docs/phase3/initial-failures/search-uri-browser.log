@@ -1,0 +1,49 @@
+*** You are running in headless mode.
+console.error: Policies:
+  Unable to set preference privacy.partition.network_state. Preference not allowed for stability reasons.
+console.error: Policies:
+  Unable to set preference toolkit.telemetry.enabled. Preference not allowed for stability reasons.
+console.error: Policies:
+  Unable to set preference toolkit.telemetry.unified. Preference not allowed for stability reasons.
+console.error: Policies:
+  Unable to set preference toolkit.telemetry.newProfilePing.enabled. Preference not allowed for stability reasons.
+console.error: Policies:
+  Unable to set preference toolkit.telemetry.shutdownPingSender.enabled. Preference not allowed for stability reasons.
+console.error: Policies:
+  Unable to set preference toolkit.telemetry.updatePing.enabled. Preference not allowed for stability reasons.
+console.error: Policies:
+  Unable to set preference app.shield.optoutstudies.enabled. Preference not allowed for stability reasons.
+console.error: Policies:
+  Unable to set preference app.normandy.enabled. Preference not allowed for stability reasons.
+1793830971473	Marionette	INFO	Marionette enabled
+1793830971548	Marionette	INFO	Listening on port 2828
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+JavaScript error: resource:///actors/AboutNewTabParent.sys.mjs, line 87: TypeError: CanonicalBrowsingContext.loadURI: Argument 1 is not an object.
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+console.error: RSLoader:
+  Failed to retrieve recipes from Remote Settings
+  Message: Error: Could not sync nimbus-desktop-experiments: get-exception
+  Stack:
+    RemoteSettingsSyncError@resource://nimbus/lib/RemoteSettingsExperimentLoader.sys.mjs:1566:5
+getRecipesFromCollection@resource://nimbus/lib/RemoteSettingsExperimentLoader.sys.mjs:820:13
+
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+console.warn: BackupService: "There was an error while trying to get the Document's directory" [Exception... "Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIProperties.get]"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: resource:///modules/backup/BackupService.sys.mjs :: get docsDirFolderPath :: line 1299"  data: no]
+JavaScript error: resource:///modules/backup/BackupService.sys.mjs, line 4408: NotAllowedError: PathUtils.join: PathUtils does not support empty paths
+1793830993779	Marionette	INFO	Stopped listening on port 2828
+JavaScript error: resource://gre/modules/PrivateBrowsingUtils.sys.mjs, line 50: TypeError: can't access property "QueryInterface", aWindow.docShell is null
+JavaScript error: resource://gre/modules/LoginHelper.sys.mjs, line 443: TypeError: can't access property "set", Glean.pwmgr.savingEnabled is undefined
+JavaScript error: resource://gre/modules/LoginHelper.sys.mjs, line 443: TypeError: can't access property "set", Glean.pwmgr.savingEnabled is undefined
+JavaScript error: resource://gre/modules/LoginHelper.sys.mjs, line 443: TypeError: can't access property "set", Glean.pwmgr.savingEnabled is undefined
+JavaScript error: resource://gre/modules/LoginHelper.sys.mjs, line 443: TypeError: can't access property "set", Glean.pwmgr.savingEnabled is undefined
+JavaScript error: resource://gre/modules/UrlClassifierListManager.sys.mjs, line 465: NS_ERROR_NOT_INITIALIZED: Component returned failure code: 0xc1f30001 (NS_ERROR_NOT_INITIALIZED) [nsIUrlClassifierDBService.getTables]

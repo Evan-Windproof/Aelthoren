@@ -1,0 +1,19 @@
+PASS: isolated genuine artifact browser
+PASS: fresh profile selected search provider
+PASS: fresh profile new-tab search routes through selected provider
+PASS: fresh profile native address-bar search and no pre-submit suggestion request
+PASS: ordinary website JavaScript, DOM, local storage and login cookie
+PASS: account/Sync gate and telemetry upload policies disabled; ordinary privacy defaults unlocked; security preferences retained
+PASS: HTTPS renders with trusted disposable fixture certificate
+PASS: untrusted HTTPS certificate rejected
+PASS: local bookmarks insert
+Traceback (most recent call last):
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 333, in <module>
+    main()
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 240, in main
+    additional_checks(browser)
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 262, in additional_checks
+    browser.async_chrome(tracker_import + 'await UrlClassifierTestUtils.addTestTrackers();return true;')
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 70, in async_chrome
+    raise RuntimeError(str(value))
+RuntimeError: {'testError': 'Error: System modules must be loaded from a trusted scheme', 'stack': '@[System Principal]:2:103\n@[System Principal]:2:287\n@[System Principal]:3:8\nevaluate.sandbox/promise<@chrome://remote/content/marionette/evaluate.sys.mjs:127:10\nevaluate.sandbox@chrome://remote/content/marionette/evaluate.sys.mjs:103:17\nexecuteScript@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:354:26\nreceiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:210:31\n'}

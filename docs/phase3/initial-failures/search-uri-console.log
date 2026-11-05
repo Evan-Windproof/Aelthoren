@@ -1,0 +1,13 @@
+PASS: isolated genuine artifact browser
+PASS: fresh profile selected search provider
+Traceback (most recent call last):
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 257, in <module>
+    main()
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 202, in main
+    search_checks(browser, 'DuckDuckGo', 'fresh profile')
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 164, in search_checks
+    urls = browser.wait(lambda: browser.chrome(WINDOW + 'return win.__phase3Requests.slice();'))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Aelthoren/tools/verify_phase3.py", line 91, in wait
+    raise TimeoutError('Browser condition not reached')
+TimeoutError: Browser condition not reached

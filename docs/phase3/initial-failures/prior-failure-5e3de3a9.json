@@ -1,0 +1,3 @@
+{
+  "error": "[1, 120, {'error': 'javascript error', 'message': '[Exception... \"Component is not available\"  nsresult: \"0x80040111 (NS_ERROR_NOT_AVAILABLE)\"  location: \"JS frame :: about:privatebrowsing :: <TOP_LEVEL> :: line 2\"  data: no]', 'stacktrace': '@about:privatebrowsing:2:7\\n@about:privatebrowsing:3:8\\n'}, None]"
+}

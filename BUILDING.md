@@ -1,4 +1,57 @@
-# Phase 1 Linux Gecko artifact workflow
+# Linux Gecko artifact development
+
+## Current Phase 3 workflow
+
+Use the existing verified source/artifacts and prerequisites below. Do not reacquire
+valid archives or reset the existing overlay. For a pristine pinned source, the
+preparation command generates branding and applies the three reviewed frontend
+patches. For an unchanged, marked Phase 2 overlay, it verifies every existing file
+against its marker before applying the Phase 3 patches/content. Unknown source,
+branding or distribution edits stop preparation/launch for review.
+
+```sh
+cd /workspace/Aelthoren
+python3 tools/phase3.py prepare
+python3 tools/phase3.py build
+python3 tools/run_aelthoren.py --profile default
+python3 -m unittest discover -s tools -p 'test_*.py'
+python3 -u tools/verify_phase3.py
+```
+
+`phase3.py build` runs the official `./mach --no-interactive configure`,
+`./mach artifact install` and `./mach build`, using the pinned local archives and
+config/mozconfig.linux-aelthoren. Outputs go to docs/phase3; compiled files stay in
+/workspace/aelthoren-gecko/obj-aelthoren-phase2. It then installs reviewed policies
+and distribution defaults beside the binary, not into user prefs.js. The launcher
+reinstalls/verifies these files on each launch and refuses unmanaged modifications.
+A source-head mismatch or archive size/SHA-256 mismatch stops the build. This is an
+artifact frontend build, not local Gecko/SpiderMonkey C++/Rust compilation.
+
+Runtime verification needs Python, OpenSSL and the matching Mozilla certutil
+(already present from the pinned common-test artifact), free loopback ports 8765,
+8443, 8444 and Marionette 2828. Run it only when another browser/test is not using
+these ports. It creates unique disposable profiles outside Git. A local fixture
+CA is trusted only in that test profile; keys remain in a temporary directory
+outside Git. It does not import the cloud interception CA or disable TLS errors.
+The negative certificate test must fail normally.
+
+The script alone passes `--remote-allow-system-access` for privileged verification
+and sets `remote.prefs.recommended=false` only in its test profiles, preventing
+Marionette from overriding real privacy/security defaults. Normal launches do
+neither. Test-only classifier data comes from the pinned Mozilla source helper;
+DNS mappings and narrow proxy exclusions send synthetic fixture hosts to loopback,
+not to remote blocked hosts. Existing remote proxy/TLS settings remain intact.
+Profiles are retained outside Git for inspection and must not be used for normal
+browsing because they contain fixture trust/configuration. Runtime reports and
+screenshots are in docs/phase3; preserve prior evidence before rerunning.
+
+No new build toolchain downloads or full engine compilation are needed for this
+phase. Full source compilation remains the long-term engine verification target;
+see official Mozilla bootstrap/build documentation below. Windows remains a
+separate future native distribution target. Phase 3 changes are published on
+codex/aelthoren-phase3 in a new PR targeting main; do not merge automatically.
+
+## Historical Phase 1 workflow
 
 ## Prerequisites and paths
 
@@ -88,7 +141,7 @@ Keep all upstream security, license and attribution material. No settings for TL
 process isolation, sandboxing or exploit mitigations are changed. A local HTTP smoke
 pass does not prove HTTPS, all sandbox modes, website compatibility or upstream
 suite readiness. The browser can still attempt inherited remote-service calls;
-Phase 3 will audit those explicitly. Do not use this development build for sensitive
+See PRIVACY.md for the Phase 3 audit and retained services. Do not use this development build for sensitive
 browsing or distribute it as a supported Aelthoren release.
 
 Windows is a future separate target using official native MozillaBuild tooling:
@@ -97,7 +150,7 @@ run does not validate Windows. No Windows build/installer, independent branding 
 full engine source build is claimed here.
 
 Before any environment switch/publication, commit and run tools/preserve_milestone.sh;
-verify remote SHA and update existing PR #1. Local caches/snapshots are disposable.
+verify remote SHA and create/update the applicable milestone PR. Local caches/snapshots are disposable.
 
 
 ## Phase 2 branded frontend

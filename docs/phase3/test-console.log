@@ -1,0 +1,32 @@
+PASS: isolated genuine artifact browser
+PASS: fresh profile selected search provider
+PASS: fresh profile new-tab search routes through selected provider
+PASS: fresh profile native address-bar search and no pre-submit suggestion request
+PASS: ordinary website JavaScript, DOM, local storage and login cookie
+PASS: account/Sync gate and telemetry upload policies disabled; ordinary privacy defaults unlocked; security preferences retained
+PASS: HTTPS renders with trusted disposable fixture certificate
+PASS: untrusted HTTPS certificate rejected
+PASS: local bookmarks insert
+PASS: native local password store accepts fixture login
+PASS: known cross-site tracker blocked before HTTP request
+PASS: native site exception permits the same tracker (positive control)
+PASS: third-party localStorage partitioned by top-level site
+PASS: private windows isolate normal storage and clear private storage after last private window closes
+PASS: privacy/site-data controls visible and Sync category/account toolbar hidden
+PASS: tracking settings expose native manage-exceptions control
+PASS: native back, forward, new tab, switch and close
+PASS: native search settings control available; user-change API selects alternative
+PASS: fresh-session bounded post-start HTTP observation
+PASS: restarted user-choice profile selected search provider
+PASS: restarted user-choice profile new-tab search routes through selected provider
+PASS: restarted user-choice profile native address-bar search and no pre-submit suggestion request
+PASS: native local password store survives restart
+PASS: bookmarks, real navigation history and localStorage survive restart
+PASS: restarted-session bounded post-start HTTP observation
+{
+  "checks": 25,
+  "result": "PASS",
+  "profile": "/workspace/aelthoren-user-data/profiles/phase3-37b4ec6a304f",
+  "source_revision": "a34c4160e3f75ab9918fbe4669ff7ae56f1977c8",
+  "build_type": "official Linux artifact frontend; engine not compiled locally"
+}

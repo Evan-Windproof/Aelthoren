@@ -1,0 +1,7 @@
+{
+  "checks": 25,
+  "result": "PASS",
+  "profile": "/workspace/aelthoren-user-data/profiles/phase3-37b4ec6a304f",
+  "source_revision": "a34c4160e3f75ab9918fbe4669ff7ae56f1977c8",
+  "build_type": "official Linux artifact frontend; engine not compiled locally"
+}

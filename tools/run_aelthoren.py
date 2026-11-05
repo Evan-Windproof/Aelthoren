@@ -53,6 +53,8 @@ def main():
     if any(value.lower().split('=')[0] in reserved for value in rest):
         parser.error('Application/profile overrides are reserved for the launcher')
     app = application_file()
+    from privacy import install_policies
+    install_policies(OBJECT / "dist/bin")
     profile = prepare_profile(args.profile)
     return subprocess.call([str(OBJECT / 'dist/bin/firefox'), '-app', str(app), '--no-remote', '-profile', str(profile), *rest])
 

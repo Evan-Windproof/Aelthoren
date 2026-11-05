@@ -1,0 +1,377 @@
+*** You are running in headless mode.
+1793831804700	Marionette	INFO	Marionette enabled
+1793831804775	Marionette	INFO	Listening on port 2828
+console.error: Region.sys.mjs: "Error fetching region" (new TypeError("NetworkError when attempting to fetch resource.", ""))
+console.error: Region.sys.mjs: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.sys.mjs", 394))
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+console.error: "Could not record event: " (new Error("Event must be defined, unless input was pasted/dropped", "moz-src:///browser/components/urlbar/UrlbarController.sys.mjs", 1029))
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+console.error: "Error fetching remote settings base url from CDN. Falling back to https://firefox-settings-attachments.cdn.mozilla.net/" (new TypeError("NetworkError: Network request failed", "resource://services-settings/Utils.sys.mjs", 257))
+console.error: services.settings:
+  Remote Settings startup changesets bundle could not be extracted (TypeError: NetworkError: Network request failed)
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+console.warn: BackupService: "There was an error while trying to get the Document's directory" [Exception... "Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIProperties.get]"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: resource:///modules/backup/BackupService.sys.mjs :: get docsDirFolderPath :: line 1299"  data: no]
+JavaScript error: resource:///modules/backup/BackupService.sys.mjs, line 4408: NotAllowedError: PathUtils.join: PathUtils does not support empty paths
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+Rejected: Failed to update with dbService: mochitest1-track-simple. Retry later.
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+JavaScript error: resource://gre/modules/UrlClassifierListManager.sys.mjs, line 755: TypeError: can't access property "provider", this.tablesData[table] is undefined
+JavaScript error: resource://gre/modules/UrlClassifierListManager.sys.mjs, line 755: TypeError: can't access property "provider", this.tablesData[table] is undefined
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+JavaScript error: resource://gre/modules/ServiceRequest.sys.mjs, line 91: TypeError: Services.policies.getActivePolicies().filter is not a function
+JavaScript error: , line 0: AbortError: Actor 'ASRouter' destroyed before query 'PBNEWTAB_MESSAGE_REQUEST' was resolved
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+JavaScript error: , line 0: AbortError: Actor 'ASRouter' destroyed before query 'PBNEWTAB_MESSAGE_REQUEST' was resolved
+JavaScript error: , line 0: AbortError: Actor 'ASRouter' destroyed before query 'PBNEWTAB_MESSAGE_REQUEST' was resolved
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+JavaScript error: , line 0: AbortError: Actor 'ASRouter' destroyed before query 'PBNEWTAB_MESSAGE_REQUEST' was resolved
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+JavaScript error: resource://gre/modules/LoginManagerChild.sys.mjs, line 1715: TypeError: can't access dead object
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+console.error: [Exception... "Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIContentSniffer.getMIMETypeFromContent]"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource:///modules/FaviconLoader.sys.mjs :: onStopRequest :: line 360"  data: no]
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+console.error: services.settings:
+  Message: TypeError: NetworkError: Network request failed
+  Stack:
+    fetch/</request.onerror@resource://services-settings/Utils.sys.mjs:257:26
+
+1793831829087	Marionette	INFO	Stopped listening on port 2828

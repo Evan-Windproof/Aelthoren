@@ -1,0 +1,78 @@
+diff --git a/browser/actors/AboutNewTabChild.sys.mjs b/browser/actors/AboutNewTabChild.sys.mjs
+index c917c6eac2..14a17b00a3 100644
+--- a/browser/actors/AboutNewTabChild.sys.mjs
++++ b/browser/actors/AboutNewTabChild.sys.mjs
+@@ -38,6 +38,27 @@ let gNextPortID = 0;
+ 
+ export class AboutNewTabChild extends RemotePageChild {
+   async handleEvent(event) {
++    if (
++      ["about:newtab", "about:home"].includes(this.document.documentURI.split(/[?#]/)[0]) &&
++      this.browsingContext === this.browsingContext.top
++    ) {
++      if (event.type === "DOMContentLoaded") {
++        const form = this.document.getElementById("aelthoren-search");
++        if (form) {
++          const input = form.querySelector("input");
++          const engine = await this.sendQuery("Aelthoren:GetSearchEngine");
++          input.placeholder = `Search with ${engine.name}`;
++          form.addEventListener("submit", async event => {
++            event.preventDefault();
++            const query = input.value.trim();
++            if (query) {
++              await this.sendQuery("Aelthoren:Search", { query });
++            }
++          });
++        }
++      }
++      return;
++    }
+     if (event.type == "DOMDocElementInserted") {
+       let portID = Services.appinfo.processID + ":" + ++gNextPortID;
+ 
+diff --git a/browser/actors/AboutNewTabParent.sys.mjs b/browser/actors/AboutNewTabParent.sys.mjs
+index 1b0427ef74..fd4c8391d2 100644
+--- a/browser/actors/AboutNewTabParent.sys.mjs
++++ b/browser/actors/AboutNewTabParent.sys.mjs
+@@ -7,6 +7,7 @@ const lazy = {};
+ ChromeUtils.defineESModuleGetters(lazy, {
+   AboutNewTab: "resource:///modules/AboutNewTab.sys.mjs",
+   ASRouter: "resource:///modules/asrouter/ASRouter.sys.mjs",
++  SearchService: "moz-src:///toolkit/components/search/SearchService.sys.mjs",
+ });
+ 
+ // A mapping of loaded new tab pages, where the mapping is:
+@@ -62,6 +63,33 @@ export class AboutNewTabParent extends JSWindowActorParent {
+   }
+ 
+   async receiveMessage(message) {
++    if (["Aelthoren:GetSearchEngine", "Aelthoren:Search"].includes(message.name)) {
++      const context = this.browsingContext;
++      const uri = context.currentWindowGlobal?.documentURI?.spec.split(/[?#]/)[0];
++      if (context !== context.top || !["about:newtab", "about:home"].includes(uri)) {
++        throw new Error("Search requests are restricted to the local top-level new tab");
++      }
++      await lazy.SearchService.init();
++      const engine = context.usePrivateBrowsing
++        ? await lazy.SearchService.getDefaultPrivate()
++        : await lazy.SearchService.getDefault();
++      if (message.name === "Aelthoren:GetSearchEngine") {
++        return { name: engine.name };
++      }
++      const query = message.data?.query;
++      if (typeof query !== "string" || !query.trim() || query.length > 4096) {
++        throw new Error("Invalid search query");
++      }
++      const submission = engine.getSubmission(query.trim(), null, "newtab");
++      if (!submission || !["http", "https"].includes(submission.uri.scheme)) {
++        throw new Error("Unsupported search provider URL");
++      }
++      context.loadURI(submission.uri, {
++        triggeringPrincipal: Services.scriptSecurityManager.getSystemPrincipal(),
++        postData: submission.postData,
++      });
++      return null;
++    }
+     switch (message.name) {
+       case "AboutNewTabVisible":
+         {

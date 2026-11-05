@@ -1,0 +1,4 @@
+configure exit 0
+install exit 0
+build exit 0
+Installed /workspace/aelthoren-gecko/obj-aelthoren-phase2/dist/bin/distribution/policies.json

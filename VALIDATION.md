@@ -317,3 +317,141 @@ and are not substituted for the real browser checks above.
   at preflight; no extra PR is created. The branch's changes relative to main are
   ready for the next integration review. No release/environment publication or
   main-branch push is performed by this task.
+
+
+# Phase 3 — privacy and search (2026-11-04 UTC)
+
+This section supersedes the historical Phase 2 statement that privacy/search work
+has not started. Branch codex/aelthoren-phase3 started from current main merge
+4ce1d12, preserving Phase 1/2 history. No source/archive reacquisition or upstream
+revision update occurred. Firefox ESR 153.6.0esr remains at
+`a34c4160e3f75ab9918fbe4669ff7ae56f1977c8`; all three archive sizes/SHA-256 were
+rechecked by the build environment guard. The owner SVG and upstream.lock.json are
+unchanged. This is an **official Mozilla Linux artifact frontend build** with
+precompiled Gecko/SpiderMonkey, not local engine compilation or release packaging.
+
+## Implementation and executed commands
+
+- Added reviewed distribution policies/defaults; the launcher installs them beside
+  the binary and refuses unknown owner edits. Ordinary search/tracking defaults
+  are unlocked. Accounts, telemetry uploads and studies use supported product gates.
+- Added a script-free new-tab search form handled by Mozilla's existing actor and
+  current SearchService. Queries use the currently selected provider, not a fixed URL.
+- Added a two-check frontend patch so redesigned Settings respects the disabled
+  account gate. Native browsing/storage/security code is unchanged.
+- Added privacy links/factual About text, privacy/security/service audit documentation,
+  safe existing-overlay upgrade/build tooling and actual browser verification.
+
+```sh
+cd /workspace/Aelthoren
+python3 tools/phase3.py prepare
+python3 -u tools/phase3.py build > docs/phase3/build-console.log 2>&1
+python3 -u tools/verify_phase3.py > docs/phase3/test-console.log 2>&1
+python3 -m unittest discover -s tools -p 'test_*.py' > docs/phase3/tooling-tests.log 2>&1
+node --check /workspace/aelthoren-gecko/browser/actors/AboutNewTabParent.sys.mjs
+node --check /workspace/aelthoren-gecko/browser/actors/AboutNewTabChild.sys.mjs
+node --check /workspace/aelthoren-gecko/browser/components/preferences/preferences.js
+git diff --check
+```
+
+Preparation reported the current overlay verified. Build ran the official
+`./mach --no-interactive configure`, `./mach artifact install`, `./mach build`,
+all exit 0; logs are in docs/phase3/{configure,install,build}.log. Prior iterations
+used phase2.py build with the same official sequence; Phase 2's historical logs
+were preserved, and the final phase3.py build writes separate logs. The build
+installed distribution/policies.json and distribution/distribution.ini.
+Generated binaries remain outside Git in obj-aelthoren-phase2/dist/bin.
+Run normally with `python3 tools/run_aelthoren.py --profile default`.
+
+## Final actual results
+
+`docs/phase3/runtime-summary.json` records PASS: **25 browser checks** across a
+fresh profile and a restart of that same profile. `runtime-results.json` contains
+the evidence. Browser reports Aelthoren 153.6.0 on Linux, genuine Gecko user agent,
+headless true and acceptInsecureCerts false. Profile:
+/workspace/aelthoren-user-data/profiles/phase3-37b4ec6a304f.
+
+| Check | Actual result |
+| --- | --- |
+| Initial default | DuckDuckGo; built-in alternative engines remain available. |
+| New-tab search | Actual form submission reaches selected provider's submission channel. |
+| Native address bar | Actual native command routes to selected provider. No synthetic-phrase request observed while typing before submit. |
+| User choice/restart | Native Search settings control present; Mozilla USER-reason search API selected Bing. After a clean shutdown/restart Bing remains selected; both search entry points use Bing. Native mouse/keyboard interaction with the provider dropdown was not separately automated. |
+| Accounts/Sync | Supported account gate locked false; account toolbar and Sync category hidden after frontend correction. No account login or remote Sync attempt is needed to browse. Removal of every upstream account string/source module is not claimed. |
+| Telemetry | Upload/submission/archive/usage gates false and locked; additional ping defaults false. Ordinary search, partitioning and tracking choices remain unlocked. |
+| Cross-site tracking | Pinned Mozilla test classifier labels tracker; resource blocked in native content-blocking log, no tracker HTTP request reaches fixture server. Native site exception then permits that same script and server request (positive control); exception/test lists cleaned up. This is deterministic classifier testing, not a live blocklist coverage audit. |
+| Partitioning | Same third-party localStorage under site A → site B → site A returns `["site-a", null, "site-a"]`. Cookie behavior 5 and network-state partitioning true/unlocked. Cookie/network cache partitioning is configured, not separately measured at packet level. |
+| Private browsing | Two sequential private windows report private mode, cannot see normal localStorage, and the next private session cannot see previous private storage. Waits for actual last-private-context-exited notification. Normal data remains intact. |
+| Local data | Bookmark/native password-store insert succeeds. Bookmark, password, actual navigation history and normal localStorage survive restart. Synthetic fixture login cookie works. No real website account/login was used. |
+| Controls/navigation | Privacy/site-data controls and native manage-exceptions button present; back/forward and new-tab/switch/close succeed. Clear-site-data UI is visible; destructive UI clearing was not automated. |
+| Real rendering | HTTP and HTTPS JavaScript/DOM execute; localStorage read/write works. Screenshots of new-tab and privacy Settings inspected. |
+| TLS | Proper local CA/leaf trusted only in disposable profile renders; a separate untrusted certificate is rejected with `insecure certificate`. No acceptance override. Public HTTPS/complete certificate ecosystem testing is not claimed. |
+| Security configuration | Content sandbox level 6, Fission true, Safe Browsing malware/phishing true, OCSP 1 and JavaScript true. This is not an exploit/OS sandbox enforcement audit. |
+| Network observation | 170 post-attachment HTTP attempts in fresh session, six after restart, no telemetry-host POST. Includes fixture and cancelled synthetic search channels, not successful response counts. Does not cover all startup/shutdown, non-HTTP or crash paths. |
+
+The test-only `--remote-allow-system-access` grants privileged automation only for
+disposable profiles; normal launcher commands do not include it. The test profile
+sets `remote.prefs.recommended=false`: Mozilla's recommended automation preferences
+otherwise disable private-mode tracking and Safe Browsing and are inappropriate
+for measuring product defaults. Temporary classifier resource mapping, local DNS
+and narrow fixture-only proxy exclusions are testing arrangements, not product
+settings or remote-network bypasses. Fixture CA keys are outside Git and deleted;
+NSS test trust/profile data remain only in the named disposable profile.
+
+**12 tooling tests passed**, zero skipped/failed: preserved Phase 1/2 pin/profile
+checks plus three distribution-file preservation checks. Node syntax checks and
+Git whitespace check passed. Tests are actual executed results, not placeholders.
+
+## Initial failures and corrections
+
+Diagnostic console/error records under docs/phase3/initial-failures are retained.
+Committed logs have trailing spaces normalized; raw originals remain outside Git
+in /workspace/aelthoren-tests/raw-phase3-logs. No diagnostic messages were removed.
+They are not counted as passes. Initial probing also lives outside Git in
+/workspace/aelthoren-tests; no build inputs/binaries were committed.
+
+- The pinned ESR exports SearchService as a module, not Services.search; the actor
+  was corrected to that official API. BrowsingContext.loadURI requires an nsIURI,
+  not a string; corrected and rebuilt.
+- Preferences policy rejects telemetry/app/partition keys outside its allowlist.
+  Those defaults moved to supported distribution.ini; final browser log has no
+  policy preference-rejection errors. No allowlist/security control was bypassed.
+- Automation initially applied Mozilla's test preferences, falsely reporting private
+  tracking/Safe Browsing off. Disabling that test-only override exposes the real
+  product configuration, which passed. No security preference was weakened.
+- Initial self-signed CA-as-server fixture was rejected; replaced with a proper
+  local CA and separately issued server leaf. An untrusted negative control remains.
+- A file-scheme system-module import was refused; the pinned classifier helper now
+  uses a narrowly scoped test-only resource mapping, removed after testing.
+- Tracker test assertions initially read the wrong sandbox global; DOM-based
+  results now verify execution. Synthetic host routing needed explicit local
+  fixture proxy exclusions, scoped to test profiles and localhost DNS mappings.
+- Private-window tests raced Firefox's initial about:privatebrowsing navigation
+  and asynchronous teardown. They now wait for delayed startup/initial page and
+  last-private-context-exited before navigation/reopening. Final run passed.
+- Runtime exposed the redesigned Settings account category ignoring the account
+  gate. The small 0003 frontend patch fixes that; final Settings screenshot confirms
+  absence of account/Sync navigation. Old IDs also differ in redesigned settings;
+  tests use the actual visible native controls.
+
+## Remaining limits
+
+No full Gecko/SpiderMonkey engine compilation, Windows build, signing/installer,
+independent native application GUID/update infrastructure or supported release.
+Settings visibly warns that the development browser is having trouble updating;
+this warning is retained. Remote Settings/region calls fail in this cloud run.
+Inherited ServiceRequest proxy diagnostics assume an array from getActivePolicies,
+while the pinned policy API returns an object; this emits a TypeError. It is an
+upstream diagnostic limitation, not silently patched or hidden, and security-service
+reachability/production update delivery remain unverified. Other logs include
+headless software-renderer/favicon/metrics and backup-directory diagnostics.
+
+Observed remote requests include connectivity, Remote Settings (primary/backup),
+Push, upstream browser/component/codec updates. No claim of zero background traffic,
+complete anonymity, working production updates or exhaustive live tracker coverage
+is made. Crash automatic-submission default was false/unlocked; no crash submission
+was tested. See PRIVACY.md for the service inventory and data implications.
+
+Implementation, evidence and documentation are to be committed/pushed on
+codex/aelthoren-phase3, with exact remote SHA checked and a new PR to main. No
+main push, automatic merge, release/environment publication or Phase 4 work.
