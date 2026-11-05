@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "tests": 12,
+  "skipped": 0,
+  "failures": 0,
+  "command": "python3 -m unittest discover -s tools -p 'test_*.py'",
+  "raw_log": "/workspace/aelthoren-benchmarks/tooling-tests.log"
+}

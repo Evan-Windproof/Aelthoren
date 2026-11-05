@@ -1,0 +1,19 @@
+{
+  "source_revision": "a34c4160e3f75ab9918fbe4669ff7ae56f1977c8",
+  "artifact_task": "YlYD4FnWSXGLhOw9Il8lig",
+  "verified_archives": [
+    "target.tar.xz",
+    "target.xpt_artifacts.zip",
+    "target.common.tests.tar.zst"
+  ],
+  "binary_matches": {
+    "firefox": {
+      "sha256": "140cb9b46d7c97e35774bc9c953d0582baf6894808dd35fcf5b291065b40d8d4",
+      "matches_official_archive": true
+    },
+    "libxul.so": {
+      "sha256": "4c2cbbfb8a0b85effa9a623fd3ffd293db3fb16bcacf5f1bf9acc7aa32ef02fc",
+      "matches_official_archive": true
+    }
+  }
+}

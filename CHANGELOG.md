@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased — Phase 4 measured lightweight optimization
+
+- Published the pre-change desktop baseline before product edits; measured three
+  fresh-profile/warm pairs per condition with 1/5/10 distinct loopback-site tabs.
+- Avoided five redundant managed-configuration/profile-marker rewrites per launch
+  after byte/digest comparison, preserving installation/update/unknown-edit guards.
+- Targeted buffered preparation median fell 651.75 → 129.48 µs (-80.1%); overall
+  startup/memory/CPU improvements are not established. All measured regressions,
+  ranges and environment limits are published in docs/PERFORMANCE.md.
+- All 12 desktop measurement sessions exited cleanly. Post-change 25 Phase 3 browser
+  checks, 12 tooling tests and a desktop background-tab timer check passed.
+- Native Firefox/libxul match the pinned official artifacts byte-for-byte; no
+  compiled component, privacy/security policy, logo, process-count or GC change.
+- No full engine compilation, Firefox comparison, release or Phase 5 work claimed.
+
 ## Unreleased — Phase 3 privacy and search
 
 - Added supported account/Sync, telemetry-upload and studies policies plus editable

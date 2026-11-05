@@ -1,0 +1,678 @@
+{
+  "stage": "candidate",
+  "source_revision": "a34c4160e3f75ab9918fbe4669ff7ae56f1977c8",
+  "project_revision": "e413cfd8a817f1c101d52714713c06b7e3b0a891",
+  "conditions": {
+    "display": ":97 Xorg dummy 1366x768x24; window 1200x700; not headless",
+    "cpu_quota": "400000 100000",
+    "memory_limit_bytes": 34359738368,
+    "kernel": "6.18.57",
+    "python": "3.12.14",
+    "cold_definition": "fresh profile; OS page cache is not flushed",
+    "warm_definition": "immediate restart of same profile after complete cold workload",
+    "idle_seconds_per_sample": 5,
+    "rss_includes": "launcher + Firefox descendants; shared pages double counted",
+    "pss": "only reported if every descendant smaps_rollup is readable",
+    "network": "normal inherited remote networking retained; observed after automation attaches",
+    "fixture": "ten distinct loopback IP sites; each 400 DOM nodes, 16384 JS objects, 1Hz timer"
+  },
+  "runs": [
+    {
+      "label": "candidate-1-profile-cold",
+      "profile": "phase4-candidate-4bf40d63b0",
+      "startup_listener_ms": 651.5390870001738,
+      "startup_responsive_ms": 1846.2272630001735,
+      "unchanged_files_rewritten": 0,
+      "resources": [
+        {
+          "tabs": 1,
+          "window_seconds": 5.062150515999974,
+          "idle_cpu_pct_one_core": 3.160712023364118,
+          "rss_mib": 951.15625,
+          "rss_min_mib": 949.19140625,
+          "rss_max_mib": 953.625,
+          "pss_mib": 439.8369140625,
+          "processes": 12,
+          "http_attempts": 40,
+          "http_hosts": {
+            "firefox-settings.mozilla-backup.org": 8,
+            "detectportal.firefox.com": 9,
+            "firefox.settings.services.mozilla.com": 22,
+            "push.services.mozilla.com": 1
+          }
+        },
+        {
+          "tabs": 5,
+          "window_seconds": 5.086683648999951,
+          "idle_cpu_pct_one_core": 2.359100905038442,
+          "rss_mib": 1346.2421875,
+          "rss_min_mib": 1335.25390625,
+          "rss_max_mib": 1347.875,
+          "pss_mib": 500.0498046875,
+          "processes": 16,
+          "http_attempts": 4,
+          "http_hosts": {
+            "firefox-settings.mozilla-backup.org": 1,
+            "detectportal.firefox.com": 3
+          }
+        },
+        {
+          "tabs": 10,
+          "window_seconds": 5.097500222999997,
+          "idle_cpu_pct_one_core": 2.55026962850219,
+          "rss_mib": 1799.578125,
+          "rss_min_mib": 1798.26953125,
+          "rss_max_mib": 1801.3125,
+          "pss_mib": 548.1552734375,
+          "processes": 21,
+          "http_attempts": 0,
+          "http_hosts": {}
+        }
+      ],
+      "tab_create_ms": [
+        111.86423999993167,
+        128.79186500003925,
+        150.48531399997955,
+        151.20688100000734,
+        106.75692099994194,
+        133.17082899993693,
+        151.59934000007524,
+        166.4407719999872,
+        150.44062399988434
+      ],
+      "tab_switch_ms": [
+        35.3466159999698,
+        30.32519700013836,
+        31.20336100005261,
+        30.721128000095632,
+        32.912072000044645,
+        30.994490000011865,
+        31.276982000008502,
+        30.76764900015405,
+        31.181791999870256,
+        32.748350000019855
+      ],
+      "newtab_load_ms": [
+        66.41577999994297,
+        56.12921799979631,
+        53.55303300007108
+      ],
+      "after_tab_closure": {
+        "tabs": 1,
+        "window_seconds": 5.067263041999922,
+        "idle_cpu_pct_one_core": 3.9469038481386076,
+        "rss_mib": 986.7890625,
+        "rss_min_mib": 985.84765625,
+        "rss_max_mib": 987.11328125,
+        "pss_mib": 452.822265625,
+        "processes": 12,
+        "http_attempts": 32,
+        "http_hosts": {
+          "firefox-settings.mozilla-backup.org": 4,
+          "detectportal.firefox.com": 18,
+          "services.addons.mozilla.org": 1,
+          "firefox.settings.services.mozilla.com": 2,
+          "aus5.mozilla.org": 3,
+          "location.services.mozilla.com": 1,
+          "aus5.mozilla-backup.org": 1,
+          "update.googleapis.com": 1,
+          "ciscobinary.openh264.org": 1
+        }
+      },
+      "security": {
+        "sandbox": 6,
+        "fission": true,
+        "tracking": true,
+        "cookieBehavior": 5,
+        "safeBrowsing": true,
+        "account": false,
+        "telemetryUpload": false
+      },
+      "background_tick_verified": true,
+      "exit_code": 0,
+      "mode": "profile-cold",
+      "repetition": 1
+    },
+    {
+      "label": "candidate-1-warm",
+      "profile": "phase4-candidate-4bf40d63b0",
+      "startup_listener_ms": 528.7908689999767,
+      "startup_responsive_ms": 1260.7581110000865,
+      "unchanged_files_rewritten": 0,
+      "resources": [
+        {
+          "tabs": 1,
+          "window_seconds": 5.069502794000073,
+          "idle_cpu_pct_one_core": 3.1561280563720264,
+          "rss_mib": 1033.25390625,
+          "rss_min_mib": 967.515625,
+          "rss_max_mib": 1034.77734375,
+          "pss_mib": 450.7578125,
+          "processes": 13,
+          "http_attempts": 27,
+          "http_hosts": {
+            "firefox.settings.services.mozilla.com": 20,
+            "detectportal.firefox.com": 6,
+            "push.services.mozilla.com": 1
+          }
+        },
+        {
+          "tabs": 5,
+          "window_seconds": 5.116667186000086,
+          "idle_cpu_pct_one_core": 4.104234111114151,
+          "rss_mib": 1357.76953125,
+          "rss_min_mib": 1355.64453125,
+          "rss_max_mib": 1368.23828125,
+          "pss_mib": 485.0400390625,
+          "processes": 17,
+          "http_attempts": 5,
+          "http_hosts": {
+            "firefox.settings.services.mozilla.com": 2,
+            "detectportal.firefox.com": 3
+          }
+        },
+        {
+          "tabs": 10,
+          "window_seconds": 5.089485444000047,
+          "idle_cpu_pct_one_core": 1.3753846193336203,
+          "rss_mib": 1662.63671875,
+          "rss_min_mib": 1662.37109375,
+          "rss_max_mib": 1662.875,
+          "pss_mib": 510.8232421875,
+          "processes": 21,
+          "http_attempts": 0,
+          "http_hosts": {}
+        }
+      ],
+      "tab_create_ms": [
+        73.61540399983824,
+        101.50537200001963,
+        106.38144399990779,
+        129.09801699993295,
+        96.82215699990593,
+        158.25225300000056,
+        119.09066199996232,
+        114.89720600002329,
+        116.92115000005288
+      ],
+      "tab_switch_ms": [
+        2.7391910000460484,
+        32.064902000001894,
+        30.997271999922305,
+        31.217773999969722,
+        31.9904690002204,
+        28.627998000047228,
+        30.83686900004068,
+        31.81827000003068,
+        30.525862000104098,
+        31.343253000159166
+      ],
+      "newtab_load_ms": [
+        65.70350800006963,
+        67.48858400010249,
+        64.14612799994757
+      ],
+      "after_tab_closure": {
+        "tabs": 1,
+        "window_seconds": 5.074677308999981,
+        "idle_cpu_pct_one_core": 1.576454917795841,
+        "rss_mib": 1149.66015625,
+        "rss_min_mib": 1149.1484375,
+        "rss_max_mib": 1150.0234375,
+        "pss_mib": 473.91015625,
+        "processes": 14,
+        "http_attempts": 0,
+        "http_hosts": {}
+      },
+      "security": {
+        "sandbox": 6,
+        "fission": true,
+        "tracking": true,
+        "cookieBehavior": 5,
+        "safeBrowsing": true,
+        "account": false,
+        "telemetryUpload": false
+      },
+      "background_tick_verified": true,
+      "exit_code": 0,
+      "mode": "warm",
+      "repetition": 1
+    },
+    {
+      "label": "candidate-2-profile-cold",
+      "profile": "phase4-candidate-f4081e8754",
+      "startup_listener_ms": 671.8199750000622,
+      "startup_responsive_ms": 2042.3413290000099,
+      "unchanged_files_rewritten": 0,
+      "resources": [
+        {
+          "tabs": 1,
+          "window_seconds": 5.083903679999821,
+          "idle_cpu_pct_one_core": 4.720781806786875,
+          "rss_mib": 952.453125,
+          "rss_min_mib": 948.64453125,
+          "rss_max_mib": 955.83203125,
+          "pss_mib": 440.607421875,
+          "processes": 12,
+          "http_attempts": 46,
+          "http_hosts": {
+            "firefox-settings.mozilla-backup.org": 8,
+            "detectportal.firefox.com": 15,
+            "firefox.settings.services.mozilla.com": 22,
+            "push.services.mozilla.com": 1
+          }
+        },
+        {
+          "tabs": 5,
+          "window_seconds": 5.092848526000125,
+          "idle_cpu_pct_one_core": 2.5525989892752827,
+          "rss_mib": 1342.53515625,
+          "rss_min_mib": 1338.6640625,
+          "rss_max_mib": 1355.171875,
+          "pss_mib": 491.1875,
+          "processes": 16,
+          "http_attempts": 4,
+          "http_hosts": {
+            "firefox-settings.mozilla-backup.org": 1,
+            "detectportal.firefox.com": 3
+          }
+        },
+        {
+          "tabs": 10,
+          "window_seconds": 5.1043642059999,
+          "idle_cpu_pct_one_core": 2.1550186381822223,
+          "rss_mib": 1803.7890625,
+          "rss_min_mib": 1803.4453125,
+          "rss_max_mib": 1805.22265625,
+          "pss_mib": 547.05078125,
+          "processes": 21,
+          "http_attempts": 0,
+          "http_hosts": {}
+        }
+      ],
+      "tab_create_ms": [
+        101.3215709999713,
+        128.00478400004067,
+        171.04823800013946,
+        155.96986899981857,
+        106.93391299992072,
+        116.22876199999155,
+        151.75532800003566,
+        149.56870500009245,
+        150.50396499987073
+      ],
+      "tab_switch_ms": [
+        37.74420999980066,
+        45.573960999945484,
+        42.863866999823586,
+        48.17470900002263,
+        47.43133699980717,
+        30.79811400016297,
+        31.668471000102727,
+        28.0704340000284,
+        30.293858000050022,
+        32.01832399986415
+      ],
+      "newtab_load_ms": [
+        62.752992000014274,
+        67.29498799995781,
+        63.71940999997605
+      ],
+      "after_tab_closure": {
+        "tabs": 1,
+        "window_seconds": 5.074936750000006,
+        "idle_cpu_pct_one_core": 4.137982606384193,
+        "rss_mib": 985.0234375,
+        "rss_min_mib": 982.17578125,
+        "rss_max_mib": 986.25390625,
+        "pss_mib": 447.8359375,
+        "processes": 12,
+        "http_attempts": 31,
+        "http_hosts": {
+          "firefox-settings.mozilla-backup.org": 4,
+          "detectportal.firefox.com": 15,
+          "firefox.settings.services.mozilla.com": 4,
+          "services.addons.mozilla.org": 1,
+          "aus5.mozilla.org": 3,
+          "location.services.mozilla.com": 1,
+          "aus5.mozilla-backup.org": 1,
+          "update.googleapis.com": 1,
+          "ciscobinary.openh264.org": 1
+        }
+      },
+      "security": {
+        "sandbox": 6,
+        "fission": true,
+        "tracking": true,
+        "cookieBehavior": 5,
+        "safeBrowsing": true,
+        "account": false,
+        "telemetryUpload": false
+      },
+      "background_tick_verified": true,
+      "exit_code": 0,
+      "mode": "profile-cold",
+      "repetition": 2
+    },
+    {
+      "label": "candidate-2-warm",
+      "profile": "phase4-candidate-f4081e8754",
+      "startup_listener_ms": 697.5237409999409,
+      "startup_responsive_ms": 1450.6120710000232,
+      "unchanged_files_rewritten": 0,
+      "resources": [
+        {
+          "tabs": 1,
+          "window_seconds": 5.143458855000063,
+          "idle_cpu_pct_one_core": 3.3051688521769624,
+          "rss_mib": 1033.2265625,
+          "rss_min_mib": 967.87109375,
+          "rss_max_mib": 1034.8515625,
+          "pss_mib": 451.1748046875,
+          "processes": 13,
+          "http_attempts": 27,
+          "http_hosts": {
+            "firefox.settings.services.mozilla.com": 20,
+            "detectportal.firefox.com": 6,
+            "push.services.mozilla.com": 1
+          }
+        },
+        {
+          "tabs": 5,
+          "window_seconds": 5.104627991999905,
+          "idle_cpu_pct_one_core": 2.1549072757582914,
+          "rss_mib": 1358.10546875,
+          "rss_min_mib": 1356.3203125,
+          "rss_max_mib": 1368.21484375,
+          "pss_mib": 484.8828125,
+          "processes": 17,
+          "http_attempts": 0,
+          "http_hosts": {}
+        },
+        {
+          "tabs": 10,
+          "window_seconds": 5.101512883999931,
+          "idle_cpu_pct_one_core": 1.3721419820293606,
+          "rss_mib": 1668.12109375,
+          "rss_min_mib": 1667.80078125,
+          "rss_max_mib": 1668.54296875,
+          "pss_mib": 513.5302734375,
+          "processes": 21,
+          "http_attempts": 0,
+          "http_hosts": {}
+        }
+      ],
+      "tab_create_ms": [
+        108.99289300004966,
+        121.02541300009761,
+        164.933671999961,
+        133.82085499983987,
+        126.91556400000081,
+        130.1896919999308,
+        132.3694230000001,
+        120.31971800001884,
+        113.11395100005939
+      ],
+      "tab_switch_ms": [
+        2.7962719998413377,
+        32.03028100006122,
+        31.558533999941574,
+        31.63241599986577,
+        32.48300800009929,
+        31.9203839999318,
+        30.755481999904077,
+        31.65225699990515,
+        31.391952999911155,
+        32.222414999978355
+      ],
+      "newtab_load_ms": [
+        73.50917999997364,
+        65.49977100007709,
+        66.41872099999091
+      ],
+      "after_tab_closure": {
+        "tabs": 1,
+        "window_seconds": 5.0824289980000685,
+        "idle_cpu_pct_one_core": 1.180537888942669,
+        "rss_mib": 1153.53125,
+        "rss_min_mib": 1152.36328125,
+        "rss_max_mib": 1156.55078125,
+        "pss_mib": 475.6650390625,
+        "processes": 14,
+        "http_attempts": 0,
+        "http_hosts": {}
+      },
+      "security": {
+        "sandbox": 6,
+        "fission": true,
+        "tracking": true,
+        "cookieBehavior": 5,
+        "safeBrowsing": true,
+        "account": false,
+        "telemetryUpload": false
+      },
+      "background_tick_verified": true,
+      "exit_code": 0,
+      "mode": "warm",
+      "repetition": 2
+    },
+    {
+      "label": "candidate-3-profile-cold",
+      "profile": "phase4-candidate-ff01cdeaaa",
+      "startup_listener_ms": 765.6560570001147,
+      "startup_responsive_ms": 2082.387573999995,
+      "unchanged_files_rewritten": 0,
+      "resources": [
+        {
+          "tabs": 1,
+          "window_seconds": 5.076761153000007,
+          "idle_cpu_pct_one_core": 4.33347154553441,
+          "rss_mib": 950.484375,
+          "rss_min_mib": 950.40234375,
+          "rss_max_mib": 952.92578125,
+          "pss_mib": 437.1533203125,
+          "processes": 12,
+          "http_attempts": 43,
+          "http_hosts": {
+            "firefox-settings.mozilla-backup.org": 8,
+            "detectportal.firefox.com": 12,
+            "firefox.settings.services.mozilla.com": 22,
+            "push.services.mozilla.com": 1
+          }
+        },
+        {
+          "tabs": 5,
+          "window_seconds": 5.085939778000011,
+          "idle_cpu_pct_one_core": 2.3594459478084686,
+          "rss_mib": 1335.14453125,
+          "rss_min_mib": 1331.33984375,
+          "rss_max_mib": 1346.421875,
+          "pss_mib": 488.4375,
+          "processes": 16,
+          "http_attempts": 4,
+          "http_hosts": {
+            "firefox-settings.mozilla-backup.org": 1,
+            "detectportal.firefox.com": 3
+          }
+        },
+        {
+          "tabs": 10,
+          "window_seconds": 5.114950473000135,
+          "idle_cpu_pct_one_core": 1.9550531432877358,
+          "rss_mib": 1791.3046875,
+          "rss_min_mib": 1791.17578125,
+          "rss_max_mib": 1792.92578125,
+          "pss_mib": 545.1279296875,
+          "processes": 21,
+          "http_attempts": 0,
+          "http_hosts": {}
+        }
+      ],
+      "tab_create_ms": [
+        114.30503700012196,
+        145.78010499985794,
+        151.80854799996268,
+        161.52806000013697,
+        106.06579500017688,
+        132.9353500000252,
+        152.2457769999619,
+        169.71826999997575,
+        147.4134499999309
+      ],
+      "tab_switch_ms": [
+        53.14156500003264,
+        43.678345999978774,
+        47.65288099997633,
+        44.8775800000476,
+        31.491288999859535,
+        29.662581000138744,
+        31.972384000027887,
+        48.91945700001088,
+        45.011040999952456,
+        30.648137999833125
+      ],
+      "newtab_load_ms": [
+        93.65321499990387,
+        62.638914999979534,
+        80.49501300001793
+      ],
+      "after_tab_closure": {
+        "tabs": 1,
+        "window_seconds": 5.080047917000002,
+        "idle_cpu_pct_one_core": 4.724364886340109,
+        "rss_mib": 980.9296875,
+        "rss_min_mib": 980.36328125,
+        "rss_max_mib": 983.34765625,
+        "pss_mib": 446.9638671875,
+        "processes": 12,
+        "http_attempts": 34,
+        "http_hosts": {
+          "firefox-settings.mozilla-backup.org": 5,
+          "detectportal.firefox.com": 15,
+          "firefox.settings.services.mozilla.com": 4,
+          "services.addons.mozilla.org": 1,
+          "location.services.mozilla.com": 1,
+          "aus5.mozilla.org": 3,
+          "aus5.mozilla-backup.org": 3,
+          "update.googleapis.com": 1,
+          "ciscobinary.openh264.org": 1
+        }
+      },
+      "security": {
+        "sandbox": 6,
+        "fission": true,
+        "tracking": true,
+        "cookieBehavior": 5,
+        "safeBrowsing": true,
+        "account": false,
+        "telemetryUpload": false
+      },
+      "background_tick_verified": true,
+      "exit_code": 0,
+      "mode": "profile-cold",
+      "repetition": 3
+    },
+    {
+      "label": "candidate-3-warm",
+      "profile": "phase4-candidate-ff01cdeaaa",
+      "startup_listener_ms": 684.8216380001304,
+      "startup_responsive_ms": 1494.807031000164,
+      "unchanged_files_rewritten": 0,
+      "resources": [
+        {
+          "tabs": 1,
+          "window_seconds": 5.07305408000002,
+          "idle_cpu_pct_one_core": 2.956798757406495,
+          "rss_mib": 1031.63671875,
+          "rss_min_mib": 961.26953125,
+          "rss_max_mib": 1033.37109375,
+          "pss_mib": 452.2314453125,
+          "processes": 13,
+          "http_attempts": 29,
+          "http_hosts": {
+            "firefox.settings.services.mozilla.com": 22,
+            "detectportal.firefox.com": 6,
+            "push.services.mozilla.com": 1
+          }
+        },
+        {
+          "tabs": 5,
+          "window_seconds": 5.111823313999821,
+          "idle_cpu_pct_one_core": 2.543123891703515,
+          "rss_mib": 1352.24609375,
+          "rss_min_mib": 1350.0078125,
+          "rss_max_mib": 1362.7265625,
+          "pss_mib": 487.18359375,
+          "processes": 17,
+          "http_attempts": 0,
+          "http_hosts": {}
+        },
+        {
+          "tabs": 10,
+          "window_seconds": 5.1037427520000165,
+          "idle_cpu_pct_one_core": 1.959346402418355,
+          "rss_mib": 1660.14453125,
+          "rss_min_mib": 1659.515625,
+          "rss_max_mib": 1661.1796875,
+          "pss_mib": 515.27734375,
+          "processes": 21,
+          "http_attempts": 0,
+          "http_hosts": {}
+        }
+      ],
+      "tab_create_ms": [
+        89.1124720001244,
+        128.34090800015474,
+        124.79633099997045,
+        293.526552000003,
+        107.30352499990659,
+        133.7955389999479,
+        121.48494500002016,
+        161.31620000010116,
+        120.87391299996852
+      ],
+      "tab_switch_ms": [
+        3.224074999934601,
+        32.07220200010852,
+        31.05782299985549,
+        31.29125300006308,
+        31.178684999986217,
+        32.224968000036824,
+        31.22747299994444,
+        31.404924999833383,
+        31.051622999939354,
+        31.77678199995171
+      ],
+      "newtab_load_ms": [
+        101.53202800006511,
+        65.18206199984888,
+        67.9212180000377
+      ],
+      "after_tab_closure": {
+        "tabs": 1,
+        "window_seconds": 5.090910129000122,
+        "idle_cpu_pct_one_core": 1.7678567823721534,
+        "rss_mib": 1148.4453125,
+        "rss_min_mib": 1147.6796875,
+        "rss_max_mib": 1151.35546875,
+        "pss_mib": 477.93359375,
+        "processes": 14,
+        "http_attempts": 0,
+        "http_hosts": {}
+      },
+      "security": {
+        "sandbox": 6,
+        "fission": true,
+        "tracking": true,
+        "cookieBehavior": 5,
+        "safeBrowsing": true,
+        "account": false,
+        "telemetryUpload": false
+      },
+      "background_tick_verified": true,
+      "exit_code": 0,
+      "mode": "warm",
+      "repetition": 3
+    }
+  ]
+}

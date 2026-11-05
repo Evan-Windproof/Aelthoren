@@ -1,0 +1,20 @@
+{
+  "stage": "baseline",
+  "method": "install both reviewed configurations and prepare a marked profile; buffered filesystem; excludes full overlay guard and browser startup",
+  "batches": 7,
+  "iterations_per_batch": 200,
+  "microseconds_per_pair": [
+    762.3613800001294,
+    667.7228700004889,
+    552.6702399993155,
+    600.872374999426,
+    622.153365000031,
+    760.8713649995026,
+    651.7536800004109
+  ],
+  "median_us": 651.7536800004109,
+  "min_us": 552.6702399993155,
+  "max_us": 762.3613800001294,
+  "unchanged_files_rewritten_per_pair": 5,
+  "tracked_files": 5
+}

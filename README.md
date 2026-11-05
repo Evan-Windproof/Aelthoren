@@ -35,9 +35,14 @@ launcher rather than the raw binary. [Branding limits](docs/BRANDING.md) apply.
 known failures. The privacy slogan is not an anonymity or performance guarantee.
 Security protections are retained, but production security-service reachability,
 updates and exhaustive network/security testing remain unverified. This is a
-development build, not a supported release for sensitive browsing. Phase 4 has
-not started. Completed milestones are committed/pushed and remote SHAs verified;
-cloud snapshots are not treated as backups.
+development build, not a supported release for sensitive browsing.
+
+Phase 4 records repeated desktop performance measurements and avoids five
+redundant configuration/profile writes when installed bytes already match. The improvement
+is limited to launcher I/O; no general startup or memory advantage is claimed.
+See [docs/PERFORMANCE.md](docs/PERFORMANCE.md) for before/after data, variation and
+regressions. Phase 5 has not started. Completed milestones are committed/pushed
+and remote SHAs verified; cloud snapshots are not treated as backups.
 
 Aelthoren is independent of Mozilla and is not endorsed by Mozilla. Keep upstream
 copyright/license notices and do not redistribute modified builds under protected

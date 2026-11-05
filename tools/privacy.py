@@ -9,15 +9,20 @@ def install_file(binary, source, filename):
     data = (ROOT / source).read_bytes()
     destination = binary / "distribution" / filename
     marker = destination.parent / (".aelthoren-" + filename + "-sha256")
-    if destination.exists() and destination.read_bytes() != data:
-        old = hashlib.sha256(destination.read_bytes()).hexdigest()
-        if not marker.exists() or marker.read_text().strip() != old:
-            raise ValueError('Unmanaged enterprise policies exist; preserve them for review')
+    expected = hashlib.sha256(data).hexdigest() + '\n'
+    if destination.exists():
+        installed = destination.read_bytes()
+        if installed == data and marker.is_file() and marker.read_bytes() == expected.encode('ascii'):
+            return destination
+        if installed != data:
+            old = hashlib.sha256(installed).hexdigest()
+            if not marker.exists() or marker.read_text().strip() != old:
+                raise ValueError('Unmanaged enterprise policies exist; preserve them for review')
     destination.parent.mkdir(parents=True, exist_ok=True)
     temporary = destination.with_suffix('.json.tmp')
     temporary.write_bytes(data)
     temporary.replace(destination)
-    marker.write_text(hashlib.sha256(data).hexdigest() + '\n')
+    marker.write_text(expected)
     return destination
 
 

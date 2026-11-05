@@ -455,3 +455,121 @@ was tested. See PRIVACY.md for the service inventory and data implications.
 Implementation, evidence and documentation are to be committed/pushed on
 codex/aelthoren-phase3, with exact remote SHA checked and a new PR to main. No
 main push, automatic merge, release/environment publication or Phase 4 work.
+
+
+# Phase 4 — measured lightweight optimization (2026-11-06 Asia/Taipei)
+
+Fetched origin/main and confirmed Phase 3 merged as 6ff8051; created
+codex/aelthoren-phase4 without resetting/replacing work. GitHub push/default-main
+access was confirmed. Source revision remains
+`a34c4160e3f75ab9918fbe4669ff7ae56f1977c8` (Firefox ESR 153.6.0esr). Official logo,
+source/artifact lock and privacy/default configuration hashes are unchanged.
+
+## Baseline preserved before changes
+
+A fixed local Xorg dummy display (1366×768×24; window 1200×700, not headless),
+four CPU quota and 32 GiB limit were used for both conditions. All six baseline
+sessions completed before editing product code. Baseline data/tools/protocol were
+committed and pushed in **e413cfd8a817f1c101d52714713c06b7e3b0a891**, remote SHA
+verified, and preserved in draft PR #4. It is the same PR used for final Phase 4.
+No new environment or branch/PR beyond the requested Phase 4 pair was created.
+
+Baseline and candidate each used three fresh-profile/warm-restart pairs, distinct
+loopback origins at 1/5/10 tabs, native switching/new-tab loading, local JS/DOM/
+storage/history, CPU, process RSS/PSS/counts and bounded HTTP observations. Median,
+range, n, units, measurement method and environment are in docs/PERFORMANCE.md.
+Fresh profile is a startup proxy; true OS/disk-cold startup was not measured.
+Initial incomplete automation-context/handle/history attempts were excluded and
+retained outside Git; final six-run datasets use the same corrected protocol.
+
+## Retained change and measured result
+
+Only product changes: tools/privacy.py and tools/run_aelthoren.py. The installer
+compares actual installed bytes and the expected ownership digest before skipping
+unchanged configuration/marker writes. The named-profile helper likewise leaves
+its already-correct marker untouched. New installation, reviewed updates, marker
+repair and refusal of unmanaged edits retain their prior behavior. Full source/
+branding verification, policies/preferences, native browser code and UI are intact.
+
+- Rewritten unchanged files: **5 → 0** in every desktop launch and targeted fixture.
+- Buffered configuration/profile preparation: **651.75 → 129.48 µs (-80.1%)**,
+  seven batches × 200 repetitions. This excludes full provenance/browser startup.
+- Fresh-profile responsiveness: **2037.42 → 2042.34 ms (+0.2%)**, n=3 each.
+- Warm responsiveness: **1525.75 → 1450.61 ms (-4.9%)**, n=3 each; ranges overlap.
+- 10-tab PSS **532.12 → 530.20 MiB (-0.4%)**, RSS **1732.32 → 1729.71 MiB**;
+  10-tab process count stayed 21. No meaningful memory reduction is established.
+- Regressions are published, including tab creation +4.6%, warm listener +8.8%,
+  new-tab loading +0.9%, 10-tab CPU +0.39 percentage points and an elevated
+  switching-session outlier. Small shared-host sequential samples do not establish
+  a consistent material runtime regression caused by this pre-launch-only change.
+  We retain it for deterministic I/O reduction, not a broad speed/CPU/memory claim.
+
+All **12 desktop benchmark sessions exited 0**, with no reported crash or failed
+fixture assertion in the final datasets. Native GC, process counts, tab suspension,
+security services and background tasks were not disabled or retuned. After closing
+back to one tab, resource/process values remained within baseline variation;
+this bounded test is not a heap-leak or long-soak proof.
+
+## Commands and actual verification
+
+```sh
+python3 tools/phase3.py prepare
+python3 tools/benchmark_phase4.py baseline
+python3 tools/benchmark_launcher_io.py baseline
+# Commit/push/verify baseline before the two-file product change.
+python3 tools/benchmark_launcher_io.py candidate
+python3 -m unittest discover -s tools -p 'test_*.py'
+python3 tools/benchmark_phase4.py candidate
+python3 tools/summarize_phase4.py
+python3 -u tools/verify_phase4.py
+python3 -m py_compile tools/benchmark_phase4.py tools/benchmark_launcher_io.py tools/summarize_phase4.py tools/verify_phase4.py
+git diff --check
+```
+
+Display setup/authority commands, exact fixture definitions and output locations
+are in PERFORMANCE.md. The existing verified artifact build was reused unchanged;
+**no mach build or local C++/Rust engine compilation occurred in Phase 4** because
+only Python launch preparation changed. Post-test phase2.environment() rechecked
+all three pinned archive sizes/SHA-256. Installed Firefox executable and libxul.so
+were streamed/hashed against those exact official archive members and match
+byte-for-byte (docs/phase4/artifact-verification.json).
+
+**25 preserved Phase 3 browser checks passed after the change**, including changed
+search provider retention across restart, account/Sync UI gates, tracker blocking
+and exception, storage partitioning, private-session cleanup, local bookmark/
+history/password/storage persistence, native navigation, real HTTP/HTTPS JS/DOM,
+untrusted certificate rejection and effective sandbox/Fission/Safe Browsing prefs.
+A separate desktop two-tab test kept the original tab in the background for four
+seconds and observed its timer advance **0 → 3**; browser exited 0. **12 tooling
+tests passed**, zero skipped/failed, including refusal/preservation of edited or
+unmanaged configuration. Syntax/whitespace checks passed.
+
+Regression script reuses Phase 3 test-only privileged automation and disposable
+NSS fixture trust with remote.prefs.recommended=false; normal launches gain no
+such permissions or trust. Intentional structured results and effective preferences
+are consolidated in docs/phase4/regression-results.json. Browser logs, screenshots,
+profiles, keys, X authority and temporary benchmark/partial-attempt files remain
+outside Git. Historical Phase 3 evidence was not overwritten. No downloaded source,
+archive, binary, cache or credential is included in this milestone.
+
+## Limits and publication
+
+Only redundant logical writes and targeted preparation time are established
+improvements. No claim of faster/lighter operation than unmodified Firefox; no
+comparable Firefox measurement was performed. Short idle windows, small local pages,
+shared-host scheduling, software rendering, automation/animation-frame timing,
+sequential condition order, caches and inherited network retries limit inference.
+CPU/network changes and a switching outlier are not concealed. Real input latency,
+true OS-cold startup, network byte totals, realistic heavy sites, exhaustive leaks
+and long-running stability remain future measurements.
+
+The Phase 3 cloud region/Remote Settings/update failures and inherited proxy-
+diagnostic API error remain. No security feature/proxy/TLS validation was bypassed
+or disabled to hide them. Production update delivery, a supported release, full
+native identity and full engine source compilation remain unverified. No compiled
+optimization was attempted; those require a suitable full-build/security workflow.
+
+Final implementation/results are published on codex/aelthoren-phase4 in PR #4
+(https://github.com/Evan-Windproof/Aelthoren/pull/4), with exact remote SHA checked
+by the preservation helper and GitHub API at completion. No main push, automatic
+merge, environment/release publication or Phase 5 implementation.
