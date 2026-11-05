@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Aelthoren Alpha (Development Only)
+Comment=Internal Gecko-based alpha; not a supported release
+Exec=/bin/sh @AELTHOREN_EXEC@ %u
+Icon=@AELTHOREN_ICON@
+Terminal=false
+Categories=Network;WebBrowser;
+MimeType=text/html;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;
+StartupNotify=true
+X-Aelthoren-Portable=true
+X-Aelthoren-Version=0.1.0-alpha

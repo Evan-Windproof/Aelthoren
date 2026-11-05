@@ -573,3 +573,34 @@ Final implementation/results are published on codex/aelthoren-phase4 in PR #4
 (https://github.com/Evan-Windproof/Aelthoren/pull/4), with exact remote SHA checked
 by the preservation helper and GitHub API at completion. No main push, automatic
 merge, environment/release publication or Phase 5 implementation.
+
+
+# Phase 5A — Linux alpha packaging implementation checkpoint
+
+Fetched merged main d5d3ee4 and created codex/aelthoren-phase5, preserving all prior
+history and the pinned ESR source. Official `./mach package` completed with exit 0
+and produced firefox-153.6.0.en-US.linux-x86_64.tar.xz from the reviewed artifact
+object directory. The portable prototype is development-only, not an independent
+native release; no full engine compilation or public GitHub Release was attempted.
+
+A dirty-working-tree prototype (explicitly labeled) passed 16 actual checks in a
+clean Debian 13 container as UID 1000, with no Firefox source tree or Codex modules
+mounted. It launched from a path with spaces; HTTP/public HTTPS, JS/DOM/storage,
+provider choice/restart, private browsing, tabs/history, account/Sync/privacy gates,
+tracking classifier and profile isolation passed. Public HTTPS used only QA-profile
+trust for the environment's CA; an untrusted local TLS certificate was rejected.
+Actual prototype process status shows extra content seccomp filters and NoNewPrivs.
+Prototype results and official security snapshot are in docs/phase5.
+
+17 tooling checks passed, including profile/native-argument escape rejection,
+unmarked/unknown user-data preservation, symlink rejection and desktop URI handling
+from spaces/quotes/backslashes/dollar/percent/backtick paths. Initial prototype
+failures were QA assumptions about a changed public page's SVG text and chrome/
+content window context, not counted as passes. A GLib literal-percent executable
+path limitation was avoided by invoking /bin/sh with the script as a separate
+argument (never -c). No TLS/sandbox protection was lowered.
+
+Final clean-commit package, reproducibility comparison, Ubuntu and actual desktop
+GUI verification are pending at this checkpoint; final results follow separately.
+The native GUID/version, executable metadata, signing/update and public release
+compliance gates remain explicit in docs/RELEASE_CHECKLIST.md.

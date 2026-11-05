@@ -161,3 +161,17 @@ config/mozconfig.linux-aelthoren for current branded work. See docs/BRANDING.md.
 Do not reset upstream work to satisfy the old guard. The pinned HEAD is unchanged;
 only the explicit patch/derived branding directory differ. All archives remain
 outside Git and no additional environment, source tree or PR is created.
+
+
+## Phase 5A portable Linux alpha
+
+After the verified artifact build, run `python3 tools/package_linux.py`. It invokes
+Mozilla's official `./mach package` and wraps that runtime, preserving the engine
+version/GUID while providing supported Aelthoren name/profile/remoting overrides.
+Outputs stay outside Git. `--mozilla-package PATH` can reuse the exact current
+local mach output; existing outputs are refused. The app launches through its
+packaged POSIX shell wrapper with no development source/modules. Optional desktop
+integration uses Python 3, separately from runtime requirements. See
+docs/LINUX_RELEASE.md for exact extraction, dependencies, checksums and limitations.
+Clean-distro QA uses `tools/test_linux_containers.py ARCHIVE --build-images`; this
+is test infrastructure, not a runtime requirement. Do not publish a GitHub Release.
