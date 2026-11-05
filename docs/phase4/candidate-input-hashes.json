@@ -1,0 +1,8 @@
+{
+  "tools/run_aelthoren.py": "de5d495bbdc3cb15eadb064485dbcfbbcc65b28c6476129991d67b0e3865439f",
+  "tools/privacy.py": "233d160c16a42a02565c1d1fa56dcaddce7ca8b87f20f1344e9477423b3e5768",
+  "upstream.lock.json": "8340a0a001123bb53f1ba1658397257c0c71838b84134cc3c472b05ddddf4a78",
+  "assets/A_text.svg": "3902f792ae0e8de87ff71f33f4394674c91a33058b77596456088d28bff805f1",
+  "config/privacy-policies.json": "7d5b7bbaf82b629a305651cc3d7681eb0d7c9b2d033305fea8c22dcdb8b68962",
+  "config/distribution.ini": "44114b36f0557f1450eaa66a82aadd75d7a9aedfe4b6f0e9b03f9fa94cdec607"
+}

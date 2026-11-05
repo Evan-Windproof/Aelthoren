@@ -21,7 +21,9 @@ def prepare_profile(name):
     if profile.exists() and any(profile.iterdir()) and not marker.is_file():
         raise ValueError('Refusing to adopt nonempty, unmarked profile data')
     profile.mkdir(parents=True, exist_ok=True)
-    marker.write_text('Aelthoren development profile\n')
+    text = 'Aelthoren development profile\n'
+    if not marker.is_file() or marker.read_bytes() != text.encode('ascii'):
+        marker.write_text(text)
     return profile
 
 

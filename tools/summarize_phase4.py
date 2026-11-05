@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Summarize measured per-session samples without pooling nested trials."""
 import json
+import re
 from pathlib import Path
 import statistics
 
@@ -33,6 +34,23 @@ def describe(values):
     return {'median':statistics.median(values),'min':min(values),'max':max(values),'n':len(values)}
 
 
+def metric_name(label):
+    names={'tab_create_ms':'Tab creation + navigation (ms)','tab_switch_ms':'Tab switch + two frames (ms)','newtab_load_ms':'Branded new-tab load (ms)','after closure rss_mib':'RSS after closing back to one tab (MiB)','after closure processes':'Process count after closing back to one tab','unchanged_files_rewritten':'Unchanged managed files rewritten per launch'}
+    if label in names:
+        return names[label]
+    for mode,title in [('profile-cold','Fresh profile'),('warm','Warm restart')]:
+        if label==mode+' startup_listener_ms':
+            return title+' → automation listener (ms)'
+        if label==mode+' startup_responsive_ms':
+            return title+' → first-page responsive (ms)'
+    match=re.fullmatch(r'(\d+) tabs (.+)',label)
+    if match:
+        count,field=match.groups()
+        field={'idle_cpu_pct_one_core':'Idle CPU (% of one core)','rss_mib':'Summed RSS (MiB)','pss_mib':'Summed PSS (MiB)','processes':'Process count','http_attempts':'HTTP attempts / 5-second window'}[field]
+        return f'{field}, {count} tab(s)'
+    return label
+
+
 def main():
     directory=ROOT/'docs/phase4'
     baseline=rows(json.loads((directory/'baseline.json').read_text()))
@@ -47,12 +65,16 @@ def main():
         comparisons[label]={'baseline':b,'candidate':c,'difference':delta,'percent':percent}
         if 'cpu_pct' in label:
             change=f'{delta:+.2f} pp'
+        elif 'http_attempts' in label:
+            change=f'{delta:+.2f} attempts'
+        elif 'processes' in label:
+            change=f'{delta:+.2f} processes'
         elif label=='unchanged_files_rewritten':
             change=f'{percent:+.1f}%'
         else:
             change=f'{percent:+.1f}%' if percent is not None else 'n/a'
         display=lambda x:f"{x['median']:.2f} [{x['min']:.2f}, {x['max']:.2f}]"
-        lines.append(f'| {label} | {display(b)} | {display(c)} | {change} | {b["n"]} | E1 |')
+        lines.append(f'| {metric_name(label)} | {display(b)} | {display(c)} | {change} | {b["n"]} | E1 |')
     for label in ['baseline','candidate']:
         x=json.loads((directory/(label+'-launcher.json')).read_text())
         comparisons[label+'_launcher_preparation_us']=describe(x['microseconds_per_pair'])
