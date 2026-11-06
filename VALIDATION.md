@@ -734,3 +734,42 @@ Actions workflow/run listing is accessible; the integration cannot read reposito
 Actions administrative settings (HTTP 403). This does not establish that Actions
 is disabled. The actual pushed run will determine execution and dependency access.
 Run results, blockers and exact downloads are recorded after execution.
+
+### Actual GitHub Actions result — 2026-11-06
+
+Run: https://github.com/Evan-Windproof/Aelthoren/actions/runs/42140444350
+Source: 270da89e87d7632885dbccae494b4a1613b4cd56, attempt 1, **SUCCESS**.
+Official pinned source/artifact acquisition, Mozilla artifact-mode bootstrap,
+configure/artifact install/build, native `mach package`, wrapper packaging and
+standalone container verification all completed. This is an Artifact Build, not
+full Gecko source compilation. Firefox ESR 153.6.0esr revision remains
+`a34c4160e3f75ab9918fbe4669ff7ae56f1977c8`.
+
+Standalone Debian 13 headless execution as UID 1000 passed all 16 existing checks:
+real public HTTPS rendering; local JavaScript/DOM/cookies/storage; native search
+and provider persistence; isolated profiles; normal/private storage separation;
+navigation/tabs; tracker blocking; branded About/settings; untrusted TLS rejection;
+and active web-content seccomp/NoNewPrivs checks. No development source tree or
+Codex modules were mounted in that container. This run does not certify desktop
+GUI behavior, every Linux distribution, or production security/redistribution.
+
+Uploaded browser artifact:
+https://github.com/Evan-Windproof/Aelthoren/actions/runs/42140444350/artifacts/13468018937
+Name: `aelthoren-linux-alpha-development`, retention 14 days.
+Archive: `aelthoren-0.1.0-alpha-linux-x86_64.tar.xz`
+Size: **88,590,888 bytes**.
+SHA-256: `a4b3bdf08eb8352fb69e13fb0c9e1daa2466e5a087fc08281056419ead3457f7`.
+Original: 88,591,204 bytes, SHA-256
+`b40b5a7538e0d62769917e3f439907027476ad43a0d5f23f1933ea4c81440495`.
+**Not byte-identical** (316 bytes smaller). The workflow records changed project
+provenance/date and does not promise bit-for-bit reproduction across toolchains.
+
+Executed after completion:
+`gh run download 42140444350 --repo Evan-Windproof/Aelthoren --name aelthoren-linux-alpha-development --dir /workspace/aelthoren-actions-download`;
+likewise downloaded `linux-alpha-export-diagnostics` to an external directory.
+`sha256sum -c *.sha256` in the downloaded browser directory returned **OK**.
+Downloaded comparison.json and QA results independently confirmed size/hash,
+engine revision and 16 passed checks. No binaries or diagnostics were added to Git.
+Only the workflow and CI adapter plus documentation changed. No release published.
+The upload action emitted a Node 20 deprecation warning; GitHub ran it on Node 24
+and both uploads succeeded. The PR remains subject to review/merge.

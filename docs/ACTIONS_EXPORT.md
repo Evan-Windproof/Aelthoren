@@ -72,3 +72,27 @@ Actual run outcome, dependency blockers, output bytes/SHA and exact run/artifact
 links are recorded after execution. Until a run succeeds and the browser artifact
 exists, this file is a workflow/download procedure, not a claim of an available
 binary. The prior empty draft Release is not used by this export workflow.
+
+## Verified export: 2026-11-06
+
+[Successful run 42140444350](https://github.com/Evan-Windproof/Aelthoren/actions/runs/42140444350)
+built commit `270da89e87d7632885dbccae494b4a1613b4cd56` and passed all 16 standalone
+headless checks on Debian 13 as UID 1000.
+
+[Download the browser artifact](https://github.com/Evan-Windproof/Aelthoren/actions/runs/42140444350/artifacts/13468018937)
+while signed in. This is the Actions ZIP containing the archive and checksum,
+not a public Release. Available for 14 days from the run, subject to deletion.
+
+Archive size: **88,590,888 bytes**. SHA-256:
+`a4b3bdf08eb8352fb69e13fb0c9e1daa2466e5a087fc08281056419ead3457f7`.
+It is **not byte-identical** to the original (316 bytes smaller).
+The uploaded archive was downloaded again and its included checksum verified.
+
+```sh
+gh run download 42140444350 --repo Evan-Windproof/Aelthoren --name aelthoren-linux-alpha-development --dir linux-alpha-download
+cd linux-alpha-download
+sha256sum -c aelthoren-0.1.0-alpha-linux-x86_64.tar.xz.sha256
+```
+
+No full-engine compilation, new GUI certification, production readiness or
+universal Linux compatibility is claimed. See VALIDATION.md for actual results.
