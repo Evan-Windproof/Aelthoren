@@ -1,73 +1,212 @@
 # Aelthoren
 
 **Lightweight. Private. Account-free.**
+**轻量 · 隐私 · 无账户**
 
-Aelthoren is a planned independent desktop browser based on genuine Mozilla
-Firefox, Gecko and SpiderMonkey. Development starts on Linux; Windows support is
-planned. C++ is the primary long-term language alongside required upstream Rust,
-JavaScript and other languages. The owner's official logo is preserved unchanged
-in assets/A_text.svg.
+**Project Status: Completed Proof of Concept — Maintenance Discontinued**
+**项目状态：概念验证已完成，停止维护**
 
-Phase 3 adds DuckDuckGo as the changeable initial search provider, a new-tab
-search form using the same provider, disabled browser Accounts/Sync and telemetry
-uploads, and practical tracking/partitioning defaults. The official Phase 2 logo,
-branding, local About page and isolated launcher are preserved. Native Gecko
-address bar, tabs, navigation, passwords, bookmarks/history and privacy controls
-remain available. See [PRIVACY.md](PRIVACY.md) for the exact behavior and retained
-remote services, and [SECURITY.md](SECURITY.md) for security limits.
+---
 
-```sh
-python3 tools/phase3.py prepare
-python3 tools/phase3.py build
-python3 tools/run_aelthoren.py
-```
+## 🇨🇳 中文介绍
 
-See [BUILDING.md](BUILDING.md) for prerequisites, existing-overlay upgrades and
-verification commands. This uses Mozilla's precompiled genuine Gecko/SpiderMonkey;
-it is not a locally compiled engine or a simulated browser. The source remains
-pinned to Firefox ESR 153.6.0esr at
-`a34c4160e3f75ab9918fbe4669ff7ae56f1977c8`. Linux is verified; Windows and
-complete independent native identity/signing/update infrastructure remain future
-work. Native Firefox GUID and some platform identity remain inherited; use the
-launcher rather than the raw binary. [Branding limits](docs/BRANDING.md) apply.
+### 项目简介
 
-[VALIDATION.md](VALIDATION.md) records actual artifact builds, browser tests and
-known failures. The privacy slogan is not an anonymity or performance guarantee.
-Security protections are retained, but production security-service reachability,
-updates and exhaustive network/security testing remain unverified. This is a
-development build, not a supported release for sensitive browsing.
+**Aelthoren** 是一款基于 Mozilla Firefox / Gecko 技术的实验性开源浏览器，最初作为未来 **Evavind OS（埃瓦文德操作系统）** 浏览器的概念验证项目而开发。
 
-Phase 4 records repeated desktop performance measurements and avoids five
-redundant configuration/profile writes when installed bytes already match. The improvement
-is limited to launcher I/O; no general startup or memory advantage is claimed.
-See [docs/PERFORMANCE.md](docs/PERFORMANCE.md) for before/after data, variation and
-regressions. Phase 5A provides a development-only Linux alpha package; no public release is available. Completed milestones are committed/pushed
-and remote SHAs verified; cloud snapshots are not treated as backups.
+本项目的目标不是从零开发浏览器内核，也不是提供一款能够长期替代 Firefox 的成熟浏览器，而是探索轻量化、隐私保护、无账户设计，以及基于 Gecko 开发独立浏览器的技术可行性。
 
-Aelthoren is independent of Mozilla and is not endorsed by Mozilla. Keep upstream
-copyright/license notices and do not redistribute modified builds under protected
-Firefox branding. This is a development baseline, not a supported release.
-See LICENSE, THIRD_PARTY_NOTICES.md and UPSTREAM.md.
+Aelthoren 0.1.0-alpha 已完成主要概念验证，并在 Linux 环境中进行过实际运行测试。
 
-Phase 5A adds an internal Linux 0.1.0-alpha portable packaging workflow. The
-verified archive runs in clean Debian 13/Ubuntu 24.04 containers without a source
-tree/Codex modules; native identity, signing,
-updates and release compliance are incomplete, so no public release is claimed.
-See [Linux packaging](docs/LINUX_RELEASE.md) and the
-[release checklist](docs/RELEASE_CHECKLIST.md) for launch/dependency instructions
-and actual validation status.
+**本概念版已结束开发，不再提供持续维护。**
 
-The Linux alpha archive is 88,591,204 bytes, with SHA-256 and exact local path in
-[LINUX_RELEASE.md](docs/LINUX_RELEASE.md). Four clean container cases (Debian/Ubuntu,
-headless/GUI), extraction manifests and identical-input packaging passed. This is
-a workspace artifact, not a published download; no general-browsing safety or
-fully independent native release is claimed.
+### 主要功能
 
-### Final branding audit
+- 基于真正的 Gecko 渲染引擎与 SpiderMonkey JavaScript 引擎。
+- 独立的 Aelthoren 名称、Logo 与新标签页。
+- DuckDuckGo 作为默认搜索引擎，允许用户自行修改。
+- 无内置浏览器账户及云同步服务。
+- 隐私保护、追踪器拦截及存储分区配置。
+- 本地用户配置、书签和历史记录。
+- 基础的多标签页、地址栏和网页导航功能。
+- Linux x86_64 实验性构建与打包脚本。
 
-The [final branding audit](docs/BRANDING_AUDIT.md) documents an explicit,
-hash-checked packaging resource overlay and real GUI verification. Native Firefox
-executable/GUID/update identity and legal/source/asset-rights gates remain public
-binary distribution blockers. This is an internal development concept, not a
-Mozilla-endorsed or production-ready release. No Release or archival is authorized
-by passing tests; review the [release checklist](docs/RELEASE_CHECKLIST.md).
+### 技术架构
+
+Aelthoren 采用 Mozilla Firefox 的源码与应用层架构，使用 Gecko / SpiderMonkey 实现网页渲染和 JavaScript 执行。
+
+项目主要通过应用层修改、配置、品牌资源和构建脚本实现其概念设计。
+
+当前开发流程使用 Mozilla 官方预编译 Gecko 组件（Artifact Build），**并不代表已经独立编译或开发 Gecko 内核**。
+
+上游基线：
+
+- Firefox ESR：`153.6.0esr`
+- 源码提交：`a34c4160e3f75ab9918fbe4669ff7ae56f1977c8`
+- 实验平台：Linux x86_64
+- Windows 原生版本：未实现
+
+### 如何构建？
+
+本项目仅发布源码，不提供官方浏览器二进制分发，也不提供安全更新。历史开发构建产物仅为不受支持的测试输出，不是官方发行版。
+
+有兴趣的开发者可以通过以下方式尝试构建：
+
+**方式一：手动构建**
+
+阅读 [BUILDING.md](BUILDING.md) 和 [Linux 构建说明](docs/LINUX_RELEASE.md)，了解所需工具链、上游源码、依赖及构建限制。
+
+**方式二：AI 辅助构建**
+
+阅读 [AI_BUILD_GUIDE.md](AI_BUILD_GUIDE.md)，使用 Codex、Claude Code 或其他 AI 编程助手协助配置环境、获取依赖、执行构建与测试。
+
+AI 构建并不保证成功，使用者仍需自行验证程序的完整性、安全性与许可证合规性。
+
+### 安全警告
+
+**Aelthoren 0.1.0-alpha 仅用于技术研究和概念验证，不建议用于日常或安全敏感的网页浏览。**
+
+本项目：
+
+- 不提供持续的 Gecko 安全更新。
+- 不提供独立的自动更新机制。
+- 尚未完成完整的原生应用身份分离。
+- 未经过全面的跨发行版兼容性验证。
+- 不保证匿名性、绝对隐私或优于 Firefox 的性能。
+- 不保证任何第三方自行构建的版本能够安全运行。
+
+请不要将历史构建产物视为获得长期安全维护的浏览器。
+
+### 许可证与版权
+
+本项目的原创工具、测试夹具及文档遵循仓库 [LICENSE](LICENSE) 中规定的 MIT 许可证适用范围。
+
+Mozilla Firefox、Gecko、SpiderMonkey 及其他第三方代码和资源，继续遵循其各自的开源许可证，包括适用的 MPL 2.0 条款。
+
+Aelthoren 官方 Logo 的权利独立保留，不因项目代码采用 MIT 许可证而自动获得品牌使用授权。
+
+详情参见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+
+Aelthoren 是独立实验项目，不隶属于 Mozilla，也不受 Mozilla 赞助或认可。
+
+### 未来规划
+
+当前 Aelthoren 概念版不会继续维护。
+
+未来如果 Evavind OS 的开发进入相应阶段，可能会启动新的 Aelthoren 浏览器研发工作，并重新设计与 Evavind / Orfreon 的系统集成方案。
+
+未来版本不一定直接继承本概念版的源码或架构；本仓库不承诺未来开发、发布或维护。
+
+---
+
+## 🇬🇧 English
+
+### Overview
+
+**Aelthoren** is an experimental open-source browser based on Mozilla Firefox and Gecko technology.
+
+It was created as a proof of concept for a possible future web browser in the **Evavind OS** ecosystem.
+
+The purpose of this project is not to develop a rendering engine from scratch or create a long-term Firefox replacement. Instead, it explores lightweight design, privacy-oriented defaults, account-free browsing, and the feasibility of building an independent browser product using Gecko.
+
+Aelthoren 0.1.0-alpha completed its initial proof-of-concept milestones and was tested in Linux environments.
+
+**The concept project has concluded and is no longer actively maintained.**
+
+### Features
+
+- Genuine Gecko rendering engine and SpiderMonkey JavaScript engine.
+- Aelthoren branding, logo and custom new-tab page.
+- DuckDuckGo as the changeable default search engine.
+- No integrated browser account or cloud synchronization service.
+- Tracking protection and storage partitioning.
+- Local browser profiles, bookmarks and history.
+- Basic tabs, address bar and navigation.
+- Experimental Linux x86_64 build and packaging workflow.
+
+### Architecture
+
+Aelthoren uses Mozilla Firefox's source and application architecture, with customized application resources, configuration, branding and tooling.
+
+The development workflow uses official Mozilla precompiled Gecko components through Artifact Builds.
+
+It does **not** constitute an independently developed or fully source-compiled Gecko engine.
+
+Upstream baseline:
+
+- Firefox ESR: `153.6.0esr`
+- Source revision: `a34c4160e3f75ab9918fbe4669ff7ae56f1977c8`
+- Experimental platform: Linux x86_64
+- Native Windows build: Not implemented
+
+### Building Aelthoren
+
+This is a source-only publication: there is no official browser binary distribution and no security updates. Historical development artifacts are unsupported test outputs, not official releases.
+
+Developers may explore two approaches:
+
+**Manual build**
+
+See [BUILDING.md](BUILDING.md) and [Linux release documentation](docs/LINUX_RELEASE.md) for prerequisites, source acquisition, dependencies, build procedures and limitations.
+
+**AI-assisted build**
+
+See [AI_BUILD_GUIDE.md](AI_BUILD_GUIDE.md) for instructions intended for Codex, Claude Code and other coding assistants.
+
+AI-assisted builds are not guaranteed to succeed. Users must independently verify their builds and respect applicable licensing and distribution requirements.
+
+### Security Notice
+
+**Aelthoren 0.1.0-alpha is intended for research and experimentation, not daily or security-sensitive browsing.**
+
+This project:
+
+- Does not receive ongoing Gecko security updates.
+- Does not provide an independent automatic update system.
+- Does not have fully independent native application identity.
+- Has not been comprehensively validated across Linux distributions.
+- Does not guarantee anonymity, absolute privacy or superior performance.
+- Does not guarantee the security of third-party builds.
+
+Historical build artifacts must not be treated as maintained browser releases.
+
+### License and Attribution
+
+Original Aelthoren tools, fixtures and documentation are distributed under the MIT License within the scope described in [LICENSE](LICENSE).
+
+Mozilla Firefox, Gecko, SpiderMonkey and third-party components retain their respective licenses, including applicable MPL 2.0 obligations.
+
+The official Aelthoren logo remains separately owned and is not automatically licensed for trademark or branding use under the repository's MIT License.
+
+See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for details.
+
+Aelthoren is an independent experimental project and is not affiliated with, sponsored by, or endorsed by Mozilla.
+
+### Future Development
+
+The current Aelthoren prototype will not be actively maintained.
+
+A future browser project may be developed for Evavind OS, with deeper integration into the Evavind and Orfreon architecture.
+
+Such a project may use a different implementation and is not guaranteed to continue directly from this prototype. This repository makes no commitment to future development, releases or maintenance.
+
+---
+
+## Documentation / 项目文档
+
+| Document | Description / 说明 |
+|---|---|
+| [BUILDING.md](BUILDING.md) | Build instructions / 构建指南 |
+| [AI_BUILD_GUIDE.md](AI_BUILD_GUIDE.md) | AI-assisted build / AI 辅助构建 |
+| [PRIVACY.md](PRIVACY.md) | Privacy design / 隐私设计 |
+| [SECURITY.md](SECURITY.md) | Security limitations / 安全限制 |
+| [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) | Licensing and attribution / 第三方许可 |
+| [VALIDATION.md](VALIDATION.md) | Testing records / 测试记录 |
+| [docs/BRANDING_AUDIT.md](docs/BRANDING_AUDIT.md) | Branding audit / 品牌审计 |
+| [docs/LINUX_RELEASE.md](docs/LINUX_RELEASE.md) | Linux packaging / Linux 打包 |
+
+---
+
+**Aelthoren — An experimental step toward the future Evavind browser.**
+
+*Aelthoren 是面向未来 Evavind 浏览器的一次技术探索。*
