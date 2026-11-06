@@ -32,3 +32,19 @@ Development-only classification does not impose a noncommercial source license.
 No public GitHub Release, installer or supported general-browsing product is created
 by Phase 5A. Keep incomplete gates visible; do not silently waive them or disable
 security mechanisms to make a package pass tests.
+
+## Final branding audit checkpoint
+
+- [x] Preserve/rehash the original Phase 5A archive before resource changes.
+- [x] Inventory every packaged regular file and omni resource image; distinguish
+  product artwork/labels from legal, service, security and compatibility references.
+- [x] Explicit hash-pinned resource replacement recipe and original neutral artwork;
+  native executables/libraries, privacy policies, engine pin and owner SVG unchanged.
+- [ ] Clear inherited native Firefox executable/process/GUID/update identity using
+  supported full-source-build configuration and desktop/default-handler validation.
+- [ ] Resolve remaining product/service promotional paths, corresponding-source,
+  dependency and owner-asset rights for the exact proposed public binary.
+
+The final branding audit **does not clear public binary distribution**. See
+BRANDING_AUDIT.md and VALIDATION.md for actual GUI/package results. Do not publish
+the Draft Release or archive the repository as part of this task.

@@ -712,3 +712,39 @@ Existing-output guards refused the accidental repeat packaging/QA invocations;
 no existing archive/case was overwritten. Documentation was rewritten with an
 unambiguous delimiter and the final archive/source input hashes rechecked. This
 incident is not counted as a packaging or compatibility pass.
+
+## Final branding cleanup — implementation checkpoint (2026-11-06)
+
+Fetched and explicitly synchronized remote main 2267b4b; confirmed Phases 1–5A and
+GitHub push permission. Created codex/aelthoren-final-branding without rewriting
+history. Original Phase 5A archive rehashed: b40b5a7538e0d62769917e3f439907027476ad43a0d5f23f1933ea4c81440495, unchanged.
+Official Mozilla policy/distribution pages fetched via verified HTTPS, both 200.
+
+Inventory scanned 69 regular original package files and indexed 6,467 image/text
+resources; docs/branding/original-inventory.json records evidence. Two original
+artwork contact sheets visually reviewed: 38 initially selected resources plus
+30 supplementary illustrations; five additional fox-bearing illustrations added.
+Final recipe covers 52 resources (44 artworks, 8 textual resources), with exact
+input SHA checks. Positive overlay control succeeded; repeat application rejected
+modified input. Python compilation and all 17 existing tooling tests passed.
+
+Prototype package used the existing official mach package with
+`python3 tools/package_linux.py --mozilla-package /workspace/aelthoren-gecko/obj-aelthoren-phase2/dist/firefox-153.6.0.en-US.linux-x86_64.tar.xz --output /workspace/aelthoren-branding-audit/prototype --allow-dirty-prototype`.
+It is explicitly a dirty internal prototype, not the final package. Core Debian
+GUI checks passed. The extra audit first timed out expecting #general after
+Settings canonicalized its URL; corrected to about:preferences. A second attempt
+reached the real native prompt, where WebDriver auto-dismissed it on ordinary
+script execution. Switched that QA-only step to supported alert APIs and a host
+Xorg capture; no browser/security settings changed. Failures are not counted as
+complete passes. Final clean-source package, GUI screenshots and distro results
+will be recorded after actual execution. No full engine compilation claimed.
+
+The corrected prototype GUI audit completed: **18 checks passed**, including the
+real native default-browser prompt captured through authenticated Xorg and canceled
+via WebDriver:DismissAlert (no default-handler mutation). New-tab, Settings shell,
+About, support and license screenshots inspected. Prototype Settings general view
+showed an empty main pane in its early snapshot; final screenshot targets the
+working Privacy pane and waits for actual site-data controls. General/default-
+handler desktop integration is not certified by this test. The prototype contains
+the initial 47-resource overlay; the final 52-resource recipe is verified separately
+and must pass final package checks before results are claimed for that package.

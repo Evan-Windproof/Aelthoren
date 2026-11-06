@@ -1,0 +1,361 @@
+{
+  "schema": 1,
+  "engine_revision": "a34c4160e3f75ab9918fbe4669ff7ae56f1977c8",
+  "entries": [
+    {
+      "archive": "omni.ja",
+      "path": "chrome/toolkit/content/global/megalist/icons/cpm-fox-illustration.svg",
+      "sha256": "815b6f447ad3baa56dc2c23d59a7baaf9e237697f7e7556e7acf7e22059add18",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "omni.ja",
+      "path": "chrome/toolkit/skin/classic/global/illustrations/kit-concerned.svg",
+      "sha256": "f097cb40d191b48cc0357004fa8e256b3a750d3ef49f234def031fa567ddeb9d",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "omni.ja",
+      "path": "chrome/toolkit/skin/classic/global/illustrations/kit-happy.svg",
+      "sha256": "9be0fcb462bf7532bff870e928926f252ea14ea87a0eb751e3ee86023f828f06",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "omni.ja",
+      "path": "chrome/toolkit/skin/classic/global/illustrations/kit-in-circle.svg",
+      "sha256": "44719c4d1a387d70288fb1e9a0809b46ea75dd784e0325d31d9b3d8626aac7cb",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/builtin-addons/newtab/data/data/content/assets/firefox-mascot-prop-paintbucket-rgb.svg",
+      "sha256": "fe375718daae7f7da0a72e52a09cd3b75c8006caca12b473d15ee6f719ca42b9",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/builtin-addons/newtab/data/data/content/assets/firefox-motion-head-pop-up-no-bg.svg",
+      "sha256": "b39fc55824cb7e6f6e293c6008ee5d7d3d424378c8c7f27cf64afce7dd9c7a0b",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/builtin-addons/newtab/data/data/content/assets/firefox.svg",
+      "sha256": "e477e1f25b0bd9ccc2055c341bde968490084ca276677188288e3b051ec9b9c7",
+      "replacement": "owner-logo"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/builtin-addons/newtab/data/data/content/assets/highlights/firefox-mascot-prop-paintbucket-rgb.svg",
+      "sha256": "6c153eb821c24f413520b2b056cde29f5ea9b0bfbf221af96a2711a6920067af",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/builtin-addons/newtab/data/data/content/assets/highlights/firefox-wallpaper-desktop-hills-light-rgb.svg",
+      "sha256": "7e91461dd2d77687ae8b6b284e1c0e8c92896496f5b84029f201d08907b7fbd2",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/builtin-addons/newtab/data/data/content/assets/puzzle-fox.svg",
+      "sha256": "5faefdb9108ce4e33e9fc2ad50b2dc18b8201d8db232db3f1d27f68d5c95daad",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/br-amo-fox-paint.svg",
+      "sha256": "a3fb635dd883c974a780a55b860b050fbd452c3b109f0c6fef49f52c10953745",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/br-fxa-fox-mirror.svg",
+      "sha256": "ad7eba72e1587643d27c4ddcbb8f8164e295309467987ada8c98a1cfcec9a84f",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/br-gratitude-fox-rock.svg",
+      "sha256": "2f0015679180282e1a3cf2dc6440a1188faebbd3079f154a8a9f8c3bdcd7a532",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/br-import-fox-house.svg",
+      "sha256": "b3304772efa77ea2eed852b0eef6363135de5db011e246f441e6f353e589ba14",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/br-set-default-fox-heart.svg",
+      "sha256": "ab42afbc05727a4faddd914c05e30b1c186f1a61dbf2058441b5929cff72a886",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/fox-doodle-backup-restore.svg",
+      "sha256": "b69f31c9cedb3e47537c12ddfe8a9f836f037c4602f524fac7646e1194dabe6d",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/fox-doodle-backup.svg",
+      "sha256": "48e5bbc812e5eaeffabbc6f693dbf0a6417a1e96c6b0b61aba4c3750a1ed0b19",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/fox-doodle-tail.png",
+      "sha256": "28c5322d74328dd1305c922550746607d0491af5db3ad4cbcb2f1ea899f4e7aa",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/fox-doodle-waving-static.png",
+      "sha256": "e44462d4190a6f76084da95ef60e04043f3229d8b6383908b168e2038f8d551e",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/mr-settodefault.svg",
+      "sha256": "3a6be3ce8dcb18f29299376754d699402380b330a60feb1d2d59a8271fa97b7a",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/splash-logo.svg",
+      "sha256": "5bbbf74189fe3407c50e72e961071338318b2586a6a73644cdb4076199b691e6",
+      "replacement": "owner-logo"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/fox-with-box-on-cloud.svg",
+      "sha256": "e65f85e4fee2d03f9cbf93a57d674627cf912dda2985246fda7a90da5c6f9236",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/fox-with-checkmark.svg",
+      "sha256": "18a0fa3ffba3e47807924491682b3bdf07600dfc0ee19c556863d598c581426a",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/fox-with-devices.svg",
+      "sha256": "7185283275a763afe7b0ddc629815c8bb5cceacfa4bc6660ff7137b21eb19f0e",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/fox-with-locked-box.svg",
+      "sha256": "ff47c159823b23272577f06b37aff95cd0fd05f32473d7411f6245548ae7fc67",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/fox-with-mobile.svg",
+      "sha256": "ecda95f4e0464d66681c5a29b0fce612b9d7405d4c8ddc2488ddb31d8293cd96",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/fox-with-profiles.svg",
+      "sha256": "e2cfe2eb8464743ae86058cb6a6d2150c9aa2666e63033c75a9dd2811bf99091",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/smiling-fox-icon.svg",
+      "sha256": "9aaa79080644288603b9ef1a041773ef202e60b7c226ead5e5c51579b00bd7dd",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/controlcenter/assets/fox-concern.svg",
+      "sha256": "9d02680db687778e78acfb964170c3d9bf9a106312eac204f138b173741830a8",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/fxa/avatar-fox-circle.svg",
+      "sha256": "3ccd92aa7b8e10feaad57fb85f94154081090a13fa731b217c8f352260ce7a76",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/fxa/avatar-fox.svg",
+      "sha256": "f04dcca2c96647610cabceffbdc1ad6299c48c2b21d3419fee9c20faa8a30485",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/preferences/fox-ai.svg",
+      "sha256": "ea53e0387d0eceac7716f7ccf300b1a613776050b3a43432ce65ae0ee24700ed",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/preferences/mozilla-16.svg",
+      "sha256": "e8b4a0e14d471ead1d97673580187f8bfd1672d58dd444abca4386eaba98fc19",
+      "replacement": "owner-logo"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/preferences/mozilla-logo.svg",
+      "sha256": "9c381ff33541813b3a4245345660b4a3860a9138c4769c238aef23a93ed3d2af",
+      "replacement": "owner-logo"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/privatebrowsing/fox-tail.svg",
+      "sha256": "19fad75502e9f8eb49bbc81f702a35fbe9886420f6a56600e3321868f50d7497",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/privatebrowsing/pbm-logo.svg",
+      "sha256": "39c362578b50c6aeae756c3e505c0e18f291d69323cd7ec8271352ee72073df4",
+      "replacement": "owner-logo"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/sidebar/firefox.svg",
+      "sha256": "b73e7751a6e6c1f4ed1f5651d1e2f10006d3229c61d5b47c8a78529086fb1466",
+      "replacement": "owner-logo"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/sidebar/foxy.svg",
+      "sha256": "5e4138aa15ebbc9e507edba6dff947f1adab4308ae01c823a08967f97185d1d1",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/window-firefox.svg",
+      "sha256": "19160f12806f24c435c25adf5730b0568adc2c5f2748903d6328cb77d2a32485",
+      "replacement": "owner-logo"
+    },
+    {
+      "archive": "omni.ja",
+      "path": "localization/en-US/toolkit/branding/brandings.ftl",
+      "sha256": "2ed7562ad37ab871206a426b87a883020c7fca342db8944828282743434d2e1d",
+      "replacement": "text",
+      "substitutions": {
+        "Firefox Home": "Aelthoren Home",
+        "Firefox Suggest": "Aelthoren Suggest",
+        "Firefox View": "Aelthoren View",
+        "Firefox Labs": "Aelthoren Labs",
+        "Firefox Screenshots": "Aelthoren Screenshots",
+        "Firefox Translations": "Aelthoren Translations"
+      }
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "localization/en-US/branding/brand.ftl",
+      "sha256": "1fd1a9fbbae1c6469db173bfde9839d7d1dfa149b43f28f1f914827fa8bcaa7f",
+      "replacement": "text",
+      "substitutions": {
+        "-vendor-short-name = Mozilla": "-vendor-short-name = Aelthoren"
+      }
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "localization/en-US/browser/newtab/onboarding.ftl",
+      "sha256": "171a7f50222aadc270c2360f04090c15e12a2378761837a993d35cf01bc5ddce",
+      "replacement": "text",
+      "substitutions": {
+        "Thank you for using { -brand-short-name }, backed by the Mozilla Foundation. With your support, we\u2019re working to make the internet more open, accessible, and better for everyone.": "Thank you for trying { -brand-short-name }, an independent experimental browser using open-source Mozilla technology.",
+        "Thank you for using { -brand-short-name }, backed by the Mozilla Foundation. With your support, we\u2019re working to make the internet safer and more accessible for everyone.": "Thank you for trying { -brand-short-name }, an independent experimental browser. It is not endorsed by Mozilla."
+      }
+    },
+    {
+      "archive": "omni.ja",
+      "path": "chrome/en-US/locale/en-US/global/appstrings.properties",
+      "sha256": "0e1fd563baf41acf6df4d2b81dc991bc7c0bcd6f4b9fb538cbd2c2d301f12997",
+      "replacement": "text",
+      "substitutions": {
+        "networkProtocolError=Firefox has experienced a network protocol violation that cannot be repaired.": "networkProtocolError=Aelthoren has experienced a network protocol violation that cannot be repaired."
+      }
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/en-US/locale/browser/appstrings.properties",
+      "sha256": "9bf49f3ddf06275a918447b1b21af2169eafe6c49b3a4d29bd422ac1e395ad01",
+      "replacement": "text",
+      "substitutions": {
+        "fileNotFound=Firefox can\u2019t find the file at %S.": "fileNotFound=Aelthoren can\u2019t find the file at %S.",
+        "unknownProtocolFound=Firefox doesn\u2019t know how to open this address, because one of the following protocols (%S) isn\u2019t associated with any program or is not allowed in this context.": "unknownProtocolFound=Aelthoren doesn\u2019t know how to open this address, because one of the following protocols (%S) isn\u2019t associated with any program or is not allowed in this context.",
+        "connectionFailure=Firefox can\u2019t establish a connection to the server at %S.": "connectionFailure=Aelthoren can\u2019t establish a connection to the server at %S.",
+        "redirectLoop=Firefox has detected that the server is redirecting the request for this address in a way that will never complete.": "redirectLoop=Aelthoren has detected that the server is redirecting the request for this address in a way that will never complete.",
+        "clientSocketMisconfiguration=Firefox doesn\u2019t know how to communicate with the server.": "clientSocketMisconfiguration=Aelthoren doesn\u2019t know how to communicate with the server.",
+        "netOffline=Firefox is currently in offline mode and can\u2019t browse the Web.": "netOffline=Aelthoren is currently in offline mode and can\u2019t browse the Web.",
+        "deniedPortAccess=This address uses a network port which is normally used for purposes other than Web browsing. Firefox has canceled the request for your protection.": "deniedPortAccess=This address uses a network port which is normally used for purposes other than Web browsing. Aelthoren has canceled the request for your protection.",
+        "proxyResolveFailure=Firefox is configured to use a proxy server that can\u2019t be found.": "proxyResolveFailure=Aelthoren is configured to use a proxy server that can\u2019t be found.",
+        "proxyConnectFailure=Firefox is configured to use a proxy server that is refusing connections.": "proxyConnectFailure=Aelthoren is configured to use a proxy server that is refusing connections.",
+        "sslv3Used=Firefox cannot guarantee the safety of your data on %S because it uses SSLv3, a broken security protocol.": "sslv3Used=Aelthoren cannot guarantee the safety of your data on %S because it uses SSLv3, a broken security protocol.",
+        "blockedByCORP=Firefox didn\u2019t load this page because it looks like the security configuration doesn\u2019t match the previous page.": "blockedByCORP=Aelthoren didn\u2019t load this page because it looks like the security configuration doesn\u2019t match the previous page.",
+        "networkProtocolError=Firefox has experienced a network protocol violation that cannot be repaired.": "networkProtocolError=Aelthoren has experienced a network protocol violation that cannot be repaired."
+      }
+    },
+    {
+      "archive": "omni.ja",
+      "path": "chrome/en-US/locale/en-US/pipnss/pipnss.properties",
+      "sha256": "a5ed71bfe467d83e96b1a1a0c25167c067b9b5c62035abbe98b0f8bf17b19157",
+      "replacement": "text",
+      "substitutions": {
+        "certErrorMitM2=%S is backed by the non-profit Mozilla, which administers a completely open certificate authority (CA) store. The CA store helps ensure that certificate authorities are following best practices for user security.": "certErrorMitM2=%S uses the Mozilla CA store, an open certificate authority (CA) store maintained by Mozilla. Aelthoren is an independent project and is not endorsed by Mozilla."
+      }
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "defaults/preferences/firefox.js",
+      "sha256": "31a910f558d94a04e4dd5bd7cfd1e3969d80019736169be050ddc37c58589ed1",
+      "replacement": "text",
+      "substitutions": {
+        "pref(\"app.support.baseURL\", \"https://support.mozilla.org/1/firefox/%VERSION%/%OS%/%LOCALE%/\");": "pref(\"app.support.baseURL\", \"https://github.com/Evan-Windproof/Aelthoren/blob/main/README.md#\");",
+        "https://ideas.mozilla.org/": "https://github.com/Evan-Windproof/Aelthoren/issues"
+      }
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/aboutDialog.xhtml",
+      "sha256": "5f19b359e428ee7ce98ba833698b2a5338aa23a910142269d51df0a19e3b4202",
+      "replacement": "text",
+      "substitutions": {
+        "https://www.mozilla.org/about/legal/terms/firefox/": "https://github.com/Evan-Windproof/Aelthoren/blob/main/LICENSE",
+        "https://www.mozilla.org/privacy/firefox/?utm_source=firefox-browser&#38;utm_medium=firefox-desktop&#38;utm_campaign=about-dialog": "https://github.com/Evan-Windproof/Aelthoren/blob/main/PRIVACY.md"
+      }
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/mr-gratitude.svg",
+      "sha256": "c4ed9c72886bfbd1ae107a702a95d181eca6a86dde841455225bad13d0fd1084",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/mr-kit-smart-window.svg",
+      "sha256": "3c9799bbf1a57cafe8e8dd3d05297cf0f8f527eb1156a4878f03b8d52bb59ffa",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/mr-rtamo-background-image.svg",
+      "sha256": "d10725dde1973b99271d950f177b0db89e91d8d1e45043d831340f02c96f5191",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/aiwindow/assets/set-default-onboarding.svg",
+      "sha256": "329a9263a114503f4248a49290dbbd5fa351a0704dbe120cc2010398a7ee6a6e",
+      "replacement": "neutral-art"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/aiwindow/assets/smart-window-promo-default.svg",
+      "sha256": "3b6a47256cae563d96e2a3daf191771e6376b9e1ec69c4a9d2fbce1ce76c94bd",
+      "replacement": "neutral-art"
+    }
+  ]
+}

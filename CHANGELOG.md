@@ -63,3 +63,13 @@
   and Ubuntu 24.04.5 headless/GUI suites passed, plus 17 tooling tests.
 - Exact SHA/source provenance, GUI images, sandbox/TLS observations and incomplete
   release/export/identity gates are recorded. No public GitHub Release created.
+
+## Final branding cleanup — 0.1.0-alpha development
+
+- Add an explicit SHA-pinned omni-resource packaging overlay for inherited fox
+  artwork, product labels/error text, misleading sponsorship copy and product
+  support/legal links. Preserve upstream licenses, attribution and security.
+- Preserve the owner logo and original verified archive; inventory packaged files,
+  images and brand-bearing resource references, with GUI-specific audit checks.
+- Keep inherited native identity and public-distribution/legal/update blockers
+  explicit. No public release, automatic merge or repository archival.
