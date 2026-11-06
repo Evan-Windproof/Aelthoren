@@ -50,3 +50,16 @@
 - Native Firefox GUID and some platform/trademark identity remain inherited; no full
   engine source compilation or public release/update channel is claimed.
 - No Phase 3 privacy/account/sync/default-search functionality was implemented.
+
+
+## Unreleased — Phase 5A Linux alpha packaging
+
+- Official mach packaging succeeded for the verified ESR artifact runtime.
+- Added a relocatable non-root portable wrapper, isolated alpha profiles, official
+  icon/version About page, optional user-local desktop/URL integration and license/
+  source material. Native GUID/version identity remains inherited; development-only.
+- Added repeatable archive/checksum generation and clean Debian/Ubuntu QA tooling.
+- Final 88,591,204-byte clean-source archive reproduced byte-for-byte; Debian 13
+  and Ubuntu 24.04.5 headless/GUI suites passed, plus 17 tooling tests.
+- Exact SHA/source provenance, GUI images, sandbox/TLS observations and incomplete
+  release/export/identity gates are recorded. No public GitHub Release created.

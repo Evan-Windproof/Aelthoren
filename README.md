@@ -41,10 +41,24 @@ Phase 4 records repeated desktop performance measurements and avoids five
 redundant configuration/profile writes when installed bytes already match. The improvement
 is limited to launcher I/O; no general startup or memory advantage is claimed.
 See [docs/PERFORMANCE.md](docs/PERFORMANCE.md) for before/after data, variation and
-regressions. Phase 5 has not started. Completed milestones are committed/pushed
+regressions. Phase 5A provides a development-only Linux alpha package; no public release is available. Completed milestones are committed/pushed
 and remote SHAs verified; cloud snapshots are not treated as backups.
 
 Aelthoren is independent of Mozilla and is not endorsed by Mozilla. Keep upstream
 copyright/license notices and do not redistribute modified builds under protected
 Firefox branding. This is a development baseline, not a supported release.
 See LICENSE, THIRD_PARTY_NOTICES.md and UPSTREAM.md.
+
+Phase 5A adds an internal Linux 0.1.0-alpha portable packaging workflow. The
+verified archive runs in clean Debian 13/Ubuntu 24.04 containers without a source
+tree/Codex modules; native identity, signing,
+updates and release compliance are incomplete, so no public release is claimed.
+See [Linux packaging](docs/LINUX_RELEASE.md) and the
+[release checklist](docs/RELEASE_CHECKLIST.md) for launch/dependency instructions
+and actual validation status.
+
+The Linux alpha archive is 88,591,204 bytes, with SHA-256 and exact local path in
+[LINUX_RELEASE.md](docs/LINUX_RELEASE.md). Four clean container cases (Debian/Ubuntu,
+headless/GUI), extraction manifests and identical-input packaging passed. This is
+a workspace artifact, not a published download; no general-browsing safety or
+fully independent native release is claimed.

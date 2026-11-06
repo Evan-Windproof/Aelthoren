@@ -46,3 +46,46 @@ and upstream diagnostics are disclosed in PRIVACY.md. Avoid sensitive browsing
 with this development build. Report security issues privately through GitHub's
 private vulnerability reporting if enabled; do not post secrets in a public issue.
 For upstream vulnerabilities, use Mozilla's published security reporting process.
+
+
+## Linux alpha distribution status
+
+Phase 5A produces development-only test packages. Native Firefox GUID/version and
+some executable/update/crash identity remain inherited; supported name/profile/
+remoting overrides do not establish a fully independent native release. Runtime
+launch uses an explicit user-local profile and disables remoting/automatic profile
+migration, never root or relaxed sandbox/TLS flags. Source tree/Codex tools are not
+runtime dependencies. Desktop integration is optional, per-user and never changes
+the default browser automatically.
+
+Before any external distribution, recheck current Mozilla ESR metadata/advisories,
+review asset/trademark and every dependency/source obligation, establish independent
+signing and tested security-update delivery, and satisfy RELEASE_CHECKLIST.md.
+The 2026-11-05 UTC vendor snapshot lists the pin 153.6.0esr as current ESR and MFSA
+2026-120 as fixed in 153.6, but also schedules the next release for 2026-11-06. It
+is not a future security guarantee. Do not use an unsupported/vulnerable engine for
+general browsing or describe this unreviewed alpha as safe.
+
+Maintain security updates by monitoring official advisories/version metadata; on a
+security release, separately update exact upstream tag/commit/task/archive hashes,
+rebase/review the small frontend patches, rebuild/package, repeat clean Linux GUI/
+headless and privacy/TLS/sandbox tests, preserve sources/notices, sign/verify and
+replace through an explicitly tested delivery mechanism. Do not assume Mozilla's
+Firefox update server safely updates modified Aelthoren builds, or disable update
+checks to hide errors. Current cloud remote-service/update limitations remain.
+
+QA-only proxy CA trust and privileged automation stay in disposable test profiles,
+not in the archive. Public HTTPS is tested through the configured proxy with TLS
+verification enabled; untrusted local certificates must still fail. Container
+seccomp and Firefox's additional content filters/NoNewPrivs are inspected; this is
+not a complete exploit or user-namespace enforcement audit.
+
+Final clean Debian/Ubuntu headless and X11 GUI tests passed with the active web
+process adding a seccomp filter and NoNewPrivs, while TLS rejected an untrusted
+certificate. Outer container policy denies some user-namespace creation; do not
+interpret preference values/process labels as a complete sandbox-enforcement audit.
+Only active initialized web-process state is asserted; initializing spare processes
+are retained in diagnostic snapshots. No protections were lowered to pass.
+The inherited generic Settings “latest/safest” text is not an Aelthoren update/
+security guarantee; it remains a public-release copy/identity gate. The package
+is development-only despite the point-in-time current ESR metadata match.

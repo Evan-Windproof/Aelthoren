@@ -1,0 +1,43 @@
+#!/bin/sh
+set -eu
+umask 077
+app_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+profile_name=default
+if [ "${1-}" = --version ]; then
+    printf '%s\n' 'Aelthoren 0.1.0-alpha — development-only artifact (Firefox ESR 153.6.0esr engine)'
+    exit 0
+fi
+if [ "${1-}" = --profile ]; then
+    [ "$#" -ge 2 ] || { echo 'Missing profile name' >&2; exit 2; }
+    profile_name=$2
+    shift 2
+fi
+[ "${1-}" != -- ] || shift
+case "$profile_name" in ''|*[!A-Za-z0-9_-]*) echo 'Use a simple profile name, not a path' >&2; exit 2;; esac
+for argument do
+    case "$argument" in
+        -profile|--profile|-profile=*|--profile=*|-p|-P|-P*|-profilemanager|--profilemanager|-app|--app|-app=*|--app=*)
+            echo 'Native application/profile overrides are reserved; use --profile NAME first' >&2; exit 2;;
+    esac
+done
+data_root=${XDG_DATA_HOME:-${HOME:?Set HOME or XDG_DATA_HOME}/.local/share}
+case "$data_root" in /*) ;; *) echo 'XDG_DATA_HOME must be absolute' >&2; exit 2;; esac
+for path in "$data_root/aelthoren-alpha" "$data_root/aelthoren-alpha/profiles" "$data_root/aelthoren-alpha/profiles/$profile_name"; do
+    [ ! -L "$path" ] || { echo 'Refusing a symlinked managed profile path' >&2; exit 2; }
+done
+profile=$data_root/aelthoren-alpha/profiles/$profile_name
+marker=$profile/.aelthoren-profile
+if [ -d "$profile" ] && [ ! -f "$marker" ] && [ -n "$(ls -A "$profile")" ]; then
+    echo 'Refusing nonempty, unmarked profile data' >&2; exit 2
+fi
+mkdir -p -- "$profile"
+if [ -f "$marker" ]; then
+    [ "$(cat "$marker")" = 'Aelthoren portable alpha profile' ] || { echo 'Unknown profile marker; preserve it for review' >&2; exit 2; }
+else
+    printf '%s\n' 'Aelthoren portable alpha profile' > "$marker"
+fi
+if [ "${1-}" = --about ]; then
+    shift
+    set -- "$app_dir/ABOUT.html" "$@"
+fi
+exec "$app_dir/runtime/firefox" -app "$app_dir/runtime/browser/aelthoren-application.ini" --no-remote -profile "$profile" "$@"

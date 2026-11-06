@@ -1,0 +1,9 @@
+{
+  "result": "PASS",
+  "same_size": 88591204,
+  "sha256": "b40b5a7538e0d62769917e3f439907027476ad43a0d5f23f1933ea4c81440495",
+  "source_revision": "4e59ba872ff7cfe059f617f98f28869ebf33e71f",
+  "first": "/workspace/aelthoren-packaging/output/aelthoren-0.1.0-alpha-linux-x86_64.tar.xz",
+  "second": "/workspace/aelthoren-packaging/repro/aelthoren-0.1.0-alpha-linux-x86_64.tar.xz",
+  "scope": "same clean source commit and exact Mozilla package input; not a full-engine build reproducibility claim"
+}

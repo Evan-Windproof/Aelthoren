@@ -573,3 +573,142 @@ Final implementation/results are published on codex/aelthoren-phase4 in PR #4
 (https://github.com/Evan-Windproof/Aelthoren/pull/4), with exact remote SHA checked
 by the preservation helper and GitHub API at completion. No main push, automatic
 merge, environment/release publication or Phase 5 implementation.
+
+
+# Phase 5A — Linux alpha packaging implementation checkpoint
+
+Fetched merged main d5d3ee4 and created codex/aelthoren-phase5, preserving all prior
+history and the pinned ESR source. Official `./mach package` completed with exit 0
+and produced firefox-153.6.0.en-US.linux-x86_64.tar.xz from the reviewed artifact
+object directory. The portable prototype is development-only, not an independent
+native release; no full engine compilation or public GitHub Release was attempted.
+
+A dirty-working-tree prototype (explicitly labeled) passed 16 actual checks in a
+clean Debian 13 container as UID 1000, with no Firefox source tree or Codex modules
+mounted. It launched from a path with spaces; HTTP/public HTTPS, JS/DOM/storage,
+provider choice/restart, private browsing, tabs/history, account/Sync/privacy gates,
+tracking classifier and profile isolation passed. Public HTTPS used only QA-profile
+trust for the environment's CA; an untrusted local TLS certificate was rejected.
+Actual prototype process status shows extra content seccomp filters and NoNewPrivs.
+Prototype results and official security snapshot are in docs/phase5.
+
+17 tooling checks passed, including profile/native-argument escape rejection,
+unmarked/unknown user-data preservation, symlink rejection and desktop URI handling
+from spaces/quotes/backslashes/dollar/percent/backtick paths. Initial prototype
+failures were QA assumptions about a changed public page's SVG text and chrome/
+content window context, not counted as passes. A GLib literal-percent executable
+path limitation was avoided by invoking /bin/sh with the script as a separate
+argument (never -c). No TLS/sandbox protection was lowered.
+
+Final clean-commit package, reproducibility comparison, Ubuntu and actual desktop
+GUI verification are pending at this checkpoint; final results follow separately.
+The native GUID/version, executable metadata, signing/update and public release
+compliance gates remain explicit in docs/RELEASE_CHECKLIST.md.
+
+
+## Phase 5A final clean-package results
+
+Packaging implementation was committed/pushed before final generation as
+**4e59ba872ff7cfe059f617f98f28869ebf33e71f**, remote SHA verified, in the same
+codex/aelthoren-phase5 branch/PR #5. Final archive metadata records that clean
+source commit, not the earlier dirty prototype. Later QA corrections and final
+reporting do not change any packaged runtime/source-input hash.
+
+```sh
+python3 tools/package_linux.py --mozilla-package /workspace/aelthoren-gecko/obj-aelthoren-phase2/dist/firefox-153.6.0.en-US.linux-x86_64.tar.xz --output /workspace/aelthoren-packaging/output
+python3 tools/package_linux.py --mozilla-package /workspace/aelthoren-gecko/obj-aelthoren-phase2/dist/firefox-153.6.0.en-US.linux-x86_64.tar.xz --output /workspace/aelthoren-packaging/repro
+python3 tools/test_linux_containers.py /workspace/aelthoren-packaging/output/aelthoren-0.1.0-alpha-linux-x86_64.tar.xz --output /workspace/aelthoren-packaging/final-headless-verified
+python3 tools/test_linux_containers.py /workspace/aelthoren-packaging/output/aelthoren-0.1.0-alpha-linux-x86_64.tar.xz --gui --output /workspace/aelthoren-packaging/final-gui-verified
+python3 -m unittest discover -s tools -p 'test_*.py'
+```
+
+Mozilla mach package had already succeeded with exit 0. These commands reused
+that exact current local output, after source/branding/archive verification, to
+avoid unnecessary downloads/builds. The wrapper verifies native Firefox/libxul
+bytes against the verified object directory. No unknown Gecko binary, other
+browser engine or local C++/Rust engine build was substituted/claimed.
+
+Artifact: /workspace/aelthoren-packaging/output/aelthoren-0.1.0-alpha-linux-x86_64.tar.xz.
+Size: **88,591,204 bytes**. SHA-256:
+`b40b5a7538e0d62769917e3f439907027476ad43a0d5f23f1933ea4c81440495`.
+Sibling .sha256/package-result.json exist. Same clean source/runtime input produced
+an identical second archive under /workspace/aelthoren-packaging/repro. This is
+wrapper-packaging repeatability, not full-engine reproducibility from scratch.
+
+| Clean userspace | Mode | Actual result |
+| --- | --- | --- |
+| Debian 13 (trixie) | Headless | 16 checks PASS, UID 1000 |
+| Ubuntu 24.04.5 LTS | Headless | 16 checks PASS, UID 1000 |
+| Debian 13 (trixie) | X11 GUI, headless=false | 17 checks PASS, UID 1000 |
+| Ubuntu 24.04.5 LTS | X11 GUI, headless=false | 17 checks PASS, UID 1000 |
+
+Every case independently extracted the exact archive to a path with spaces and
+passed its internal manifest before launch. Only the archive, standalone QA inputs,
+QA CA and output directory were mounted; Firefox source tree and Codex project
+modules were absent. Docker's default container restrictions remained. No root,
+--privileged, host-network workaround or sandbox/TLS disabling was used.
+The initial read-only prototype also ran; final extraction directories were
+user-owned/writable, with the input archive read-only.
+
+All cases exercised actual public HTTPS through the configured proxy and a
+QA-profile trusted CA, plus rejection of a separate untrusted local certificate.
+Real JS/DOM/cookies/localStorage, native tabs/back/forward, DuckDuckGo defaults,
+actual new-tab provider submission, changed Bing selection retained after restart,
+account/Sync and telemetry gates, tracking/cookie/network partition settings,
+native classifier blocking with its blocked-content bit, private storage isolation,
+second-profile separation and loaded alpha About/logo all passed. Privacy state
+was not replaced with a simulated browser or a local HTML application shell.
+
+The active web document's OS process had seccomp filter mode 2, NoNewPrivs=1 and
+an additional filter above the browser/container parent. Content sandbox level 6,
+Fission and Safe Browsing stayed enabled. All process snapshots are retained;
+initializing spare processes can briefly have different flags, so a process-name
+label is not treated as proof of an initialized sandbox. Outer runtime rejects
+some user-namespace creation; no complete namespace/exploit audit is claimed.
+
+Both GUI screenshots were visually inspected and show native Aelthoren chrome/logo
+and privacy controls; public HTTPS screenshots also show rendered remote content.
+Automation's own red/striped system-access indicator is test-only. Minimal fonts
+leave some CJK glyphs missing on the public multilingual page; ordinary system
+font installation is needed for wider script coverage. This is Xorg GUI smoke,
+not GNOME/KDE/Wayland/default-browser or physical-host certification.
+
+17 tooling tests passed, zero failed/skipped, plus Python compilation, shell syntax
+and Git whitespace checks. They preserve user/desktop data and check profile/path/
+argument escape rejection and actual GIO URL forwarding with difficult filenames.
+Final bundle exclusion scan found no profiles, personal NSS databases, logs,
+credentials, QA scripts or caches. Native runtime, licenses, source/patch notices,
+alpha metadata and icon are intentional package contents. Archive/binaries,
+profiles/keys/X authority and raw QA output remain outside Git.
+
+The first final-run attempts were not counted as passes: GUI clients needed an
+Xauthority entry compatible with a different container hostname (same server
+cookie, access control still enabled). A sandbox assertion sampled a just-spawned
+spare process before initialization; corrected QA targets the active initialized
+web document and preserves the full diagnostic snapshot. No product/security
+setting was changed to make these tests pass. The four final suites above all
+completed after those QA-only corrections.
+
+Identity audit remains intentionally incomplete for public release: native
+Firefox GUID/version/executable/update/crash metadata remain; alpha 0.1.0 version
+is displayed by wrapper/metadata/local About while native version is 153.6.0.
+Conservative --no-remote prevents forwarding URLs into an already-open profile.
+The inherited generic “latest/safest” Settings banner is not proof of a supported
+Aelthoren security/update channel; it remains a release-copy gate. Trademark,
+license/source-availability completeness, independent signing/updates and real
+native platform identity need further work. The official security snapshot only
+establishes vendor metadata/advisory state at fetch time, not general-browsing safety.
+
+Detailed evidence: docs/phase5/{final-package,reproducibility,compatibility-results,
+identity-audit,security-review,final-validation}.json and GUI/HTTPS images. Exact
+archive source is public on GitHub at the recorded source commit. The tool set
+has no outbound artifact-upload/export endpoint; only local workspace availability
+is verified. No public download URL, release asset or GitHub Release is created.
+Keep that distinction explicit. Phase 5A source/results are published in PR #5 to
+main; no automatic merge or later distribution/release phase is performed.
+
+A final documentation write initially hit a nested here-document delimiter error.
+Existing-output guards refused the accidental repeat packaging/QA invocations;
+no existing archive/case was overwritten. Documentation was rewritten with an
+unambiguous delimiter and the final archive/source input hashes rechecked. This
+incident is not counted as a packaging or compatibility pass.
