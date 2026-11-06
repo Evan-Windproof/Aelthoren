@@ -58,7 +58,7 @@ def main():
     if dirty and not args.allow_dirty_prototype:
         raise ValueError('Commit/publish packaging inputs first, or explicitly request a dirty internal prototype')
     epoch = int(git('show', '-s', '--format=%ct', 'HEAD'))
-    source_inputs = [ROOT / 'packaging/linux' / name for name in PORTABLE_FILES] + [ROOT / p for p in ['tools/package_linux.py', 'upstream.lock.json', 'config/privacy-policies.json', 'config/distribution.ini', 'LICENSE', 'THIRD_PARTY_NOTICES.md']]
+    source_inputs = [ROOT / 'packaging/linux' / name for name in PORTABLE_FILES] + [ROOT / p for p in ['tools/package_linux.py', 'tools/final_branding.py', 'branding/final-resources.json', 'branding/artwork/neutral-browser.svg', 'upstream.lock.json', 'config/privacy-policies.json', 'config/distribution.ini', 'LICENSE', 'THIRD_PARTY_NOTICES.md']]
     hashes = {str(p.relative_to(ROOT)): digest(p) for p in source_inputs}
     with tempfile.TemporaryDirectory(prefix='alpha-stage-', dir=output.parent) as temporary:
         stage = Path(temporary) / NAME
@@ -80,6 +80,9 @@ def main():
         for name in ['firefox', 'libxul.so']:
             if digest(runtime / name) != digest(OBJECT / 'dist/bin' / name):
                 raise ValueError('Native package binary differs from verified build: ' + name)
+        from final_branding import apply as apply_final_branding
+        branding_changes = apply_final_branding(runtime)
+        (stage / 'BRANDING-CHANGES.json').write_text(json.dumps(branding_changes, indent=2) + '\n')
         original = configparser.ConfigParser(interpolation=None)
         original.optionxform = str
         original.read(runtime / 'application.ini')
@@ -112,10 +115,14 @@ def main():
         patchdir.mkdir(parents=True)
         for path in sorted((ROOT / 'patches').glob('*.patch')):
             shutil.copyfile(path, patchdir / path.name)
+        for relative in ['tools/final_branding.py', 'branding/final-resources.json', 'branding/artwork/neutral-browser.svg']:
+            destination = stage / 'source' / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / relative, destination)
         (stage / 'SOURCES.md').write_text(f'''# Source availability and provenance\n\nDevelopment-only internal alpha; not a public release or completed compliance review.\n\nUpstream repository: {LOCK['repository']}\nRelease tag: {LOCK['tag']}\nExact Gecko/SpiderMonkey source revision: {LOCK['revision']}\nArtifact task: {LOCK['artifact_task']}\n\nAelthoren source and build/packaging scripts:\nhttps://github.com/Evan-Windproof/Aelthoren/tree/{revision}\nProject working tree modified at packaging: {dirty}\nExact packaging input hashes: package.json.\nMPL-covered application patches are also bundled in source/patches; apply them to\nthe exact upstream revision with the branding generator in the Aelthoren source.\nPreserve MPL and all third-party notices. Original independent scripts use LICENSE;\nthat MIT notice does not relicense upstream covered code or grant trademark rights.\nThe complete upstream tree contains the covered/dependency sources; runtime\nabout:license and licenses/ retain applicable notices. Before public redistribution,\nreview every applicable source-availability and trademark/asset obligation; links\nand internal validation alone are not a declaration that all obligations are met.\n''')
         dependencies = dependency_report(runtime)
         (stage / 'RUNTIME-DEPENDENCIES.txt').write_text(dependencies)
-        metadata = {'product':'Aelthoren','version':VERSION,'platform':'linux-x86_64','distribution_class':'development-only-internal-test','public_release':False,'signed':False,'engine_version':LOCK['version'],'engine_revision':LOCK['revision'],'artifact_task':LOCK['artifact_task'],'native_application_version':original['App']['Version'],'native_guid':original['App']['ID'],'native_guid_inherited':True,'native_build_id':original['App']['BuildID'],'desktop_id':'org.aelthoren.Browser.Alpha','profile_root':'${XDG_DATA_HOME:-$HOME/.local/share}/aelthoren-alpha/profiles','project_revision':revision,'project_dirty':dirty,'source_date_epoch':epoch,'mozilla_package_sha256':official_hash,'packaging_inputs':hashes,'production_blockers':['Native GUID/version/executable metadata remain inherited','Complete Mozilla trademark and dependency/source-availability review pending','Independent signing/security-update delivery not established','Distribution compatibility is limited to actual recorded tests']}
+        metadata = {'product':'Aelthoren','version':VERSION,'platform':'linux-x86_64','distribution_class':'development-only-internal-test','public_release':False,'signed':False,'engine_version':LOCK['version'],'engine_revision':LOCK['revision'],'artifact_task':LOCK['artifact_task'],'native_application_version':original['App']['Version'],'native_guid':original['App']['ID'],'native_guid_inherited':True,'native_build_id':original['App']['BuildID'],'desktop_id':'org.aelthoren.Browser.Alpha','profile_root':'${XDG_DATA_HOME:-$HOME/.local/share}/aelthoren-alpha/profiles','project_revision':revision,'project_dirty':dirty,'source_date_epoch':epoch,'mozilla_package_sha256':official_hash,'packaging_inputs':hashes,'branding_resource_changes':len(branding_changes),'production_blockers':['Native GUID/version/executable metadata remain inherited','Complete Mozilla trademark and dependency/source-availability review pending','Independent signing/security-update delivery not established','Distribution compatibility is limited to actual recorded tests']}
         (stage / 'package.json').write_text(json.dumps(metadata, indent=2, sort_keys=True) + '\n')
         lines=[]
         for path in sorted(stage.rglob('*')):

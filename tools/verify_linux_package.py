@@ -253,7 +253,7 @@ def functional(browser,package,out):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('package',type=Path);parser.add_argument('output',type=Path);parser.add_argument('--gui',action='store_true');args=parser.parse_args()
+    parser.add_argument('package',type=Path);parser.add_argument('output',type=Path);parser.add_argument('--gui',action='store_true');parser.add_argument('--branding-audit',action='store_true');args=parser.parse_args()
     package=args.package.resolve();out=args.output.resolve();out.mkdir(parents=True,exist_ok=True)
     assert os.getuid()!=0,'Portable tests must run unprivileged'
     for name in ['MOZ_DISABLE_CONTENT_SANDBOX','MOZ_DISABLE_GMP_SANDBOX','MOZ_DISABLE_RDD_SANDBOX','MOZ_DISABLE_GPU_SANDBOX']:
@@ -271,7 +271,11 @@ def main():
             if port==8444:
                 tls=ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER);tls.load_cert_chain(str(bad)+'.crt',str(bad)+'.key');server.socket=tls.wrap_socket(server.socket,server_side=True)
             threading.Thread(target=server.serve_forever,daemon=True).start();servers.append(server)
-        browser=Browser(package,out,'first',args.gui);functional(browser,package,out);browser.close();browser=None
+        browser=Browser(package,out,'first',args.gui);functional(browser,package,out)
+        if args.branding_audit:
+            from verify_branding_gui import verify as verify_branding
+            verify_branding(browser,package,out);record('Final branding GUI audit and native default prompt cancelled')
+        browser.close();browser=None
         browser=Browser(package,out,'first',args.gui);search_submission(browser,'Bing','Restarted user-choice profile');browser.navigate('http://127.0.0.1:8765/');assert browser.content('return localStorage.getItem("package-persist")')=='normal';record('User-selected provider and local storage survive restart');browser.close();browser=None
         browser=Browser(package,out,'second',args.gui);assert browser.async_chrome(SEARCH+'return (await SearchService.getDefault()).name;')=='DuckDuckGo';assert browser.content('return localStorage.getItem("package-persist")') is None;record('Second portable profile is isolated');browser.close();browser=None
     finally:

@@ -8,6 +8,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
+import threading
 
 from prepare_phase1 import ROOT, SOURCE
 
@@ -29,7 +30,9 @@ def main():
     parser.add_argument('--distribution',choices=list(BASES),action='append')
     parser.add_argument('--build-images',action='store_true')
     parser.add_argument('--gui',action='store_true',help='Use an already-running :97 Xorg dummy display')
+    parser.add_argument('--branding-audit',action='store_true',help='Extra GUI branding inspection; requires --gui')
     args=parser.parse_args()
+    if args.branding_audit and not args.gui:raise ValueError('Branding audit requires GUI')
     archive=args.archive.resolve();output=args.output.resolve();output.mkdir(parents=True,exist_ok=True)
     if output==ROOT or ROOT in output.parents:raise ValueError('Keep raw QA output outside Git')
     with archive.open('rb') as stream:sha=hashlib.file_digest(stream,'sha256').hexdigest()
@@ -54,6 +57,7 @@ def main():
         with tempfile.TemporaryDirectory(prefix='package-checks-',dir=output) as temporary:
             checks=Path(temporary)
             shutil.copyfile(ROOT/'tools/verify_linux_package.py',checks/'verify.py')
+            if args.branding_audit:shutil.copyfile(ROOT/'tools/verify_branding_gui.py',checks/'verify_branding_gui.py')
             helper=SOURCE/'toolkit/components/url-classifier/tests/UrlClassifierTestUtils.sys.mjs'
             shutil.copyfile(helper,checks/helper.name)
             cmd=[*DOCKER,'run','--rm','--mount',f'type=bind,src={archive},dst=/input/package.tar.xz,readonly','--mount',f'type=bind,src={checks},dst=/checks,readonly','--mount',f'type=bind,src={case},dst=/out','--mount',f'type=bind,src={ca},dst=/run/proxy-ca.pem,readonly']
@@ -61,9 +65,23 @@ def main():
                 cmd += ['--mount','type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix,readonly','--mount',f'type=bind,src={client_auth},dst=/run/Xauthority,readonly','-e','DISPLAY=:97','-e','XAUTHORITY=/run/Xauthority']
             script='set -eu; mkdir -p "/tmp/Portable Alpha"; tar -xJf /input/package.tar.xz -C "/tmp/Portable Alpha"; cd "/tmp/Portable Alpha/aelthoren-0.1.0-alpha"; sha256sum -c MANIFEST.sha256 > /out/manifest-checks.txt; ./aelthoren --version; python3 /checks/verify.py "/tmp/Portable Alpha/aelthoren-0.1.0-alpha" /out'
             if args.gui:script+=' --gui'
+            if args.branding_audit:script+=' --branding-audit'
             cmd += [image,'/bin/sh','-c',script]
-            with (case/'console.log').open('w') as log:
-                result=subprocess.run(cmd,env=docker_env(),stdout=log,stderr=subprocess.STDOUT)
+            stop=threading.Event()
+            def capture_native_prompt():
+                while not stop.wait(.1):
+                    if (case/'default-prompt.request').exists():
+                        subprocess.run(['import','-display',':97','-window','root',str(case/'default-browser-prompt.png')],env=dict(os.environ,XAUTHORITY='/workspace/aelthoren-packaging/Xauthority'),check=True)
+                        return
+            worker=None
+            if args.branding_audit:
+                worker=threading.Thread(target=capture_native_prompt,daemon=True);worker.start()
+            try:
+                with (case/'console.log').open('w') as log:
+                    result=subprocess.run(cmd,env=docker_env(),stdout=log,stderr=subprocess.STDOUT)
+            finally:
+                stop.set()
+                if worker:worker.join(timeout=10)
             print(distro,'GUI' if args.gui else 'headless','exit',result.returncode,flush=True)
             if result.returncode:raise RuntimeError('Package verification failed; see '+str(case/'console.log'))
         data=json.loads((case/'results.json').read_text())

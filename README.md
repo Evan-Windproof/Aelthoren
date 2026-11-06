@@ -62,3 +62,12 @@ The Linux alpha archive is 88,591,204 bytes, with SHA-256 and exact local path i
 headless/GUI), extraction manifests and identical-input packaging passed. This is
 a workspace artifact, not a published download; no general-browsing safety or
 fully independent native release is claimed.
+
+### Final branding audit
+
+The [final branding audit](docs/BRANDING_AUDIT.md) documents an explicit,
+hash-checked packaging resource overlay and real GUI verification. Native Firefox
+executable/GUID/update identity and legal/source/asset-rights gates remain public
+binary distribution blockers. This is an internal development concept, not a
+Mozilla-endorsed or production-ready release. No Release or archival is authorized
+by passing tests; review the [release checklist](docs/RELEASE_CHECKLIST.md).

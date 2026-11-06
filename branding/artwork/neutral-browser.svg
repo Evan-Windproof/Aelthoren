@@ -1,0 +1,7 @@
+<!-- Original Aelthoren project artwork, 2026. SPDX-License-Identifier: MIT -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 192" role="img" aria-label="Browser window">
+<rect x="12" y="12" width="232" height="168" rx="18" fill="#1b1b1b" stroke="#62bd74" stroke-width="6"/>
+<path d="M16 52h224" stroke="#62bd74" stroke-width="4"/>
+<rect x="62" y="27" width="152" height="12" rx="6" fill="#398bd8"/>
+<path d="m84 129 30-30 22 22 36-36" fill="none" stroke="#66b6ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/>
+</svg>

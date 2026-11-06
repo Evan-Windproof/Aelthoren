@@ -187,3 +187,21 @@ The QA tool makes a hostname-compatible client authority file without disabling
 X access control. Never use --privileged, sandbox-disable flags or TLS bypasses.
 Final QA fixes are in the current branch; source/runtime packaging inputs remain
 those of the clean archive source commit. See docs/phase5 for exact results.
+
+### Final packaged resource branding
+
+`tools/package_linux.py` now applies `tools/final_branding.py` to temporary staged
+omni archives, using exact resource SHA pins in `branding/final-resources.json`.
+The native Mozilla package/source remains unchanged. Packaging additionally needs
+Pillow (tested 13.0.0), from official PyPI or a trusted distribution repository;
+never disable TLS. See docs/BRANDING_AUDIT.md for the recipe and remaining native
+identity blockers. Extra desktop QA uses the existing authenticated Xorg :97 and
+ImageMagick `import` solely to capture/cancel the native default-browser prompt:
+
+```sh
+python3 tools/test_linux_containers.py /path/to/aelthoren-0.1.0-alpha-linux-x86_64.tar.xz --output /workspace/unique-branding-gui --gui --branding-audit
+python3 tools/audit_branding.py /path/to/aelthoren-0.1.0-alpha-linux-x86_64.tar.xz /workspace/unique-branding-inventory.json
+```
+
+Keep raw QA profiles/certificates, binaries and inventories outside Git; commit
+only reviewed report evidence and intentional screenshots.

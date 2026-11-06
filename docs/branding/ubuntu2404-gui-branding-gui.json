@@ -1,0 +1,52 @@
+[
+  {
+    "page": "newtab",
+    "evidence": {
+      "title": "Aelthoren \u2014 New Tab",
+      "text_excerpt": "Aelthoren\n\nLightweight. Private. Account-free.\n\nSearch the web\nSearch\nBookmarks\nSettings\nPrivacy controls\nAbout Aelthoren"
+    },
+    "screenshot": "newtab.png"
+  },
+  {
+    "page": "settings",
+    "evidence": {
+      "title": "Settings",
+      "text_excerpt": "Home and startup\nSearch\nPrivacy and security\nPasswords and autofill\nAppearance\nDownloads\nTabs and browsing\nAccessibility\nLanguages\nAI controls\nPermissions and data\nAbout Aelthoren\nExtensions and themes\nAelthoren support\nWebsites are currently using 3.4 MB of disk space."
+    },
+    "screenshot": "settings.png"
+  },
+  {
+    "page": "about",
+    "evidence": {
+      "title": "About Aelthoren",
+      "text_excerpt": "About Aelthoren\n\nLightweight. Private. Account-free.\n\nLinux development build \u00b7 Firefox ESR 153.6.0esr\n\nAn independent browser project using Mozilla Firefox, Gecko and SpiderMonkey. Not endorsed by Mozilla.\n\nPrivacy defaults disable browser accounts, Sync and telemetry uploads, enable tracking protection, and use DuckDuckGo initially. You can change your search engine and privacy settings. Security services can still connect to Mozilla and other providers; this is not an anonymity guarantee.\n\nUses official precompiled Gecko artifacts. Independent release signing, updates and complete native identity are not yet available.\n\nOpen-source licenses\nUpstream contributors\nPrivacy controls\nNew tab"
+    },
+    "screenshot": "about.png"
+  },
+  {
+    "page": "support",
+    "evidence": {
+      "title": "Troubleshooting Information",
+      "text_excerpt": "Troubleshooting Information\nThis page contains technical information that might be useful when you\u2019re trying to solve a problem. If you are looking for answers to common questions about Aelthoren, check out our support website.\nCopy raw data to clipboard Copy text to clipboard\nDiagnose issues\nTroubleshoot Mode\u2026\nTry clearing the startup cache\nClear startup cache\u2026\nApplication Basics\nName\tAelthoren\nVersion\t153.6.0esr\nBuild ID\t20261104213823\nDistribution ID\taelthoren-dev\nUpdate Directory\tOpen Directory /tmp/Portable Alpha/aelthoren-0.1.0-alpha/runtime\nUpdate History\tShow Update History\nUpdate Channel\tdefault\nUser Agent\tMozilla/5.0 (X11; Linux x86_64; rv:153.0) Gecko/20100101 Aelthoren/153.6.0\nOS"
+    },
+    "screenshot": "support.png"
+  },
+  {
+    "page": "license",
+    "evidence": {
+      "title": "Licenses",
+      "text_excerpt": "Licenses\n\nBinaries of this product have been made available to you by the Mozilla Project under the Mozilla Public License 2.0 (MPL). Know your rights.\n\nAll of the source code to this product is available under licenses which are both free and open source. A URL identifying the specific source code used to create this copy can be found on the build configuration page, and you can read instructions on how to download and build the code for yourself.\n\nMore specifically, most of the source code is available under the Mozilla Public License 2.0 (MPL). The MPL has a FAQ to help you understand it. The remainder of the software which is not under the MPL is available under one of a variety of other"
+    },
+    "screenshot": "license.png"
+  },
+  {
+    "page": "default-browser-prompt",
+    "text": "Get speed, safety, and privacy every time you browse.",
+    "screenshot": "default-browser-prompt.png",
+    "inspection": "Native dialog captured; cancel only, no default-handler change"
+  },
+  {
+    "check": "product support URL",
+    "url": "https://github.com/Evan-Windproof/Aelthoren/blob/main/README.md#"
+  }
+]

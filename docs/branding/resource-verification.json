@@ -1,0 +1,473 @@
+{
+  "result": "PASS",
+  "original_sha256": "b40b5a7538e0d62769917e3f439907027476ad43a0d5f23f1933ea4c81440495",
+  "archive_sha256": "d4ad42cd964b6157a7079a147e7cf5aa69113a2f485566bf4d4fb561921c0a25",
+  "approved_resource_changes": 52,
+  "unchanged_omni_resources": 7577,
+  "native_binaries": [
+    {
+      "path": "crashhelper",
+      "sha256": "3af732c2d5c533ebe825d801ce9bd5a812afdd6882ea83d176efb992cb2d7a63",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "crashreporter",
+      "sha256": "8695980dc2bb5fa67c194498bb2736ed4d5cf3e032f9792ae8c85375ef4b6642",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "firefox",
+      "sha256": "140cb9b46d7c97e35774bc9c953d0582baf6894808dd35fcf5b291065b40d8d4",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "firefox-bin",
+      "sha256": "f69056d66c29042ebbf1d84bdb815525095c94072813c963536d276e369146cf",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "glxtest",
+      "sha256": "427d21410e7c18ef8c573587d87b3a7738d40a42c4253504d4082fff84ae9883",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "gmp-clearkey/0.1/libclearkey.so",
+      "sha256": "bf6bab4ce46206277fcb8081cc67009e8a5b6d64a253aa32ca4c694fff05057b",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libfreeblpriv3.so",
+      "sha256": "d41e9ea2e8bc6a342c2654f263fe6a3b1bd6951448dae79256b3195517a7bc29",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libgkcodecs.so",
+      "sha256": "4587c3fc92644fc3c21e4f07e8e649c6306f81bde59c30bb4ae9b0dc105330e1",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "liblgpllibs.so",
+      "sha256": "97ebf996c9418026ba209211805ddb7e2f0d7b74e812b93d84ce9b93cee67e6f",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libmozavcodec.so",
+      "sha256": "19ec76f57972dc2cf93a6129117e2565dbece5b7d377705d31a762f0c5a87057",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libmozavutil.so",
+      "sha256": "b9c1f6008d51f63941126c0fb2b4b5b65c5bd68637cadccb54af1528414ef0ab",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libmozgtk.so",
+      "sha256": "77534a79a750e79ae96cae219f670edad4d696b53683e0f5d45b92ed93c2357b",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libmozinference.so",
+      "sha256": "8ae9cf554e4926b66075aed3f59e4548315e2a6514fbe560e6673a095490600e",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libmozsandbox.so",
+      "sha256": "d80db7f2c38831adf4f94e3f4e913dadaab5dbfb6e21eed58024ffa2a644d533",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libmozsqlite3.so",
+      "sha256": "ccb6bf36aa35bea2b0cc0fff4177c0c25987f2f63438d77d1369afe97b65ece3",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libmozwayland.so",
+      "sha256": "eb70c7d5fd0af1d77844ae51bb834e7adb706966fc8adb817ea829b6a64304ec",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libnspr4.so",
+      "sha256": "bcea891a7da426d6d73403f8bc417f6a80501d1c01d10f116802ec73636a46b9",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libnss3.so",
+      "sha256": "52e43d658fa858c353dd6773f7a2720db90a3cc9a20afc3db3f8f3b36aadc1ed",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libnssutil3.so",
+      "sha256": "120bb4e87b744e3239fd7dbf87e20f16f13839292d65528b431402db1287f57f",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libonnxruntime.so",
+      "sha256": "8031d70645f5f1624d8f86ccbda75ecf4cf972db8f0858dd340b33f21a9dc473",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libplc4.so",
+      "sha256": "89ab547b0595643528eff2d80349ca035efba5383da5f6ea36e1d277fc7e1528",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libplds4.so",
+      "sha256": "8f286d4ea552c7b83cde4afada29b0a6de86b0dd5cccf4839d3e77161123caa3",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libsmime3.so",
+      "sha256": "c233712afb117cbfbf10ee99d92061a40b5e6c7446b37396c019a351157c476a",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libsoftokn3.so",
+      "sha256": "ada9e7f40b5c4136d10d0ea398dbd5e3bed30dcc9708d6082e8802a62834f331",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libssl3.so",
+      "sha256": "2769da2eef7b0a5fedd9d47f5bb93a16d06f832e912f17e08bf08169f564bca4",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "libxul.so",
+      "sha256": "4c2cbbfb8a0b85effa9a623fd3ffd293db3fb16bcacf5f1bf9acc7aa32ef02fc",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "pingsender",
+      "sha256": "cb6b5cbac4953618fcb11a18f0c8dbd63cfc54449d0261b40f0d85482c23ffa3",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "updater",
+      "sha256": "94e47d35a6eee38712cd8accbb6b070c1450c73176185267fef1183463c1b760",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "vaapitest",
+      "sha256": "e8646734fe8268939e74df8f84d060af0ab9941e9b79bdccd91ca9ed32196c2c",
+      "byte_identical_to_original": true
+    },
+    {
+      "path": "vulkantest",
+      "sha256": "561168edd4f1d8ca4a2cb7bc86e50f5eec78bff6eea19338f07867d138e5edd6",
+      "byte_identical_to_original": true
+    }
+  ],
+  "changed_resources": [
+    {
+      "archive": "omni.ja",
+      "path": "localization/en-US/toolkit/branding/brandings.ftl",
+      "before_sha256": "2ed7562ad37ab871206a426b87a883020c7fca342db8944828282743434d2e1d",
+      "after_sha256": "80bc4f7647a4f5abdeba246654794a716d64d15ed80ecd2e21bb4ca1ffaaade0"
+    },
+    {
+      "archive": "omni.ja",
+      "path": "chrome/toolkit/content/global/megalist/icons/cpm-fox-illustration.svg",
+      "before_sha256": "815b6f447ad3baa56dc2c23d59a7baaf9e237697f7e7556e7acf7e22059add18",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "omni.ja",
+      "path": "chrome/toolkit/skin/classic/global/illustrations/kit-concerned.svg",
+      "before_sha256": "f097cb40d191b48cc0357004fa8e256b3a750d3ef49f234def031fa567ddeb9d",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "omni.ja",
+      "path": "chrome/toolkit/skin/classic/global/illustrations/kit-happy.svg",
+      "before_sha256": "9be0fcb462bf7532bff870e928926f252ea14ea87a0eb751e3ee86023f828f06",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "omni.ja",
+      "path": "chrome/toolkit/skin/classic/global/illustrations/kit-in-circle.svg",
+      "before_sha256": "44719c4d1a387d70288fb1e9a0809b46ea75dd784e0325d31d9b3d8626aac7cb",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "omni.ja",
+      "path": "chrome/en-US/locale/en-US/global/appstrings.properties",
+      "before_sha256": "0e1fd563baf41acf6df4d2b81dc991bc7c0bcd6f4b9fb538cbd2c2d301f12997",
+      "after_sha256": "b8e80cd1e3635a76befcf9e5b63ebd39d2b3ce9c7701c5b063814e7335e6b984"
+    },
+    {
+      "archive": "omni.ja",
+      "path": "chrome/en-US/locale/en-US/pipnss/pipnss.properties",
+      "before_sha256": "a5ed71bfe467d83e96b1a1a0c25167c067b9b5c62035abbe98b0f8bf17b19157",
+      "after_sha256": "f327cad2a98b8ef794c357c4ae1ad1b1e090b1981303fdb6571908f942e803db"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "localization/en-US/branding/brand.ftl",
+      "before_sha256": "1fd1a9fbbae1c6469db173bfde9839d7d1dfa149b43f28f1f914827fa8bcaa7f",
+      "after_sha256": "f77a26a5bb676d554ac66a8b57e114d18f16935867018ac9a3389673fc7211b6"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "localization/en-US/browser/newtab/onboarding.ftl",
+      "before_sha256": "171a7f50222aadc270c2360f04090c15e12a2378761837a993d35cf01bc5ddce",
+      "after_sha256": "bff01e5412fd2db8a636abf428aa4a4e1df37e08b6972b2499328b7d8fba1350"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/builtin-addons/newtab/data/data/content/assets/firefox-mascot-prop-paintbucket-rgb.svg",
+      "before_sha256": "fe375718daae7f7da0a72e52a09cd3b75c8006caca12b473d15ee6f719ca42b9",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/builtin-addons/newtab/data/data/content/assets/firefox-motion-head-pop-up-no-bg.svg",
+      "before_sha256": "b39fc55824cb7e6f6e293c6008ee5d7d3d424378c8c7f27cf64afce7dd9c7a0b",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/builtin-addons/newtab/data/data/content/assets/firefox.svg",
+      "before_sha256": "e477e1f25b0bd9ccc2055c341bde968490084ca276677188288e3b051ec9b9c7",
+      "after_sha256": "239619fe71e355886a9b7fa28b231af93718a1bf96c7b561c1d45e17c1eda955"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/builtin-addons/newtab/data/data/content/assets/highlights/firefox-mascot-prop-paintbucket-rgb.svg",
+      "before_sha256": "6c153eb821c24f413520b2b056cde29f5ea9b0bfbf221af96a2711a6920067af",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/builtin-addons/newtab/data/data/content/assets/highlights/firefox-wallpaper-desktop-hills-light-rgb.svg",
+      "before_sha256": "7e91461dd2d77687ae8b6b284e1c0e8c92896496f5b84029f201d08907b7fbd2",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/builtin-addons/newtab/data/data/content/assets/puzzle-fox.svg",
+      "before_sha256": "5faefdb9108ce4e33e9fc2ad50b2dc18b8201d8db232db3f1d27f68d5c95daad",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/br-amo-fox-paint.svg",
+      "before_sha256": "a3fb635dd883c974a780a55b860b050fbd452c3b109f0c6fef49f52c10953745",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/br-fxa-fox-mirror.svg",
+      "before_sha256": "ad7eba72e1587643d27c4ddcbb8f8164e295309467987ada8c98a1cfcec9a84f",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/br-gratitude-fox-rock.svg",
+      "before_sha256": "2f0015679180282e1a3cf2dc6440a1188faebbd3079f154a8a9f8c3bdcd7a532",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/br-import-fox-house.svg",
+      "before_sha256": "b3304772efa77ea2eed852b0eef6363135de5db011e246f441e6f353e589ba14",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/br-set-default-fox-heart.svg",
+      "before_sha256": "ab42afbc05727a4faddd914c05e30b1c186f1a61dbf2058441b5929cff72a886",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/fox-doodle-backup-restore.svg",
+      "before_sha256": "b69f31c9cedb3e47537c12ddfe8a9f836f037c4602f524fac7646e1194dabe6d",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/fox-doodle-backup.svg",
+      "before_sha256": "48e5bbc812e5eaeffabbc6f693dbf0a6417a1e96c6b0b61aba4c3750a1ed0b19",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/fox-doodle-tail.png",
+      "before_sha256": "28c5322d74328dd1305c922550746607d0491af5db3ad4cbcb2f1ea899f4e7aa",
+      "after_sha256": "451a3d2bad23b75fdc57b7c06be219029c6df3e49195580c77eecdc6539003bb"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/fox-doodle-waving-static.png",
+      "before_sha256": "e44462d4190a6f76084da95ef60e04043f3229d8b6383908b168e2038f8d551e",
+      "after_sha256": "2ee262d866b9207308271c26388d595c998d57754c0569e2f70c1320b4c1a447"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/mr-gratitude.svg",
+      "before_sha256": "c4ed9c72886bfbd1ae107a702a95d181eca6a86dde841455225bad13d0fd1084",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/mr-kit-smart-window.svg",
+      "before_sha256": "3c9799bbf1a57cafe8e8dd3d05297cf0f8f527eb1156a4878f03b8d52bb59ffa",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/mr-rtamo-background-image.svg",
+      "before_sha256": "d10725dde1973b99271d950f177b0db89e91d8d1e45043d831340f02c96f5191",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/mr-settodefault.svg",
+      "before_sha256": "3a6be3ce8dcb18f29299376754d699402380b330a60feb1d2d59a8271fa97b7a",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/activity-stream/data/content/assets/splash-logo.svg",
+      "before_sha256": "5bbbf74189fe3407c50e72e961071338318b2586a6a73644cdb4076199b691e6",
+      "after_sha256": "239619fe71e355886a9b7fa28b231af93718a1bf96c7b561c1d45e17c1eda955"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/aboutDialog.xhtml",
+      "before_sha256": "5f19b359e428ee7ce98ba833698b2a5338aa23a910142269d51df0a19e3b4202",
+      "after_sha256": "dd5c214e8a9114ded4dfb1146d96b2287893d5638d3de28498ac4a7573889ccc"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/aiwindow/assets/set-default-onboarding.svg",
+      "before_sha256": "329a9263a114503f4248a49290dbbd5fa351a0704dbe120cc2010398a7ee6a6e",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/aiwindow/assets/smart-window-promo-default.svg",
+      "before_sha256": "3b6a47256cae563d96e2a3daf191771e6376b9e1ec69c4a9d2fbce1ce76c94bd",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/fox-with-box-on-cloud.svg",
+      "before_sha256": "e65f85e4fee2d03f9cbf93a57d674627cf912dda2985246fda7a90da5c6f9236",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/fox-with-checkmark.svg",
+      "before_sha256": "18a0fa3ffba3e47807924491682b3bdf07600dfc0ee19c556863d598c581426a",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/fox-with-devices.svg",
+      "before_sha256": "7185283275a763afe7b0ddc629815c8bb5cceacfa4bc6660ff7137b21eb19f0e",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/fox-with-locked-box.svg",
+      "before_sha256": "ff47c159823b23272577f06b37aff95cd0fd05f32473d7411f6245548ae7fc67",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/fox-with-mobile.svg",
+      "before_sha256": "ecda95f4e0464d66681c5a29b0fce612b9d7405d4c8ddc2488ddb31d8293cd96",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/fox-with-profiles.svg",
+      "before_sha256": "e2cfe2eb8464743ae86058cb6a6d2150c9aa2666e63033c75a9dd2811bf99091",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/asrouter/assets/smiling-fox-icon.svg",
+      "before_sha256": "9aaa79080644288603b9ef1a041773ef202e60b7c226ead5e5c51579b00bd7dd",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/content/browser/controlcenter/assets/fox-concern.svg",
+      "before_sha256": "9d02680db687778e78acfb964170c3d9bf9a106312eac204f138b173741830a8",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/fxa/avatar-fox-circle.svg",
+      "before_sha256": "3ccd92aa7b8e10feaad57fb85f94154081090a13fa731b217c8f352260ce7a76",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/fxa/avatar-fox.svg",
+      "before_sha256": "f04dcca2c96647610cabceffbdc1ad6299c48c2b21d3419fee9c20faa8a30485",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/preferences/fox-ai.svg",
+      "before_sha256": "ea53e0387d0eceac7716f7ccf300b1a613776050b3a43432ce65ae0ee24700ed",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/preferences/mozilla-16.svg",
+      "before_sha256": "e8b4a0e14d471ead1d97673580187f8bfd1672d58dd444abca4386eaba98fc19",
+      "after_sha256": "239619fe71e355886a9b7fa28b231af93718a1bf96c7b561c1d45e17c1eda955"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/preferences/mozilla-logo.svg",
+      "before_sha256": "9c381ff33541813b3a4245345660b4a3860a9138c4769c238aef23a93ed3d2af",
+      "after_sha256": "239619fe71e355886a9b7fa28b231af93718a1bf96c7b561c1d45e17c1eda955"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/privatebrowsing/fox-tail.svg",
+      "before_sha256": "19fad75502e9f8eb49bbc81f702a35fbe9886420f6a56600e3321868f50d7497",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/privatebrowsing/pbm-logo.svg",
+      "before_sha256": "39c362578b50c6aeae756c3e505c0e18f291d69323cd7ec8271352ee72073df4",
+      "after_sha256": "239619fe71e355886a9b7fa28b231af93718a1bf96c7b561c1d45e17c1eda955"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/sidebar/firefox.svg",
+      "before_sha256": "b73e7751a6e6c1f4ed1f5651d1e2f10006d3229c61d5b47c8a78529086fb1466",
+      "after_sha256": "239619fe71e355886a9b7fa28b231af93718a1bf96c7b561c1d45e17c1eda955"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/sidebar/foxy.svg",
+      "before_sha256": "5e4138aa15ebbc9e507edba6dff947f1adab4308ae01c823a08967f97185d1d1",
+      "after_sha256": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/browser/skin/classic/browser/window-firefox.svg",
+      "before_sha256": "19160f12806f24c435c25adf5730b0568adc2c5f2748903d6328cb77d2a32485",
+      "after_sha256": "239619fe71e355886a9b7fa28b231af93718a1bf96c7b561c1d45e17c1eda955"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "defaults/preferences/firefox.js",
+      "before_sha256": "31a910f558d94a04e4dd5bd7cfd1e3969d80019736169be050ddc37c58589ed1",
+      "after_sha256": "b95ec6e0306c74fd4b5cbec58e7e43741694be4a8bf7c54fb624f3b7e35967fc"
+    },
+    {
+      "archive": "browser/omni.ja",
+      "path": "chrome/en-US/locale/browser/appstrings.properties",
+      "before_sha256": "9bf49f3ddf06275a918447b1b21af2169eafe6c49b3a4d29bd422ac1e395ad01",
+      "after_sha256": "8059d9fe6cebb1e90153e73039d290aadab2021ae01e1f59a2ef111b0d1c1b38"
+    }
+  ]
+}

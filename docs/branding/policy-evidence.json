@@ -1,0 +1,12 @@
+{
+  "trademarks": {
+    "url": "https://www.mozilla.org/en-US/foundation/trademarks/policy/",
+    "status": 200,
+    "sha256": "040328d32d79074f717b87339227039796f0011ec5ecdca6055ef166b0f3225c"
+  },
+  "distribution": {
+    "url": "https://www.mozilla.org/en-US/foundation/trademarks/distribution-policy/",
+    "status": 200,
+    "sha256": "b7d69ba548a51be97ddb90a0d5dda480d7b464422326768d19c5708f820ea90d"
+  }
+}
