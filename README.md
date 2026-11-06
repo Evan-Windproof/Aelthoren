@@ -62,3 +62,9 @@ The Linux alpha archive is 88,591,204 bytes, with SHA-256 and exact local path i
 headless/GUI), extraction manifests and identical-input packaging passed. This is
 a workspace artifact, not a published download; no general-browsing safety or
 fully independent native release is claimed.
+
+
+The development-only [GitHub Actions export workflow](docs/ACTIONS_EXPORT.md)
+builds with the existing scripts, verifies standalone execution and uploads an
+expiring workflow artifact instead of a public Release. Use actual successful run
+links/results; an unrun or failed workflow does not supply a downloadable package.
