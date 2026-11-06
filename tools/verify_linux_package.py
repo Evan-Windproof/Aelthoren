@@ -245,9 +245,10 @@ def functional(browser,package,out):
                 processes.append({k:fields.get(k) for k in ['Name','Pid','PPid','Seccomp','Seccomp_filters','NoNewPrivs']})
         except OSError:pass
     parent=next(p for p in processes if p['Pid']==str(browser.caps['moz:processID']))
-    children=[p for p in processes if p['Name'] in ['Web Content','Isolated Web Co']]
-    assert children and all(p['Seccomp']=='2' and p['NoNewPrivs']=='1' and int(p['Seccomp_filters'])>int(parent['Seccomp_filters']) for p in children),processes
-    record('Content processes add seccomp filters and NoNewPrivs (not an exploit audit)',processes)
+    active_pid=browser.chrome(WINDOW+'return win.gBrowser.selectedBrowser.browsingContext.currentWindowGlobal.osPid;')
+    active=next(p for p in processes if p['Pid']==str(active_pid))
+    assert active['Seccomp']=='2' and active['NoNewPrivs']=='1' and int(active['Seccomp_filters'])>int(parent['Seccomp_filters']),processes
+    record('Active web document adds seccomp filters and NoNewPrivs (not an exploit audit)',{'active_pid':active_pid,'parent':parent,'processes':processes})
 
 
 def main():

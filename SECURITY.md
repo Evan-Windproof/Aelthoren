@@ -79,3 +79,13 @@ not in the archive. Public HTTPS is tested through the configured proxy with TLS
 verification enabled; untrusted local certificates must still fail. Container
 seccomp and Firefox's additional content filters/NoNewPrivs are inspected; this is
 not a complete exploit or user-namespace enforcement audit.
+
+Final clean Debian/Ubuntu headless and X11 GUI tests passed with the active web
+process adding a seccomp filter and NoNewPrivs, while TLS rejected an untrusted
+certificate. Outer container policy denies some user-namespace creation; do not
+interpret preference values/process labels as a complete sandbox-enforcement audit.
+Only active initialized web-process state is asserted; initializing spare processes
+are retained in diagnostic snapshots. No protections were lowered to pass.
+The inherited generic Settings “latest/safest” text is not an Aelthoren update/
+security guarantee; it remains a public-release copy/identity gate. The package
+is development-only despite the point-in-time current ESR metadata match.

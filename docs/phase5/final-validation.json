@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "tooling_tests": 17,
+  "skipped": 0,
+  "failures": 0,
+  "archive_exclusion_scan": "No profiles, personal NSS databases, logs, caches, credentials or QA scripts in bundle",
+  "runtime_packaging_inputs_still_match_clean_source_commit": true,
+  "packaging_python": "3.12.14",
+  "xz_version": "xz (XZ Utils) 5.8.1",
+  "raw_log": "/workspace/aelthoren-packaging/tooling-tests.log",
+  "export_tool_exposed": false,
+  "public_github_release_created": false
+}

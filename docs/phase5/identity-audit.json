@@ -1,0 +1,58 @@
+{
+  "product_version": "0.1.0-alpha",
+  "native_version": "153.6.0",
+  "native_executable_basename": "firefox",
+  "native_metadata_retained": true,
+  "configurations": {
+    "runtime/application.ini": {
+      "App": {
+        "vendor": "Mozilla",
+        "name": "Firefox",
+        "remotingname": "firefox-default",
+        "codename": "Aelthoren",
+        "version": "153.6.0",
+        "buildid": "20261104213823",
+        "id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+      },
+      "Gecko": {
+        "minversion": "153.6.0",
+        "maxversion": "153.6.0"
+      },
+      "XRE": {
+        "enableprofilemigrator": "1"
+      }
+    },
+    "runtime/browser/aelthoren-application.ini": {
+      "App": {
+        "vendor": "Aelthoren",
+        "name": "Aelthoren",
+        "remotingname": "aelthoren-alpha",
+        "codename": "Aelthoren",
+        "version": "153.6.0",
+        "buildid": "20261104213823",
+        "id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+        "profile": "aelthoren-alpha"
+      },
+      "Gecko": {
+        "minversion": "153.6.0",
+        "maxversion": "153.6.0"
+      },
+      "XRE": {
+        "enableprofilemigrator": "0"
+      }
+    }
+  },
+  "desktop_identifier": "org.aelthoren.Browser.Alpha",
+  "root_icon_sha256": "f9fc6f645e96f8f8f23832709cfa3e1cc39b1e9ed69e5b9a1ba5636e9b3c03a8",
+  "member_count": 85,
+  "classification": "development-only-internal-test",
+  "not_public_release": true,
+  "remaining_issues": [
+    "Native Firefox GUID/version/executable/update/crash identity remains inherited",
+    "Full trademark/license/source-distribution review pending",
+    "Independent signing/update delivery not established",
+    "No remoting into an already-open alpha profile; not a default-browser-ready handler",
+    "Generic upstream latest/safest UI status is not proof of independent alpha security/update support",
+    "Wayland/GNOME/KDE/default-browser integration not certified"
+  ]
+}

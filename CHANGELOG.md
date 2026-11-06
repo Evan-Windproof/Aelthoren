@@ -59,5 +59,7 @@
   icon/version About page, optional user-local desktop/URL integration and license/
   source material. Native GUID/version identity remains inherited; development-only.
 - Added repeatable archive/checksum generation and clean Debian/Ubuntu QA tooling.
-- Prototype Debian checks and tooling guards pass; final archive/distro/GUI evidence
-  is recorded in the final Phase 5A validation update. No public release created.
+- Final 88,591,204-byte clean-source archive reproduced byte-for-byte; Debian 13
+  and Ubuntu 24.04.5 headless/GUI suites passed, plus 17 tooling tests.
+- Exact SHA/source provenance, GUI images, sandbox/TLS observations and incomplete
+  release/export/identity gates are recorded. No public GitHub Release created.

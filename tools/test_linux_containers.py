@@ -36,6 +36,13 @@ def main():
     summary={'archive':str(archive),'bytes':archive.stat().st_size,'sha256':sha,'cases':[]}
     ca=os.environ.get('CODEX_PROXY_CERT')
     if not ca or not Path(ca).is_file():raise ValueError('Cloud QA requires its supplied proxy CA mount; never disable TLS verification')
+    client_auth=output/'container.Xauthority'
+    if args.gui:
+        auth=subprocess.check_output(['xauth','-f','/workspace/aelthoren-packaging/Xauthority','nlist',':97'])
+        if not auth.strip():raise ValueError('No authenticated :97 display entry')
+        wildcard=b'\n'.join(b'ffff'+line[4:] for line in auth.splitlines())+b'\n'
+        subprocess.run(['xauth','-f',str(client_auth),'nmerge','-'],input=wildcard,check=True,capture_output=True)
+        client_auth.chmod(0o600)
     for distro in args.distribution or list(BASES):
         image='aelthoren-test-'+distro
         if args.build_images:
@@ -51,7 +58,7 @@ def main():
             shutil.copyfile(helper,checks/helper.name)
             cmd=[*DOCKER,'run','--rm','--mount',f'type=bind,src={archive},dst=/input/package.tar.xz,readonly','--mount',f'type=bind,src={checks},dst=/checks,readonly','--mount',f'type=bind,src={case},dst=/out','--mount',f'type=bind,src={ca},dst=/run/proxy-ca.pem,readonly']
             if args.gui:
-                cmd += ['--mount','type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix,readonly','--mount','type=bind,src=/workspace/aelthoren-packaging/Xauthority,dst=/run/Xauthority,readonly','-e','DISPLAY=:97','-e','XAUTHORITY=/run/Xauthority']
+                cmd += ['--mount','type=bind,src=/tmp/.X11-unix,dst=/tmp/.X11-unix,readonly','--mount',f'type=bind,src={client_auth},dst=/run/Xauthority,readonly','-e','DISPLAY=:97','-e','XAUTHORITY=/run/Xauthority']
             script='set -eu; mkdir -p "/tmp/Portable Alpha"; tar -xJf /input/package.tar.xz -C "/tmp/Portable Alpha"; cd "/tmp/Portable Alpha/aelthoren-0.1.0-alpha"; sha256sum -c MANIFEST.sha256 > /out/manifest-checks.txt; ./aelthoren --version; python3 /checks/verify.py "/tmp/Portable Alpha/aelthoren-0.1.0-alpha" /out'
             if args.gui:script+=' --gui'
             cmd += [image,'/bin/sh','-c',script]

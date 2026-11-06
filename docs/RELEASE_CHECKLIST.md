@@ -11,17 +11,18 @@ Development-only classification does not impose a noncommercial source license.
 - [x] Optional user-local desktop template/generator; no automatic default/system changes.
 - [x] Prototype clean Debian launch/HTTP/HTTPS/JS/storage/privacy checks, without source/Codex modules.
 - [x] Preserve available upstream license materials, independent code notice and source/patch instructions.
-- [ ] Final package built from a clean published source commit.
-- [ ] Exact artifact size/SHA and internal manifest checked after extraction.
-- [ ] Identical-input wrapper packaging reproduced byte-for-byte.
-- [ ] Final Debian 13 and Ubuntu 24.04 headless checks.
-- [ ] Actual desktop GUI rendering/branding check, separately identified from headless.
-- [ ] Review/commit/push final evidence and verify remote branch SHA/PR.
+- [x] Final package built from a clean published source commit.
+- [x] Exact artifact size/SHA and internal manifest checked after extraction.
+- [x] Identical-input wrapper packaging reproduced byte-for-byte.
+- [x] Final Debian 13 and Ubuntu 24.04 headless checks.
+- [x] Actual desktop GUI rendering/branding check, separately identified from headless.
+- [x] Review/commit/push final evidence and verify remote branch SHA/PR at Phase 5A completion.
 
 ## Public release gates — intentionally not complete
 
 - [ ] Establish independent native application GUID/version/executable/desktop/Wayland identity using an appropriate supported full-build workflow; do not treat renaming as independence.
 - [ ] Recheck current Mozilla ESR advisories/security support and update the pin if necessary; a past snapshot is insufficient.
+- [ ] Correct/audit inherited generic “latest/safest version” status copy so it cannot imply a validated independent alpha update channel.
 - [ ] Independent signing, trusted artifact provenance and a tested security-update/replacement delivery process.
 - [ ] Complete Mozilla trademark/branding and official owner-asset redistribution rights review.
 - [ ] Complete all applicable Mozilla/dependency license/copyright/source-availability obligations, including corresponding source for the exact distributed binary.
