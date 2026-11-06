@@ -187,3 +187,9 @@ The QA tool makes a hostname-compatible client authority file without disabling
 X access control. Never use --privileged, sandbox-disable flags or TLS bypasses.
 Final QA fixes are in the current branch; source/runtime packaging inputs remain
 those of the clean archive source commit. See docs/phase5 for exact results.
+
+
+The development-only [GitHub Actions export workflow](docs/ACTIONS_EXPORT.md)
+builds with the existing scripts, verifies standalone execution and uploads an
+expiring workflow artifact instead of a public Release. Use actual successful run
+links/results; an unrun or failed workflow does not supply a downloadable package.

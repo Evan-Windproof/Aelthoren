@@ -712,3 +712,25 @@ Existing-output guards refused the accidental repeat packaging/QA invocations;
 no existing archive/case was overwritten. Documentation was rewritten with an
 unambiguous delimiter and the final archive/source input hashes rechecked. This
 incident is not counted as a packaging or compatibility pass.
+
+
+## GitHub Actions export workflow — implementation checkpoint
+
+Created codex/linux-alpha-actions-export from merged main 2267b4b. Browser/runtime,
+branding, privacy files, native packaging scripts and upstream lock are unchanged.
+The new workflow invokes existing acquisition, official Mozilla artifact bootstrap,
+Phase 3 build and Phase 5A packaging. A CI-only adapter redirects logs outside the
+tracked checkout to preserve clean-source provenance and records actual size/hash
+and comparison only after standalone non-root container verification passes.
+
+Official GitHub action refs were resolved through GitHub to immutable commit pins.
+YAML structure, permission/pin invariants, Python compilation and embedded Bash
+syntax passed locally. The report adapter was checked against the real original
+archive/verified QA as a positive control (identity true), and rejected failed QA.
+This control is not a new CI build or evidence of workflow artifact availability.
+No downloaded binary/profile/cache or credential is committed.
+
+Actions workflow/run listing is accessible; the integration cannot read repository
+Actions administrative settings (HTTP 403). This does not establish that Actions
+is disabled. The actual pushed run will determine execution and dependency access.
+Run results, blockers and exact downloads are recorded after execution.
