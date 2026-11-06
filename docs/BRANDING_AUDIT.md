@@ -124,3 +124,45 @@ The original pinned artifact frontend/native package is reused; only reviewed
 resources in the new staged package change. Prototype and final commands, actual
 outcomes, screenshots, final size/SHA and remaining test limits are recorded in
 VALIDATION.md and accompanying branding evidence. Pending checks are not passes.
+
+### Final verified package
+
+Built from clean published commit `d7bae90e2586b6dd1849a018f4ff85bf60d328c7`.
+Archive: `/workspace/aelthoren-branding-audit/final/aelthoren-0.1.0-alpha-linux-x86_64.tar.xz`.
+Size **88,316,300 bytes**; SHA-256
+`d4ad42cd964b6157a7079a147e7cf5aa69113a2f485566bf4d4fb561921c0a25`.
+The original is preserved, and the new archive is not byte-identical to it.
+[Build metadata](branding/final-package.json), [resource comparison](branding/resource-verification.json),
+[final inventory](branding/final-inventory.json) and [runtime results](branding/verification.json)
+record the actual result. All 30 native ELF files are byte-identical to the original;
+exactly 52 reviewed omni resources differ, with 7,577 others unchanged.
+
+Both Debian 13 and Ubuntu 24.04 passed 18 GUI checks plus 16 headless checks per
+distro, as UID 1000 without source/project mounts, including HTTPS/JS/DOM/storage,
+DuckDuckGo initially, persistent user-selected Bing, isolated profiles, tabs/private
+mode, actual tracker blocking, untrusted TLS rejection and active web-process
+sandbox filters. This is artifact frontend/package verification, not Gecko
+compilation, security certification or broad desktop/default-handler integration.
+
+Screenshots inspected include:
+- [Debian Settings/privacy](branding/debian13-gui-settings.png) and
+  [native default prompt](branding/debian13-gui-default-browser-prompt.png).
+- [Ubuntu new tab](branding/ubuntu2404-gui-newtab.png),
+  [About](branding/ubuntu2404-gui-about.png) and
+  [HTTPS content](branding/ubuntu2404-gui-https.png).
+- Support and license screenshots are also preserved for both distributions.
+
+The native dialog visibly says “Make Aelthoren your default browser?” with the
+owner icon; it was canceled, never accepted. The Settings privacy pane renders
+actual controls; an early General-view snapshot had a blank main pane, so this
+work does not certify all Settings categories. The new-tab screenshot shows Bing
+because the regression test deliberately verifies user choice; fresh profiles
+were independently tested to use DuckDuckGo. The pink striped URL bar is upstream
+remote-automation indication, not an ordinary product branding modification.
+The visible generic “latest, safest” status is explicitly **unverified for this
+independent build** and remains a release gate; no independent updater is claimed.
+
+**Disposition: not suitable for public experimental binary distribution yet.**
+The engineering cleanup and runtime checks pass within the recorded scope; native
+identity, update/status/signing, legal/source/dependency and owner asset-rights
+gates above remain unresolved. Do not publish the Draft Release or archive.

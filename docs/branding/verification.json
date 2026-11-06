@@ -1,0 +1,926 @@
+[
+  {
+    "case": "debian13-gui",
+    "result": "PASS",
+    "gui": true,
+    "uid": 1000,
+    "checks": [
+      {
+        "check": "Portable launch metadata without source tree or Codex modules",
+        "result": "PASS",
+        "evidence": "Aelthoren 0.1.0-alpha \u2014 development-only artifact (Firefox ESR 153.6.0esr engine)"
+      },
+      {
+        "check": "Dedicated portable profile and actual Gecko",
+        "result": "PASS",
+        "evidence": {
+          "browserName": "aelthoren",
+          "browserVersion": "153.6.0",
+          "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:153.0) Gecko/20100101 Aelthoren/153.6.0",
+          "moz:profile": "/out/data/aelthoren-alpha/profiles/first",
+          "moz:headless": false,
+          "acceptInsecureCerts": false
+        }
+      },
+      {
+        "check": "Real HTTP JavaScript DOM storage and cookies",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Fresh profile native provider and new-tab submission",
+        "result": "PASS",
+        "evidence": {
+          "name": "DuckDuckGo",
+          "engines": [
+            "DuckDuckGo",
+            "Bing",
+            "Google",
+            "Perplexity",
+            "Wikipedia (en)"
+          ]
+        }
+      },
+      {
+        "check": "Account Sync telemetry tracking partition and security configuration",
+        "result": "PASS",
+        "evidence": {
+          "account": false,
+          "upload": false,
+          "tracking": true,
+          "privateTracking": true,
+          "cookieBehavior": 5,
+          "networkPartition": true,
+          "sandbox": 6,
+          "fission": true,
+          "safeBrowsing": true,
+          "searchLocked": false
+        }
+      },
+      {
+        "check": "Actual public HTTPS website rendered via configured proxy with QA-only trusted CA",
+        "result": "PASS",
+        "evidence": {
+          "url": "https://example.com/",
+          "title": "Example Domain"
+        }
+      },
+      {
+        "check": "Untrusted local TLS certificate rejected",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Private window uses separate session storage and preserves normal data",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Native tabs back forward and closure",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Native classifier blocks a known cross-site tracker",
+        "result": "PASS",
+        "evidence": {
+          "log": "{\n \"http://tracking.example.com:8765\": [[4096, true, 1]],\n \"http://127.0.0.1:8765\": [[32768, true, 1]]\n}\n",
+          "flag": 4096
+        }
+      },
+      {
+        "check": "Packaged Aelthoren alpha About page and product version",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Sync settings category hidden and local site-data controls available",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Actual desktop GUI screenshot captured",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Active web document adds seccomp filters and NoNewPrivs (not an exploit audit)",
+        "result": "PASS",
+        "evidence": {
+          "active_pid": 381,
+          "parent": {
+            "Name": "firefox-bin",
+            "Pid": "23",
+            "PPid": "14",
+            "Seccomp": "2",
+            "Seccomp_filters": "2",
+            "NoNewPrivs": "0"
+          },
+          "processes": [
+            {
+              "Name": "firefox-bin",
+              "Pid": "23",
+              "PPid": "14",
+              "Seccomp": "2",
+              "Seccomp_filters": "2",
+              "NoNewPrivs": "0"
+            },
+            {
+              "Name": "Socket Process",
+              "Pid": "96",
+              "PPid": "23",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "forkserver",
+              "Pid": "104",
+              "PPid": "23",
+              "Seccomp": "2",
+              "Seccomp_filters": "2",
+              "NoNewPrivs": "0"
+            },
+            {
+              "Name": "WebExtensions",
+              "Pid": "114",
+              "PPid": "104",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "RDD Process",
+              "Pid": "122",
+              "PPid": "104",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Utility Process",
+              "Pid": "204",
+              "PPid": "104",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Privileged Cont",
+              "Pid": "222",
+              "PPid": "104",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Isolated Web Co",
+              "Pid": "381",
+              "PPid": "104",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Web Content",
+              "Pid": "442",
+              "PPid": "104",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Web Content",
+              "Pid": "447",
+              "PPid": "104",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            }
+          ]
+        }
+      },
+      {
+        "check": "Final branding GUI audit and native default prompt cancelled",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Restarted user-choice profile native provider and new-tab submission",
+        "result": "PASS",
+        "evidence": {
+          "name": "Bing",
+          "engines": [
+            "DuckDuckGo",
+            "Bing",
+            "Google",
+            "Perplexity",
+            "Wikipedia (en)"
+          ]
+        }
+      },
+      {
+        "check": "User-selected provider and local storage survive restart",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Second portable profile is isolated",
+        "result": "PASS",
+        "evidence": true
+      }
+    ],
+    "distribution": "PRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.7\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n",
+    "package_sha256": "d4ad42cd964b6157a7079a147e7cf5aa69113a2f485566bf4d4fb561921c0a25"
+  },
+  {
+    "case": "ubuntu2404-gui",
+    "result": "PASS",
+    "gui": true,
+    "uid": 1000,
+    "checks": [
+      {
+        "check": "Portable launch metadata without source tree or Codex modules",
+        "result": "PASS",
+        "evidence": "Aelthoren 0.1.0-alpha \u2014 development-only artifact (Firefox ESR 153.6.0esr engine)"
+      },
+      {
+        "check": "Dedicated portable profile and actual Gecko",
+        "result": "PASS",
+        "evidence": {
+          "browserName": "aelthoren",
+          "browserVersion": "153.6.0",
+          "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:153.0) Gecko/20100101 Aelthoren/153.6.0",
+          "moz:profile": "/out/data/aelthoren-alpha/profiles/first",
+          "moz:headless": false,
+          "acceptInsecureCerts": false
+        }
+      },
+      {
+        "check": "Real HTTP JavaScript DOM storage and cookies",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Fresh profile native provider and new-tab submission",
+        "result": "PASS",
+        "evidence": {
+          "name": "DuckDuckGo",
+          "engines": [
+            "DuckDuckGo",
+            "Bing",
+            "Google",
+            "Perplexity",
+            "Wikipedia (en)"
+          ]
+        }
+      },
+      {
+        "check": "Account Sync telemetry tracking partition and security configuration",
+        "result": "PASS",
+        "evidence": {
+          "account": false,
+          "upload": false,
+          "tracking": true,
+          "privateTracking": true,
+          "cookieBehavior": 5,
+          "networkPartition": true,
+          "sandbox": 6,
+          "fission": true,
+          "safeBrowsing": true,
+          "searchLocked": false
+        }
+      },
+      {
+        "check": "Actual public HTTPS website rendered via configured proxy with QA-only trusted CA",
+        "result": "PASS",
+        "evidence": {
+          "url": "https://example.com/",
+          "title": "Example Domain"
+        }
+      },
+      {
+        "check": "Untrusted local TLS certificate rejected",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Private window uses separate session storage and preserves normal data",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Native tabs back forward and closure",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Native classifier blocks a known cross-site tracker",
+        "result": "PASS",
+        "evidence": {
+          "log": "{\n \"http://tracking.example.com:8765\": [[4096, true, 1]],\n \"http://127.0.0.1:8765\": [[32768, true, 1]]\n}\n",
+          "flag": 4096
+        }
+      },
+      {
+        "check": "Packaged Aelthoren alpha About page and product version",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Sync settings category hidden and local site-data controls available",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Actual desktop GUI screenshot captured",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Active web document adds seccomp filters and NoNewPrivs (not an exploit audit)",
+        "result": "PASS",
+        "evidence": {
+          "active_pid": 407,
+          "parent": {
+            "Name": "firefox-bin",
+            "Pid": "23",
+            "PPid": "14",
+            "Seccomp": "2",
+            "Seccomp_filters": "2",
+            "NoNewPrivs": "0"
+          },
+          "processes": [
+            {
+              "Name": "firefox-bin",
+              "Pid": "23",
+              "PPid": "14",
+              "Seccomp": "2",
+              "Seccomp_filters": "2",
+              "NoNewPrivs": "0"
+            },
+            {
+              "Name": "Socket Process",
+              "Pid": "102",
+              "PPid": "23",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "forkserver",
+              "Pid": "110",
+              "PPid": "23",
+              "Seccomp": "2",
+              "Seccomp_filters": "2",
+              "NoNewPrivs": "0"
+            },
+            {
+              "Name": "WebExtensions",
+              "Pid": "119",
+              "PPid": "110",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "RDD Process",
+              "Pid": "127",
+              "PPid": "110",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Utility Process",
+              "Pid": "206",
+              "PPid": "110",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Privileged Cont",
+              "Pid": "212",
+              "PPid": "110",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Isolated Web Co",
+              "Pid": "407",
+              "PPid": "110",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Web Content",
+              "Pid": "440",
+              "PPid": "110",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Web Content",
+              "Pid": "445",
+              "PPid": "110",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Web Content",
+              "Pid": "523",
+              "PPid": "110",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            }
+          ]
+        }
+      },
+      {
+        "check": "Final branding GUI audit and native default prompt cancelled",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Restarted user-choice profile native provider and new-tab submission",
+        "result": "PASS",
+        "evidence": {
+          "name": "Bing",
+          "engines": [
+            "DuckDuckGo",
+            "Bing",
+            "Google",
+            "Perplexity",
+            "Wikipedia (en)"
+          ]
+        }
+      },
+      {
+        "check": "User-selected provider and local storage survive restart",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Second portable profile is isolated",
+        "result": "PASS",
+        "evidence": true
+      }
+    ],
+    "distribution": "PRETTY_NAME=\"Ubuntu 24.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.5 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo\n",
+    "package_sha256": "d4ad42cd964b6157a7079a147e7cf5aa69113a2f485566bf4d4fb561921c0a25"
+  },
+  {
+    "case": "debian13-headless",
+    "result": "PASS",
+    "gui": false,
+    "uid": 1000,
+    "checks": [
+      {
+        "check": "Portable launch metadata without source tree or Codex modules",
+        "result": "PASS",
+        "evidence": "Aelthoren 0.1.0-alpha \u2014 development-only artifact (Firefox ESR 153.6.0esr engine)"
+      },
+      {
+        "check": "Dedicated portable profile and actual Gecko",
+        "result": "PASS",
+        "evidence": {
+          "browserName": "aelthoren",
+          "browserVersion": "153.6.0",
+          "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:153.0) Gecko/20100101 Aelthoren/153.6.0",
+          "moz:profile": "/out/data/aelthoren-alpha/profiles/first",
+          "moz:headless": true,
+          "acceptInsecureCerts": false
+        }
+      },
+      {
+        "check": "Real HTTP JavaScript DOM storage and cookies",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Fresh profile native provider and new-tab submission",
+        "result": "PASS",
+        "evidence": {
+          "name": "DuckDuckGo",
+          "engines": [
+            "DuckDuckGo",
+            "Bing",
+            "Google",
+            "Perplexity",
+            "Wikipedia (en)"
+          ]
+        }
+      },
+      {
+        "check": "Account Sync telemetry tracking partition and security configuration",
+        "result": "PASS",
+        "evidence": {
+          "account": false,
+          "upload": false,
+          "tracking": true,
+          "privateTracking": true,
+          "cookieBehavior": 5,
+          "networkPartition": true,
+          "sandbox": 6,
+          "fission": true,
+          "safeBrowsing": true,
+          "searchLocked": false
+        }
+      },
+      {
+        "check": "Actual public HTTPS website rendered via configured proxy with QA-only trusted CA",
+        "result": "PASS",
+        "evidence": {
+          "url": "https://example.com/",
+          "title": "Example Domain"
+        }
+      },
+      {
+        "check": "Untrusted local TLS certificate rejected",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Private window uses separate session storage and preserves normal data",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Native tabs back forward and closure",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Native classifier blocks a known cross-site tracker",
+        "result": "PASS",
+        "evidence": {
+          "log": "{\n \"http://tracking.example.com:8765\": [[4096, true, 1]],\n \"http://127.0.0.1:8765\": [[32768, true, 1]]\n}\n",
+          "flag": 4096
+        }
+      },
+      {
+        "check": "Packaged Aelthoren alpha About page and product version",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Sync settings category hidden and local site-data controls available",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Active web document adds seccomp filters and NoNewPrivs (not an exploit audit)",
+        "result": "PASS",
+        "evidence": {
+          "active_pid": 387,
+          "parent": {
+            "Name": "firefox-bin",
+            "Pid": "23",
+            "PPid": "14",
+            "Seccomp": "2",
+            "Seccomp_filters": "2",
+            "NoNewPrivs": "0"
+          },
+          "processes": [
+            {
+              "Name": "firefox-bin",
+              "Pid": "23",
+              "PPid": "14",
+              "Seccomp": "2",
+              "Seccomp_filters": "2",
+              "NoNewPrivs": "0"
+            },
+            {
+              "Name": "Socket Process",
+              "Pid": "103",
+              "PPid": "23",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "forkserver",
+              "Pid": "111",
+              "PPid": "23",
+              "Seccomp": "2",
+              "Seccomp_filters": "2",
+              "NoNewPrivs": "0"
+            },
+            {
+              "Name": "WebExtensions",
+              "Pid": "116",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "RDD Process",
+              "Pid": "124",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Utility Process",
+              "Pid": "196",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Privileged Cont",
+              "Pid": "226",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Isolated Web Co",
+              "Pid": "387",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Web Content",
+              "Pid": "437",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Web Content",
+              "Pid": "463",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            }
+          ]
+        }
+      },
+      {
+        "check": "Restarted user-choice profile native provider and new-tab submission",
+        "result": "PASS",
+        "evidence": {
+          "name": "Bing",
+          "engines": [
+            "DuckDuckGo",
+            "Bing",
+            "Google",
+            "Perplexity",
+            "Wikipedia (en)"
+          ]
+        }
+      },
+      {
+        "check": "User-selected provider and local storage survive restart",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Second portable profile is isolated",
+        "result": "PASS",
+        "evidence": true
+      }
+    ],
+    "distribution": "PRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.7\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n",
+    "package_sha256": "d4ad42cd964b6157a7079a147e7cf5aa69113a2f485566bf4d4fb561921c0a25"
+  },
+  {
+    "case": "ubuntu2404-headless",
+    "result": "PASS",
+    "gui": false,
+    "uid": 1000,
+    "checks": [
+      {
+        "check": "Portable launch metadata without source tree or Codex modules",
+        "result": "PASS",
+        "evidence": "Aelthoren 0.1.0-alpha \u2014 development-only artifact (Firefox ESR 153.6.0esr engine)"
+      },
+      {
+        "check": "Dedicated portable profile and actual Gecko",
+        "result": "PASS",
+        "evidence": {
+          "browserName": "aelthoren",
+          "browserVersion": "153.6.0",
+          "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:153.0) Gecko/20100101 Aelthoren/153.6.0",
+          "moz:profile": "/out/data/aelthoren-alpha/profiles/first",
+          "moz:headless": true,
+          "acceptInsecureCerts": false
+        }
+      },
+      {
+        "check": "Real HTTP JavaScript DOM storage and cookies",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Fresh profile native provider and new-tab submission",
+        "result": "PASS",
+        "evidence": {
+          "name": "DuckDuckGo",
+          "engines": [
+            "DuckDuckGo",
+            "Bing",
+            "Google",
+            "Perplexity",
+            "Wikipedia (en)"
+          ]
+        }
+      },
+      {
+        "check": "Account Sync telemetry tracking partition and security configuration",
+        "result": "PASS",
+        "evidence": {
+          "account": false,
+          "upload": false,
+          "tracking": true,
+          "privateTracking": true,
+          "cookieBehavior": 5,
+          "networkPartition": true,
+          "sandbox": 6,
+          "fission": true,
+          "safeBrowsing": true,
+          "searchLocked": false
+        }
+      },
+      {
+        "check": "Actual public HTTPS website rendered via configured proxy with QA-only trusted CA",
+        "result": "PASS",
+        "evidence": {
+          "url": "https://example.com/",
+          "title": "Example Domain"
+        }
+      },
+      {
+        "check": "Untrusted local TLS certificate rejected",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Private window uses separate session storage and preserves normal data",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Native tabs back forward and closure",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Native classifier blocks a known cross-site tracker",
+        "result": "PASS",
+        "evidence": {
+          "log": "{\n \"http://tracking.example.com:8765\": [[4096, true, 1]],\n \"http://127.0.0.1:8765\": [[32768, true, 1]]\n}\n",
+          "flag": 4096
+        }
+      },
+      {
+        "check": "Packaged Aelthoren alpha About page and product version",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Sync settings category hidden and local site-data controls available",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Active web document adds seccomp filters and NoNewPrivs (not an exploit audit)",
+        "result": "PASS",
+        "evidence": {
+          "active_pid": 405,
+          "parent": {
+            "Name": "firefox-bin",
+            "Pid": "23",
+            "PPid": "14",
+            "Seccomp": "2",
+            "Seccomp_filters": "2",
+            "NoNewPrivs": "0"
+          },
+          "processes": [
+            {
+              "Name": "firefox-bin",
+              "Pid": "23",
+              "PPid": "14",
+              "Seccomp": "2",
+              "Seccomp_filters": "2",
+              "NoNewPrivs": "0"
+            },
+            {
+              "Name": "Socket Process",
+              "Pid": "103",
+              "PPid": "23",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "forkserver",
+              "Pid": "111",
+              "PPid": "23",
+              "Seccomp": "2",
+              "Seccomp_filters": "2",
+              "NoNewPrivs": "0"
+            },
+            {
+              "Name": "WebExtensions",
+              "Pid": "116",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "RDD Process",
+              "Pid": "124",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Utility Process",
+              "Pid": "197",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Privileged Cont",
+              "Pid": "205",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Isolated Web Co",
+              "Pid": "405",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Web Content",
+              "Pid": "433",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            },
+            {
+              "Name": "Web Content",
+              "Pid": "438",
+              "PPid": "111",
+              "Seccomp": "2",
+              "Seccomp_filters": "3",
+              "NoNewPrivs": "1"
+            }
+          ]
+        }
+      },
+      {
+        "check": "Restarted user-choice profile native provider and new-tab submission",
+        "result": "PASS",
+        "evidence": {
+          "name": "Bing",
+          "engines": [
+            "DuckDuckGo",
+            "Bing",
+            "Google",
+            "Perplexity",
+            "Wikipedia (en)"
+          ]
+        }
+      },
+      {
+        "check": "User-selected provider and local storage survive restart",
+        "result": "PASS",
+        "evidence": true
+      },
+      {
+        "check": "Second portable profile is isolated",
+        "result": "PASS",
+        "evidence": true
+      }
+    ],
+    "distribution": "PRETTY_NAME=\"Ubuntu 24.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.5 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo\n",
+    "package_sha256": "d4ad42cd964b6157a7079a147e7cf5aa69113a2f485566bf4d4fb561921c0a25"
+  }
+]

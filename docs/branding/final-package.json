@@ -1,0 +1,49 @@
+{
+  "path": "/workspace/aelthoren-branding-audit/final/aelthoren-0.1.0-alpha-linux-x86_64.tar.xz",
+  "bytes": 88316300,
+  "sha256": "d4ad42cd964b6157a7079a147e7cf5aa69113a2f485566bf4d4fb561921c0a25",
+  "metadata": {
+    "product": "Aelthoren",
+    "version": "0.1.0-alpha",
+    "platform": "linux-x86_64",
+    "distribution_class": "development-only-internal-test",
+    "public_release": false,
+    "signed": false,
+    "engine_version": "153.6.0esr",
+    "engine_revision": "a34c4160e3f75ab9918fbe4669ff7ae56f1977c8",
+    "artifact_task": "YlYD4FnWSXGLhOw9Il8lig",
+    "native_application_version": "153.6.0",
+    "native_guid": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}",
+    "native_guid_inherited": true,
+    "native_build_id": "20261104213823",
+    "desktop_id": "org.aelthoren.Browser.Alpha",
+    "profile_root": "${XDG_DATA_HOME:-$HOME/.local/share}/aelthoren-alpha/profiles",
+    "project_revision": "d7bae90e2586b6dd1849a018f4ff85bf60d328c7",
+    "project_dirty": false,
+    "source_date_epoch": 1793933848,
+    "mozilla_package_sha256": "652baea63f24888a48532b0fb274fbb9f7d36b23cb2ed9a8fc3dd6c191aabedb",
+    "packaging_inputs": {
+      "packaging/linux/aelthoren": "b16883059e236c752066a94ee7c91f38c32a2a1854695d8eeb5d4f73add2be3b",
+      "packaging/linux/desktop-entry.py": "0aba0c12ac7e0886ea85b1f6022ae52f3507ca214dd31d3e41779b41c5b80048",
+      "packaging/linux/ABOUT.html": "b4d38fe19a14fa17e93757fc9ef0dfc9a0c8a9920c7357abf08653d3e54c3084",
+      "packaging/linux/README.txt": "cdfee02b05dc6634970b608a855a6f71223456e0aa4f02e50665aaa971bbd23e",
+      "packaging/linux/org.aelthoren.Browser.Alpha.desktop.in": "4d77375918f959584baae959147cb1c7f032ba900baf87d3e051b58083b03231",
+      "tools/package_linux.py": "b40007ba1b4a3af43d0cb555b2032c00694438e389eca029a3ae26e5cb7b2c9c",
+      "tools/final_branding.py": "628fff2bb4b2260e8da7b85f31b24e071804e911d3da41cca62332b258dda778",
+      "branding/final-resources.json": "434b80d72730d3489968dbd83b3df79d9d9ab1fedb3a0847e2397634464b3ade",
+      "branding/artwork/neutral-browser.svg": "e4c91689083c38b5cc05c7edcaf3fa5d808b236ca02aa9e5e3c27e06de2ab848",
+      "upstream.lock.json": "8340a0a001123bb53f1ba1658397257c0c71838b84134cc3c472b05ddddf4a78",
+      "config/privacy-policies.json": "7d5b7bbaf82b629a305651cc3d7681eb0d7c9b2d033305fea8c22dcdb8b68962",
+      "config/distribution.ini": "44114b36f0557f1450eaa66a82aadd75d7a9aedfe4b6f0e9b03f9fa94cdec607",
+      "LICENSE": "a93d2a9da62e08421971ff6988014736a0dcc34eb7009b8912dfeea658f49176",
+      "THIRD_PARTY_NOTICES.md": "5436e321347c8dec41b7a3198d64da9fe74f065fa69da7490ed9e4c519400903"
+    },
+    "branding_resource_changes": 52,
+    "production_blockers": [
+      "Native GUID/version/executable metadata remain inherited",
+      "Complete Mozilla trademark and dependency/source-availability review pending",
+      "Independent signing/security-update delivery not established",
+      "Distribution compatibility is limited to actual recorded tests"
+    ]
+  }
+}

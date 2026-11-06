@@ -48,3 +48,11 @@ security mechanisms to make a package pass tests.
 The final branding audit **does not clear public binary distribution**. See
 BRANDING_AUDIT.md and VALIDATION.md for actual GUI/package results. Do not publish
 the Draft Release or archive the repository as part of this task.
+
+Final package verification completed: Debian 13 and Ubuntu 24.04 each passed 18
+real GUI checks and 16 headless checks; all 30 ELF binaries match the preserved
+original and exactly 52 reviewed resources differ. Evidence and screenshots are in
+BRANDING_AUDIT.md / docs/branding/. These passes **do not clear** the unchecked
+public release gates above, including inherited native identity and generic update
+status copy. The actual default-browser prompt was canceled, not installed as a
+handler; broad desktop/Wayland/General-settings behavior remains uncertified.

@@ -748,3 +748,46 @@ working Privacy pane and waits for actual site-data controls. General/default-
 handler desktop integration is not certified by this test. The prototype contains
 the initial 47-resource overlay; the final 52-resource recipe is verified separately
 and must pass final package checks before results are claimed for that package.
+
+### Final clean package and regression result
+
+Build source: `d7bae90e2586b6dd1849a018f4ff85bf60d328c7` (published/clean at packaging).
+Command:
+`python3 tools/package_linux.py --mozilla-package /workspace/aelthoren-gecko/obj-aelthoren-phase2/dist/firefox-153.6.0.en-US.linux-x86_64.tar.xz --output /workspace/aelthoren-branding-audit/final`
+completed successfully, no dirty override. The existing verified official native
+package was reused rather than redownloading/recompiling Gecko. 52 resource changes
+applied, profile/privacy/security/owner SVG/upstream pin unchanged.
+
+Archive: `aelthoren-0.1.0-alpha-linux-x86_64.tar.xz`, **88,316,300 bytes**,
+SHA-256 `d4ad42cd964b6157a7079a147e7cf5aa69113a2f485566bf4d4fb561921c0a25`.
+Path: `/workspace/aelthoren-branding-audit/final/`; includes adjacent checksum and
+package-result.json. Original b40b5a... archive retained in original Phase 5A output.
+New archive is not byte-identical. Embedded BRANDING-CHANGES.json records exact
+before/after resource hashes; source/ includes overlay recipe/manifest/new art.
+
+Executed:
+- `python3 tools/test_linux_containers.py /workspace/aelthoren-branding-audit/final/aelthoren-0.1.0-alpha-linux-x86_64.tar.xz --output /workspace/aelthoren-branding-audit/final-gui --gui --branding-audit`
+- Same archive with `--output /workspace/aelthoren-branding-audit/final-headless`.
+- `python3 tools/audit_branding.py /workspace/aelthoren-branding-audit/final/aelthoren-0.1.0-alpha-linux-x86_64.tar.xz /workspace/aelthoren-branding-audit/final-inventory.json`
+- `python3 tools/verify_branding_resources.py /workspace/aelthoren-packaging/output/aelthoren-0.1.0-alpha-linux-x86_64.tar.xz /workspace/aelthoren-branding-audit/final/aelthoren-0.1.0-alpha-linux-x86_64.tar.xz /workspace/aelthoren-branding-audit/resource-verification-reproducible.json`
+
+All commands passed. Debian 13 GUI: **18**; Ubuntu 24.04 GUI: **18**; Debian and
+Ubuntu headless: **16 each**, all PASS, UID 1000. Exact internal MANIFEST checks
+ran before launch in each clean container. Actual original/new native comparison:
+**30 ELF files unchanged**, **52 approved resource changes**, **7,577 other omni
+resources unchanged**. Final inventory enumerated 73 regular package files and
+6,467 image/text resources. QA runtime is genuine Gecko/SpiderMonkey; no insecure
+cert acceptance or sandbox disabling. Tests include real HTTP/HTTPS rendering,
+JS/DOM/storage/cookies, native search/provider persistence, private browsing,
+tracker block, profile isolation, branded About/settings and actual default prompt.
+
+Final screenshot review confirmed Aelthoren name/logo, rendered Privacy settings,
+real public HTTPS content, About attribution and default prompt. Native prompt
+canceled via supported alert API; authenticated Xorg capture used (no access-control
+or TLS bypass). A blank early General pane remains uncertified, and visible generic
+latest/safest copy is not proof of alpha update/security support. Linux compatibility
+is limited to these recorded container/display tests. Screenshots, QA summaries,
+package/inventory/resource evidence and policy page hashes are under docs/branding/;
+raw profiles, proxy CA/trust stores, X authority and downloaded binaries stay outside
+Git. No full Gecko compilation or complete legal compliance is claimed. Public
+binary distribution remains blocked; no release publication, merge or archival.
