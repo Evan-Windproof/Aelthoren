@@ -74,6 +74,33 @@ verifies the generated files and tracked changes on subsequent runs. Keep build
 logs and profiles outside both source trees. Reuse the prepared source, build
 outputs, and Mach cache for incremental builds.
 
+### Retry bootstrap with an existing overlay
+
+The Windows branding directory and the five patched Firefox files are expected
+after `prepare`. Verification checks the recorded file paths and hashes, the
+tracked source diff, and the overlay inputs. It lists individual untracked files
+so empty directories do not affect the result. Git's standard exclusions apply
+to generated output such as the object directory.
+
+If bootstrap previously rejected a prepared overlay, update your Aelthoren
+branch and retry from the MozillaBuild shell:
+
+```sh
+(
+  set -e
+  cd d:/mozilla-source/Aelthoren
+  git switch w1-windows
+  git fetch origin codex/aelthoren-w1-windows
+  git merge --ff-only FETCH_HEAD
+  python3 tools/windows_build.py prepare
+  python3 tools/windows_build.py bootstrap
+)
+```
+
+Expect `Windows overlay verified` from `prepare`. To inspect a path reported by
+the validator, run `git -C ../aelthoren-gecko-windows status --short --untracked-files=all`
+from Aelthoren and review the file before retrying.
+
 ### Recover from a patch application failure
 
 Git can retain CRLF patch files in an existing worktree even after the
@@ -151,7 +178,13 @@ All three LF copies passed `git apply --check`. A checkout with
 commands refreshed deliberately stale CRLF files in that checkout. Preparation
 with the stale files succeeded on the same pinned source after the failed
 preflight, and re-running it after refreshing the files verified the same
-overlay. All 19 tooling tests passed, including the two W1 regression tests.
+overlay.
+
+On the pinned Linux checkout, an empty directory reproduced the former overlay
+rejection while Git status continued to show only the intended changes. The
+updated check verified the existing overlay and rejected an unexpected file.
+Regression tests exercise repeated preparation and the validation paths for
+bootstrap and build with Mach stubbed. All 21 tooling tests passed.
 
 Git for Windows under MozillaBuild 4.2.1, native Windows bootstrap, compilation,
 and Windows runtime checks remain unverified on this Linux host.

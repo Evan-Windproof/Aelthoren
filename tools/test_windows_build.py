@@ -1,10 +1,12 @@
-"""Regression tests for W1 patch checkout and preparation."""
+"""Regression tests for W1 patch preparation and overlay validation."""
 
 from contextlib import redirect_stdout
 import io
+import json
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 from tempfile import TemporaryDirectory
 import unittest
 from unittest import mock
@@ -12,7 +14,7 @@ from unittest import mock
 import windows_build
 
 
-class WindowsPatchPreparation(unittest.TestCase):
+class WindowsBuildTests(unittest.TestCase):
     def setUp(self):
         temporary = TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
@@ -25,6 +27,12 @@ class WindowsPatchPreparation(unittest.TestCase):
 
     def git(self, *args, check=True):
         return subprocess.run(["git", *args], cwd=self.repo, check=check, capture_output=True)
+
+    def commit_fixture(self):
+        self.git("add", "--", ".")
+        self.git("-c", "user.name=Test", "-c", "user.email=test@example.invalid",
+                 "-c", "commit.gpgSign=false", "commit", "--quiet", "-m", "Firefox fixture")
+        return self.git("rev-parse", "HEAD").stdout.decode("ascii").strip()
 
     def test_patch_checkout_keeps_lf_with_crlf_git_settings(self):
         shutil.copyfile(windows_build.ROOT / ".gitattributes", self.repo / ".gitattributes")
@@ -52,10 +60,7 @@ class WindowsPatchPreparation(unittest.TestCase):
         brand_parent = self.repo / "browser/branding"
         brand_parent.mkdir(parents=True)
         (brand_parent / "README").write_bytes(b"Upstream branding\n")
-        self.git("add", "--", ".gitattributes", "first.txt", "second.txt", "browser")
-        self.git("-c", "user.name=Test", "-c", "user.email=test@example.invalid",
-                 "commit", "--quiet", "-m", "LF source")
-        revision = self.git("rev-parse", "HEAD").stdout.decode("ascii").strip()
+        revision = self.commit_fixture()
 
         project = self.workspace / "project"
         project.mkdir()
@@ -101,6 +106,72 @@ class WindowsPatchPreparation(unittest.TestCase):
             windows_build.prepare(self.repo)
             self.assertEqual(marker.read_bytes(), previous)
             self.assertEqual(branding.call_count, 1)
+
+    def prepared_overlay(self):
+        (self.repo / ".gitattributes").write_bytes(b"* -text\n")
+        (self.repo / ".gitignore").write_bytes(b"/obj*/\n*.ignored\n")
+        tracked = self.repo / "browser/branding/unofficial/README"
+        tracked.parent.mkdir(parents=True)
+        tracked.write_bytes(b"Upstream\n")
+        lock = mock.patch.dict(windows_build.LOCK, revision=self.commit_fixture())
+        lock.start()
+        self.addCleanup(lock.stop)
+        tracked.write_bytes(b"Reviewed patch\n")
+
+        brand = self.repo / windows_build.BRANDING
+        (brand / "distribution").mkdir(parents=True)
+        (brand / "configure.sh").write_bytes(b"Reviewed branding\n")
+        (brand / "distribution/default.ignored").write_bytes(b"Reviewed distribution file\n")
+        state = windows_build.overlay_state(self.repo, brand, windows_build.read_patches())
+        (brand / windows_build.MARKER).write_text(json.dumps(state), encoding="utf-8")
+        return tracked, brand
+
+    def test_reuses_verified_overlay_for_prepare_bootstrap_and_build(self):
+        _, brand = self.prepared_overlay()
+        (self.repo / "empty directory").mkdir()
+        objdir = self.repo / windows_build.OBJECT_DIR
+        objdir.mkdir()
+        (objdir / "build-output").write_bytes(b"object dir artifact")
+        marker = brand / windows_build.MARKER
+        before = marker.read_bytes()
+
+        with mock.patch.object(windows_build, "require_windows"), \
+             mock.patch.object(windows_build, "mach", return_value=0) as mach, \
+             mock.patch.object(windows_build, "executable", return_value=objdir / "firefox.exe"), \
+             redirect_stdout(io.StringIO()):
+            for command in ("prepare", "bootstrap", "build") * 2:
+                args = ["windows_build.py", "--source", str(self.repo), command]
+                with mock.patch.object(sys, "argv", args):
+                    self.assertEqual(windows_build.main(), 0)
+
+        self.assertEqual(mach.call_args_list, [
+            mock.call(self.repo, "bootstrap", "--application-choice", "browser"),
+            mock.call(self.repo, "build"),
+        ] * 2)
+        self.assertEqual(marker.read_bytes(), before)
+
+    def test_rejects_unexpected_files_and_modified_overlay(self):
+        tracked, brand = self.prepared_overlay()
+        outside = self.repo / "unknown file"
+        outside.write_bytes(b"Unexpected\n")
+        with self.assertRaisesRegex(ValueError, "Unexpected untracked Firefox files.*unknown file"):
+            windows_build.verify_overlay(self.repo)
+        outside.unlink()
+
+        unexpected = brand / "extra.ignored"
+        unexpected.write_bytes(b"Unexpected\n")
+        with self.assertRaisesRegex(ValueError, "Windows overlay or inputs changed"):
+            windows_build.verify_overlay(self.repo)
+        unexpected.unlink()
+
+        for path in (brand / "configure.sh", brand / "distribution/default.ignored", tracked):
+            with self.subTest(path=path.name):
+                original = path.read_bytes()
+                path.write_bytes(b"Modified\n")
+                with self.assertRaisesRegex(ValueError, "Windows overlay or inputs changed"):
+                    windows_build.verify_overlay(self.repo)
+                path.write_bytes(original)
+        windows_build.verify_overlay(self.repo)
 
 
 if __name__ == "__main__":

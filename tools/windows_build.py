@@ -85,11 +85,15 @@ def verify_overlay(source):
     marker = brand / MARKER
     if not marker.is_file():
         raise ValueError("Windows overlay is missing. Run prepare in a clean, pinned checkout.")
-    untracked = git(source, "ls-files", "--others", "--exclude-standard", "--directory", "-z")
-    if untracked != f"{BRANDING.as_posix()}/\0".encode("ascii"):
-        raise ValueError("Unexpected untracked Firefox files. Review the checkout before continuing.")
-    if json.loads(marker.read_text(encoding="utf-8")) != overlay_state(source, brand, read_patches()):
+    state = overlay_state(source, brand, read_patches())
+    if json.loads(marker.read_text(encoding="utf-8")) != state:
         raise ValueError("Windows overlay or inputs changed. Preserve edits and prepare a clean checkout.")
+
+    allowed = {os.fsencode((BRANDING / name).as_posix()) for name in (*state["branding"], MARKER)}
+    untracked = git(source, "ls-files", "--others", "--exclude-standard", "-z")
+    for path in untracked.split(b"\0"):
+        if path and path not in allowed:
+            raise ValueError(f"Unexpected untracked Firefox files. Review {os.fsdecode(path)!r}.")
 
 
 def edit_text(path, replacements=(), suffix=""):
