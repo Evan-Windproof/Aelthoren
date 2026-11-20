@@ -16,17 +16,18 @@ reports remain available in [BUILDING.md](../BUILDING.md).
   other utilities. Start `C:\mozilla-build\start-shell.bat` and run the commands
   below in that shell. Use short local paths without spaces for the checkouts.
 - Mozilla's full desktop bootstrap and configure supply or select the build
-  toolchain. It uses Clang/LLVM for the MSVC ABI, Rust, and Microsoft C++ headers,
-  libraries, and Windows SDK tooling. The pinned tree's bootstrap configuration
-  points to Mozilla's VS 2026 toolchain with Microsoft Windows SDK 10.0.26100.
-  Let Mach resolve these dependencies and reuse its `.mozbuild` cache. Install
-  missing tools only if Mach reports a specific requirement.
+  toolchain. W1 uses Mozilla clang-cl 21 with MSVC 14.50 headers, libraries,
+  and ATL, plus Rust and a Windows SDK. The pinned Firefox tree selects Clang
+  21.1.8 and packages MSVC 14.50 with SDK 10.0.26100. Let Mach resolve the
+  bootstrap dependencies and reuse its `.mozbuild` cache.
 
 Mozilla documents the host setup and basic Mach commands in
 [Building Firefox on Windows](https://firefox-source-docs.mozilla.org/setup/windows_build.html).
-The exact revision's setup guide and toolchain manifest are in
+The exact revision's setup guide and toolchain definitions are in
 [Firefox source docs](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f75ab9918fbe4669ff7ae56f1977c8/docs/setup/windows_build.rst)
-and [the SDK manifest](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f75ab9918fbe4669ff7ae56f1977c8/build/vs/vs2026.yaml).
+and the [Clang task](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f75ab9918fbe4669ff7ae56f1977c8/taskcluster/kinds/toolchain/clang.yml),
+[LLVM source pin](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f75ab9918fbe4669ff7ae56f1977c8/taskcluster/kinds/fetch/toolchains.yml),
+and [MSVC and SDK manifest](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f75ab9918fbe4669ff7ae56f1977c8/build/vs/vs2026.yaml).
 
 ## Source and build
 
@@ -58,8 +59,10 @@ python3 tools/windows_build.py build
 python3 tools/windows_build.py run --profile w1-smoke
 ```
 
-The wrapper selects [the Windows mozconfig](../config/mozconfig.windows-x64) for
-`mach build`. The executable should be at
+The wrapper runs `mach configure` with [the Windows mozconfig](../config/mozconfig.windows-x64)
+in the existing object directory. It checks the selected Clang and MSVC versions
+and compiles a syntax-only probe with the configured STL and SDK headers before
+starting `mach build`. The executable should be at
 `aelthoren-gecko-windows/obj-aelthoren-windows/dist/bin/firefox.exe`. The build
 checks that the file has an AMD64 Windows PE header and that the reviewed
 distribution files exist beside it. The launcher uses an explicit persistent
@@ -73,6 +76,86 @@ checkout. Prepare checks the pinned HEAD and requires a clean starting tree. It
 verifies the generated files and tracked changes on subsequent runs. Keep build
 logs and profiles outside both source trees. Reuse the prepared source, build
 outputs, and Mach cache for incremental builds.
+
+### Resume after STL1000
+
+The pinned configure requires clang-cl 19.0 or newer and a Visual Studio 2022
+or newer MSVC toolset for this target. W1 checks the combination Mozilla chose
+for the pin, clang-cl 21 and MSVC 14.50. [Pinned compiler checks](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f75ab9918fbe4669ff7ae56f1977c8/build/moz.configure/toolchain.configure)
+and [MSVC detection](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f75ab9918fbe4669ff7ae56f1977c8/build/moz.configure/windows-toolchain.configure).
+
+The 14.52 STL requires Clang 22. The published 14.50 STL accepts Clang 19 or
+newer, and Mozilla pairs it with its Clang 21 build for this Firefox pin. The
+final Cargo and Make errors follow the STL failure in the C++ code compiled
+by the `glslopt` Rust crate. [Microsoft STL compatibility table](https://github.com/microsoft/STL/wiki/Macro-_MSVC_STL_UPDATE)
+and [14.50 STL header](https://github.com/microsoft/STL/blob/msvc-build-tools-14.50/stl/inc/yvals_core.h).
+
+Start MozillaBuild directly from `D:\mozilla\start-shell.bat` or your install
+path, in a fresh shell outside a Visual Studio Developer Command Prompt. Use
+Mozilla's bootstrapped toolchain first. The pinned Firefox configure checks
+`PATH` for `cl.exe` ahead of its chosen toolset bin, and can otherwise pick up a
+newer Visual Studio installation. The wrapper clears inherited include and
+library search paths for Mach. [Pinned Firefox toolset selection](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f75ab9918fbe4669ff7ae56f1977c8/build/moz.configure/windows-toolchain.configure).
+
+In MozillaBuild, fast-forward the PR branch and resume the build:
+
+```sh
+(
+  set -e
+  cd d:/mozilla-source/Aelthoren
+  git switch w1-windows
+  git fetch origin codex/aelthoren-w1-windows
+  git merge --ff-only FETCH_HEAD
+  python3 tools/windows_build.py build
+)
+```
+
+If Mozilla configure still selects an incompatible toolset or cannot install
+the pinned one, install Microsoft MSVC 14.50 alongside the existing toolset.
+In **Visual Studio Installer**, choose **Modify** for Build Tools 2026 and add
+these **Individual components**:
+
+- MSVC Build Tools v14.50 for x64/x86
+  (`Microsoft.VisualStudio.Component.VC.14.50.18.0.x86.x64`)
+- C++ ATL for x64/x86 (MSVC v14.50)
+  (`Microsoft.VisualStudio.Component.VC.14.50.18.0.ATL`)
+- Windows 11 SDK (10.0.26100 series), if absent
+  (`Microsoft.VisualStudio.Component.Windows11SDK.26100`)
+
+Microsoft documents side-by-side installation and the component IDs.
+[Install MSVC Build Tools](https://learn.microsoft.com/en-us/cpp/overview/acquire-msvc?view=msvc-170)
+and [Build Tools components](https://learn.microsoft.com/en-us/visualstudio/install/workload-component-id-vs-build-tools?view=vs-2026).
+
+After installation, run the following in a fresh PowerShell window. It selects
+the installed 14.50 directory and passes both Mozilla configure variables to
+the new MozillaBuild shell:
+
+```powershell
+$vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+$vs = & $vswhere -latest -products '*' -version '[18.0,19.0)' -requires Microsoft.VisualStudio.Component.VC.14.50.18.0.x86.x64 Microsoft.VisualStudio.Component.VC.14.50.18.0.ATL -property installationPath
+if (-not $vs) { throw 'Install the MSVC 14.50 x64/x86 and ATL components first.' }
+$toolset = Get-ChildItem (Join-Path $vs 'VC\Tools\MSVC') -Directory -Filter '14.50.*' |
+  Where-Object { Test-Path (Join-Path $_.FullName 'atlmfc\include\atlbase.h') } |
+  Sort-Object { [version]$_.Name } -Descending | Select-Object -First 1
+if (-not $toolset) { throw 'MSVC 14.50 was not found.' }
+$sdk = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows Kits\Installed Roots').KitsRoot10
+if (-not $sdk) { throw 'Install the Windows 11 SDK first.' }
+Remove-Item Env:WINSYSROOT -ErrorAction SilentlyContinue
+$env:VC_PATH = $toolset.FullName
+$env:WINDOWSSDKDIR = $sdk
+& 'D:\mozilla\start-shell.bat'
+```
+
+In the new MozillaBuild shell, run:
+
+```sh
+cd d:/mozilla-source/Aelthoren
+python3 tools/windows_build.py build
+```
+
+Expect `Checking configured clang-cl 21...` and an MSVC
+`14.50.*\include` path before compilation. The same object directory and
+Gecko overlay are reused. Expect some files to rebuild after the toolchain change.
 
 ### Retry bootstrap with an existing overlay
 
@@ -184,10 +267,13 @@ On the pinned Linux checkout, an empty directory reproduced the former overlay
 rejection while Git status continued to show only the intended changes. The
 updated check verified the existing overlay and rejected an unexpected file.
 Regression tests exercise repeated preparation and the validation paths for
-bootstrap and build with Mach stubbed. All 21 tooling tests passed.
+bootstrap and build with Mach stubbed.
 
-Git for Windows under MozillaBuild 4.2.1, native Windows bootstrap, compilation,
-and Windows runtime checks remain unverified on this Linux host.
+The Windows build attempt reported STL1000 with Clang 21 and MSVC 14.52.
+On Linux, all 23 tooling tests passed, including checks for selecting 14.50,
+rejecting 14.52 before compilation, and stopping when the header probe fails.
+Those tests stub the Windows compiler and Mach. The repaired native build and
+Windows runtime checks remain pending.
 
 ## Acceptance on a Windows host
 

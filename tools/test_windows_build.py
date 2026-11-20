@@ -3,6 +3,7 @@
 from contextlib import redirect_stdout
 import io
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -134,8 +135,11 @@ class WindowsBuildTests(unittest.TestCase):
         (objdir / "build-output").write_bytes(b"object dir artifact")
         marker = brand / windows_build.MARKER
         before = marker.read_bytes()
+        env = {"MOZCONFIG": str(windows_build.MOZCONFIG)}
 
         with mock.patch.object(windows_build, "require_windows"), \
+             mock.patch.object(windows_build, "toolchain_environment", return_value=env), \
+             mock.patch.object(windows_build, "verify_toolchain") as verify_toolchain, \
              mock.patch.object(windows_build, "mach", return_value=0) as mach, \
              mock.patch.object(windows_build, "executable", return_value=objdir / "firefox.exe"), \
              redirect_stdout(io.StringIO()):
@@ -145,9 +149,11 @@ class WindowsBuildTests(unittest.TestCase):
                     self.assertEqual(windows_build.main(), 0)
 
         self.assertEqual(mach.call_args_list, [
-            mock.call(self.repo, "bootstrap", "--application-choice", "browser"),
-            mock.call(self.repo, "build"),
+            mock.call(self.repo, "bootstrap", "--application-choice", "browser", env=env),
+            mock.call(self.repo, "configure", env=env),
+            mock.call(self.repo, "build", env=env),
         ] * 2)
+        self.assertEqual(verify_toolchain.call_args_list, [mock.call(self.repo, env)] * 2)
         self.assertEqual(marker.read_bytes(), before)
 
     def test_rejects_unexpected_files_and_modified_overlay(self):
@@ -172,6 +178,96 @@ class WindowsBuildTests(unittest.TestCase):
                     windows_build.verify_overlay(self.repo)
                 path.write_bytes(original)
         windows_build.verify_overlay(self.repo)
+
+    def test_selects_local_1450_before_inherited_tools(self):
+        toolset = self.workspace / "VS BuildTools" / "14.50.35729"
+        vc_bin = toolset / "bin/Hostx64/x64"
+        vc_bin.mkdir(parents=True)
+        (vc_bin / "cl.exe").touch()
+        atl_headers = toolset / "atlmfc/include"
+        atl_headers.mkdir(parents=True)
+        (atl_headers / "atlbase.h").touch()
+        (toolset / "atlmfc/lib/x64").mkdir(parents=True)
+        sdk = self.workspace / "Windows Kits/10"
+        (sdk / "Include").mkdir(parents=True)
+        (sdk / "Lib").mkdir()
+        inherited = str(self.workspace / "14.52.37025/bin/Hostx64/x64")
+        with mock.patch.dict(os.environ, {
+            "PATH": inherited, "VC_PATH": str(toolset), "WINDOWSSDKDIR": str(sdk),
+            "INCLUDE": "old headers", "LIB": "old libraries", "LIBPATH": "old library path",
+        }, clear=True):
+            env = windows_build.toolchain_environment()
+            self.assertEqual(os.environ["INCLUDE"], "old headers")
+        self.assertEqual(env["PATH"].split(os.pathsep), [str(vc_bin), inherited])
+        self.assertEqual(env["VC_PATH"], toolset.as_posix())
+        self.assertEqual(env["WINDOWSSDKDIR"], sdk.as_posix())
+        self.assertTrue({"INCLUDE", "LIB", "LIBPATH"}.isdisjoint(env))
+
+    def test_build_checks_configured_headers_before_compiling(self):
+        config_dir = self.repo / windows_build.OBJECT_DIR
+        config_dir.mkdir()
+        config = config_dir / "config.status.json"
+        good = self.workspace / "MSVC/14.50.35729/include"
+        bad = self.workspace / "MSVC/14.52.37025/include"
+        for includes in (good, bad):
+            includes.mkdir(parents=True)
+            (includes / "yvals_core.h").touch()
+        compiler = [str(self.workspace / "Mozilla clang/bin/clang-cl.exe"), "--target=x86_64-pc-windows-msvc"]
+        env = {"MOZCONFIG": str(windows_build.MOZCONFIG)}
+
+        def configure_with(includes):
+            config.write_text(json.dumps({"substs": {
+                "CC_TYPE": "clang-cl", "CC_VERSION": "21.1.8",
+                "INCLUDE": includes, "LIB": "configured libraries",
+                "CXXCPP": [compiler[0], "-E", *compiler[1:]],
+            }}), encoding="utf-8")
+
+        def probe(args, *, cwd, env):
+            path = Path(args[-1])
+            self.assertEqual(args[:-1], [*compiler, "/Zs"])
+            self.assertEqual(path.parent.parent, config_dir)
+            self.assertEqual(path.read_bytes(), b"#include <vector>\n#include <windows.h>\n")
+            self.assertEqual(cwd, self.repo)
+            self.assertEqual(env["INCLUDE"], str(good))
+            self.assertEqual(env["LIB"], "configured libraries")
+            return subprocess.CompletedProcess(args, 0)
+
+        args = ["windows_build.py", "--source", str(self.repo), "build"]
+        with mock.patch.object(sys, "argv", args), \
+             mock.patch.object(windows_build, "require_windows"), \
+             mock.patch.object(windows_build, "toolchain_environment", return_value=env), \
+             mock.patch.object(windows_build, "executable", return_value=config_dir / "firefox.exe"), \
+             mock.patch.object(windows_build, "mach", return_value=0) as mach, \
+             mock.patch.object(windows_build, "verify_overlay") as verify_overlay, \
+             mock.patch.object(windows_build.subprocess, "run", side_effect=probe) as run, \
+             redirect_stdout(io.StringIO()):
+            configure_with(f"{bad};{good}")
+            with self.assertRaisesRegex(ValueError, "14.50.*14.52"):
+                windows_build.verify_toolchain(self.repo, env)
+            with self.assertRaises(SystemExit) as error, mock.patch.object(sys, "stderr", io.StringIO()):
+                windows_build.main()
+            self.assertEqual(error.exception.code, 1)
+            mach.assert_called_once_with(self.repo, "configure", env=env)
+            run.assert_not_called()
+
+            mach.reset_mock()
+            configure_with(str(good))
+            run.side_effect = None
+            run.return_value = subprocess.CompletedProcess(compiler, 1)
+            with self.assertRaises(SystemExit) as error, mock.patch.object(sys, "stderr", io.StringIO()):
+                windows_build.main()
+            self.assertEqual(error.exception.code, 1)
+            mach.assert_called_once_with(self.repo, "configure", env=env)
+
+            mach.reset_mock()
+            run.reset_mock()
+            run.side_effect = probe
+            self.assertEqual(windows_build.main(), 0)
+            self.assertEqual(mach.call_args_list, [
+                mock.call(self.repo, "configure", env=env), mock.call(self.repo, "build", env=env),
+            ])
+            run.assert_called_once()
+            self.assertEqual(verify_overlay.call_count, 3)
 
 
 if __name__ == "__main__":

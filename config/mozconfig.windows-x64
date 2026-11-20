@@ -1,6 +1,7 @@
 ac_add_options --enable-project=browser
 ac_add_options --target=x86_64-pc-windows-msvc
 ac_add_options --disable-artifact-builds
+# Keep the pinned Mozilla Clang bootstrap when selecting a local VC_PATH and WINDOWSSDKDIR.
 ac_add_options --enable-bootstrap
 ac_add_options --disable-official-branding
 ac_add_options --with-branding=browser/branding/aelthoren-windows

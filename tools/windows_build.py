@@ -21,6 +21,8 @@ LOCK = json.loads((ROOT / "upstream.lock.json").read_text(encoding="utf-8"))
 DEFAULT_SOURCE = ROOT.parent / "aelthoren-gecko-windows"
 MOZCONFIG = ROOT / "config/mozconfig.windows-x64"
 OBJECT_DIR = "obj-aelthoren-windows"
+CLANG_MAJOR = "21"
+MSVC_SERIES = "14.50"
 BRANDING = Path("browser/branding/aelthoren-windows")
 MARKER = ".aelthoren-windows.json"
 PATCHES = tuple(ROOT / "patches" / name for name in (
@@ -189,9 +191,66 @@ def require_windows():
         raise ValueError("Start the MozillaBuild shell with C:\\mozilla-build\\start-shell.bat.")
 
 
-def mach(source, *args):
+def toolchain_environment():
     env = dict(os.environ, MOZCONFIG=MOZCONFIG.as_posix())
+    for name in ("INCLUDE", "LIB", "LIBPATH"):
+        env.pop(name, None)
+
+    vc_path = env.get("VC_PATH")
+    sdk_path = env.get("WINDOWSSDKDIR")
+    if bool(vc_path) != bool(sdk_path):
+        raise ValueError("Set both VC_PATH and WINDOWSSDKDIR to select a local toolchain.")
+    if vc_path:
+        if env.get("WINSYSROOT"):
+            raise ValueError("Unset WINSYSROOT before selecting a local VC_PATH and WINDOWSSDKDIR.")
+        vc = Path(vc_path).resolve()
+        sdk = Path(sdk_path).resolve()
+        vc_bin = vc / "bin/Hostx64/x64"
+        if not vc.name.startswith(MSVC_SERIES + ".") or not (vc_bin / "cl.exe").is_file():
+            raise ValueError(f"VC_PATH must point to the x64 MSVC {MSVC_SERIES} toolset: {vc}")
+        if not (vc / "atlmfc/include/atlbase.h").is_file() or not (vc / "atlmfc/lib/x64").is_dir():
+            raise ValueError(f"Install the matching x64/x86 ATL component for MSVC {MSVC_SERIES}: {vc}")
+        if not (sdk / "Include").is_dir() or not (sdk / "Lib").is_dir():
+            raise ValueError(f"WINDOWSSDKDIR must point to a Windows SDK root: {sdk}")
+        env.update(VC_PATH=vc.as_posix(), WINDOWSSDKDIR=sdk.as_posix())
+        # Configure looks for cl.exe on PATH before its selected toolset directory.
+        env["PATH"] = str(vc_bin) + os.pathsep + env["PATH"]
+    return env
+
+
+def mach(source, *args, env):
     return subprocess.run([sys.executable, "mach", *args], cwd=source, env=env).returncode
+
+
+def verify_toolchain(source, env):
+    configuration = source / OBJECT_DIR / "config.status.json"
+    substs = json.loads(configuration.read_text(encoding="utf-8"))["substs"]
+    compiler = substs["CC_TYPE"]
+    version = substs["CC_VERSION"]
+    if compiler != "clang-cl" or version.split(".")[0] != CLANG_MAJOR:
+        raise ValueError(f"Expected Mozilla clang-cl {CLANG_MAJOR}, configured {compiler} {version}.")
+
+    includes = substs["INCLUDE"]
+    stl = next((path for path in map(Path, includes.split(";")) if (path / "yvals_core.h").is_file()), None)
+    if stl is None or not stl.parent.name.startswith(MSVC_SERIES + "."):
+        raise ValueError(
+            f"Clang {version} expected MSVC {MSVC_SERIES} STL headers, found {stl}. "
+            "Use a fresh MozillaBuild shell or select the side-by-side toolset in docs/WINDOWS_BUILD.md."
+        )
+
+    print(f"Checking configured clang-cl {version} against {stl}", flush=True)
+    command = list(substs["CXXCPP"])
+    command.remove("-E")
+    with TemporaryDirectory(prefix="w1-toolchain-", dir=configuration.parent) as temporary:
+        probe = Path(temporary) / "headers.cpp"
+        probe.write_bytes(b"#include <vector>\n#include <windows.h>\n")
+        result = subprocess.run(
+            [*command, "/Zs", str(probe)],
+            cwd=source,
+            env=dict(env, INCLUDE=includes, LIB=substs["LIB"]),
+        )
+    if result.returncode:
+        raise ValueError("The configured compiler failed the MSVC STL and Windows SDK header check.")
 
 
 def executable(source):
@@ -239,9 +298,14 @@ def main():
         require_windows()
         verify_overlay(source)
         if args.command == "bootstrap":
-            return mach(source, "bootstrap", "--application-choice", "browser")
+            return mach(source, "bootstrap", "--application-choice", "browser", env=toolchain_environment())
         if args.command == "build":
-            status = mach(source, "build")
+            env = toolchain_environment()
+            status = mach(source, "configure", env=env)
+            if status:
+                return status
+            verify_toolchain(source, env)
+            status = mach(source, "build", env=env)
             if status:
                 return status
             print(f"Windows x64 build output: {executable(source)}")
