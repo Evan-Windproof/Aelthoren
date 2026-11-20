@@ -70,11 +70,48 @@ name to reuse its data.
 
 Use `--source PATH` before the subcommand to select a different dedicated Firefox
 checkout. Prepare checks the pinned HEAD and requires a clean starting tree. It
-verifies the generated files and tracked changes on subsequent runs. If it
-reports an interrupted or modified overlay, preserve that checkout and prepare
-another clean checkout at the same pin. Keep build logs and profiles outside
-both source trees. Reuse the prepared source, build outputs, and Mach cache for
-incremental builds.
+verifies the generated files and tracked changes on subsequent runs. Keep build
+logs and profiles outside both source trees. Reuse the prepared source, build
+outputs, and Mach cache for incremental builds.
+
+### Recover from a patch application failure
+
+Git can retain CRLF patch files in an existing worktree even after the
+`text eol=lf` rule is in effect. `git ls-files --eol` shows this as
+`i/lf w/crlf attr/text eol=lf`. Prepare converts CRLF to LF in temporary copies
+and checks the complete patch set before applying it. A failed patch check
+leaves the Firefox checkout clean, so it can be reused.
+
+In your MozillaBuild shell, run the following from Aelthoren. Use your actual
+drive and local branch name. The commands stop if the branch cannot fast-forward
+or if the tracked patch files have staged or unstaged content edits. The archive
+command refreshes those files from the current commit even when Git considers
+the existing CRLF files up to date.
+
+```sh
+(
+  set -euo pipefail
+  cd d:/mozilla-source/Aelthoren
+  git switch w1-windows
+  git fetch origin codex/aelthoren-w1-windows
+  git merge --ff-only FETCH_HEAD
+  git diff --exit-code -- 'patches/*.patch'
+  git diff --cached --exit-code -- 'patches/*.patch'
+  git archive --format=tar HEAD -- 'patches/*.patch' | tar -xf -
+  git ls-files --eol -- 'patches/*.patch'
+  python3 tools/windows_build.py prepare
+)
+```
+
+Expect `i/lf w/lf attr/text eol=lf` for each patch. If an interrupted run left
+modifications in the Firefox checkout, review `git status --short` there. To
+preserve that checkout and retry with the same locally available source, create
+a separate worktree from the pin:
+
+```sh
+git -C ../aelthoren-gecko-windows worktree add --detach ../aelthoren-gecko-windows-retry a34c4160e3f75ab9918fbe4669ff7ae56f1977c8
+python3 tools/windows_build.py --source ../aelthoren-gecko-windows-retry prepare
+```
 
 ## Reused frontend and compatibility
 
@@ -106,10 +143,18 @@ resolved to the locked SHA, the three patches and branding overlay prepared
 successfully in a separate pinned checkout, and a repeat prepare verified the
 existing overlay. A wrong pin or an unexpected source change stopped preparation.
 The pinned Mozilla build readers parsed the mozconfig and resolved the
-distribution install paths. The policy JSON passed the pinned schema and the
-17 existing repository tooling tests passed. Native Windows bootstrap,
-compilation and all Windows runtime checks remain pending because the available
-execution host runs Linux.
+distribution install paths. The policy JSON passed the pinned schema.
+
+The patch failure was reproduced on Linux against the pinned Firefox source.
+All three LF copies passed `git apply --check`. A checkout with
+`core.autocrlf=true` and `core.eol=crlf` kept the patches at LF. The recovery
+commands refreshed deliberately stale CRLF files in that checkout. Preparation
+with the stale files succeeded on the same pinned source after the failed
+preflight, and re-running it after refreshing the files verified the same
+overlay. All 19 tooling tests passed, including the two W1 regression tests.
+
+Git for Windows under MozillaBuild 4.2.1, native Windows bootstrap, compilation,
+and Windows runtime checks remain unverified on this Linux host.
 
 ## Acceptance on a Windows host
 

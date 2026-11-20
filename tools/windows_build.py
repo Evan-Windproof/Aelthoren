@@ -58,11 +58,17 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def overlay_state(source, brand):
-    inputs = (*PATCHES, *CONTENT, *DISTRIBUTION.values(), LOGO, *WINDOWS_ASSETS.iterdir())
+def read_patches():
+    return {path: path.read_bytes().replace(b"\r\n", b"\n") for path in PATCHES}
+
+
+def overlay_state(source, brand, patches):
+    inputs = dict(patches)
+    for path in (*CONTENT, *DISTRIBUTION.values(), LOGO, *WINDOWS_ASSETS.iterdir()):
+        inputs[path] = path.read_bytes()
     return {
         "revision": LOCK["revision"],
-        "inputs": {path.relative_to(ROOT).as_posix(): digest(path.read_bytes()) for path in inputs},
+        "inputs": {path.relative_to(ROOT).as_posix(): digest(data) for path, data in inputs.items()},
         "tracked_diff": digest(git(
             source, "diff", "--no-ext-diff", "--no-textconv", "--binary", "HEAD", "--",
         )),
@@ -82,7 +88,7 @@ def verify_overlay(source):
     untracked = git(source, "ls-files", "--others", "--exclude-standard", "--directory", "-z")
     if untracked != f"{BRANDING.as_posix()}/\0".encode("ascii"):
         raise ValueError("Unexpected untracked Firefox files. Review the checkout before continuing.")
-    if json.loads(marker.read_text(encoding="utf-8")) != overlay_state(source, brand):
+    if json.loads(marker.read_text(encoding="utf-8")) != overlay_state(source, brand, read_patches()):
         raise ValueError("Windows overlay or inputs changed. Preserve edits and prepare a clean checkout.")
 
 
@@ -149,14 +155,20 @@ def prepare(source):
     if git(source, "status", "--porcelain=v1", "--untracked-files=normal"):
         raise ValueError("Prepare requires a clean Windows-specific Firefox checkout.")
 
-    patch_args = [str(path) for path in PATCHES]
-    git(source, "apply", "--check", *patch_args)
+    patches = read_patches()
     with TemporaryDirectory(prefix="aelthoren-brand-", dir=brand.parent) as temporary:
-        staged_brand = Path(temporary) / brand.name
+        staging = Path(temporary)
+        patch_args = []
+        for path, data in patches.items():
+            staged_patch = staging / path.name
+            staged_patch.write_bytes(data)
+            patch_args.append(str(staged_patch))
+        git(source, "apply", "--check", *patch_args)
+        staged_brand = staging / brand.name
         generate_branding(brand.parent / "unofficial", staged_brand)
         git(source, "apply", *patch_args)
         try:
-            manifest = json.dumps(overlay_state(source, staged_brand), indent=2, sort_keys=True)
+            manifest = json.dumps(overlay_state(source, staged_brand, patches), indent=2, sort_keys=True)
             (staged_brand / MARKER).write_bytes((manifest + "\n").encode("utf-8"))
             staged_brand.rename(brand)
         except (OSError, subprocess.CalledProcessError):
