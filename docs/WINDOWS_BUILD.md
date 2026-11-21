@@ -60,9 +60,9 @@ python3 tools/windows_build.py run --profile w1-smoke
 ```
 
 The wrapper runs `mach configure` with [the Windows mozconfig](../config/mozconfig.windows-x64)
-in the existing object directory. It checks the selected Clang and MSVC versions
-and compiles a syntax-only probe with the configured STL and SDK headers before
-starting `mach build`. The executable should be at
+in the existing object directory. It compiles a small C++ object and checks
+the STL and SDK paths Clang opened before starting `mach build`. The executable
+should be at
 `aelthoren-gecko-windows/obj-aelthoren-windows/dist/bin/firefox.exe`. The build
 checks that the file has an AMD64 Windows PE header and that the reviewed
 distribution files exist beside it. The launcher uses an explicit persistent
@@ -86,18 +86,35 @@ and [MSVC detection](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f
 
 The 14.52 STL requires Clang 22. The published 14.50 STL accepts Clang 19 or
 newer, and Mozilla pairs it with its Clang 21 build for this Firefox pin. The
-final Cargo and Make errors follow the STL failure in the C++ code compiled
-by the `glslopt` Rust crate. [Microsoft STL compatibility table](https://github.com/microsoft/STL/wiki/Macro-_MSVC_STL_UPDATE)
+affected C++ code is compiled by build scripts in `mozglue-static`, `swgl`, and
+`glslopt`. [Microsoft STL compatibility table](https://github.com/microsoft/STL/wiki/Macro-_MSVC_STL_UPDATE)
 and [14.50 STL header](https://github.com/microsoft/STL/blob/msvc-build-tools-14.50/stl/inc/yvals_core.h).
+
+Mozilla exports its configured `INCLUDE` and `LIB` to Cargo. The vendored
+cc-rs can still discover Visual Studio and prepend that installation's paths
+to a clang-cl child's environment. The parent values printed in the Cargo
+log can therefore show 14.50 while the compiler opens a 14.52 header.
+With no explicit driver options, clang-cl can also look for a toolset via
+Visual Studio environment variables, PATH, Setup Configuration, and the
+registry. [Firefox Cargo compiler settings](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f75ab9918fbe4669ff7ae56f1977c8/config/makefiles/rust.mk),
+[vendored cc-rs discovery](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f75ab9918fbe4669ff7ae56f1977c8/third_party/rust/cc/src/windows/find_tools.rs),
+and [Clang 21.1.8 MSVC driver](https://github.com/llvm/llvm-project/blob/2078da43e25a4623cab2d0d60decddf709aaea28/clang/lib/Driver/ToolChains/MSVC.cpp).
+
+The wrapper sets the configured 14.50 toolset in the child environment for
+cc-rs. It also passes `/vctoolsdir:`, `/winsdkdir:`, and `/winsdkversion:`
+through `_CL_`, which clang-cl appends to its command line in both native build
+rules and Cargo build scripts. The compiler probe and full build use the same
+environment. [Clang driver environment handling](https://github.com/llvm/llvm-project/blob/2078da43e25a4623cab2d0d60decddf709aaea28/clang/tools/driver/driver.cpp).
 
 Start MozillaBuild directly from `D:\mozilla\start-shell.bat` or your install
 path, in a fresh shell outside a Visual Studio Developer Command Prompt. Use
 Mozilla's bootstrapped toolchain first. The pinned Firefox configure checks
 `PATH` for `cl.exe` ahead of its chosen toolset bin, and can otherwise pick up a
 newer Visual Studio installation. The wrapper clears inherited include and
-library search paths for Mach. [Pinned Firefox toolset selection](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f75ab9918fbe4669ff7ae56f1977c8/build/moz.configure/windows-toolchain.configure).
+library search paths and the `CL` and `_CL_` overrides before configuring.
+[Pinned Firefox toolset selection](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f75ab9918fbe4669ff7ae56f1977c8/build/moz.configure/windows-toolchain.configure).
 
-In MozillaBuild, fast-forward the PR branch and resume the build:
+In MozillaBuild, fast-forward the PR branch and run the standalone check:
 
 ```sh
 (
@@ -106,9 +123,16 @@ In MozillaBuild, fast-forward the PR branch and resume the build:
   git switch w1-windows
   git fetch origin codex/aelthoren-w1-windows
   git merge --ff-only FETCH_HEAD
-  python3 tools/windows_build.py build
+  python3 tools/windows_build.py verify-toolchain
 )
 ```
+
+The check stops after configure, a direct C++ compilation, and small C and C++
+compilations through Cargo and the vendored cc-rs. It runs Cargo offline and
+stores the probe outputs in a temporary directory. Expect `Verified header:`
+lines for 14.50's `include/yvals_core.h` and the SDK's `um/windows.h` from both
+routes. Once the command succeeds, run `python3 tools/windows_build.py build`
+from Aelthoren.
 
 If Mozilla configure still selects an incompatible toolset or cannot install
 the pinned one, install Microsoft MSVC 14.50 alongside the existing toolset.
@@ -150,12 +174,12 @@ In the new MozillaBuild shell, run:
 
 ```sh
 cd d:/mozilla-source/Aelthoren
-python3 tools/windows_build.py build
+python3 tools/windows_build.py verify-toolchain
 ```
 
-Expect `Checking configured clang-cl 21...` and an MSVC
-`14.50.*\include` path before compilation. The same object directory and
-Gecko overlay are reused. Expect some files to rebuild after the toolchain change.
+Once both header paths are verified, run `python3 tools/windows_build.py build`.
+The same object directory and Gecko overlay are reused. Expect some files to
+rebuild after the toolchain change.
 
 ### Retry bootstrap with an existing overlay
 
@@ -269,11 +293,14 @@ updated check verified the existing overlay and rejected an unexpected file.
 Regression tests exercise repeated preparation and the validation paths for
 bootstrap and build with Mach stubbed.
 
-The Windows build attempt reported STL1000 with Clang 21 and MSVC 14.52.
-On Linux, all 23 tooling tests passed, including checks for selecting 14.50,
-rejecting 14.52 before compilation, and stopping when the header probe fails.
-Those tests stub the Windows compiler and Mach. The repaired native build and
-Windows runtime checks remain pending.
+The Windows build log reported 14.50 in the Cargo environment and 14.52 in
+the compiler diagnostics. The Linux tooling suite passed all 24 tests,
+including rejection of a 14.52 include trace when the configured path is
+14.50, and use of the same bound environment for the probe and build.
+The tests stub Mach and the native compiler. An adapted Linux run resolved
+the vendored cc-rs offline and compiled the C and C++ fixtures with Linux
+compilers. The standalone Windows probe, full build, and runtime checks
+remain pending.
 
 ## Acceptance on a Windows host
 

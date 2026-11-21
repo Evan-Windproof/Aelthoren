@@ -139,11 +139,11 @@ class WindowsBuildTests(unittest.TestCase):
 
         with mock.patch.object(windows_build, "require_windows"), \
              mock.patch.object(windows_build, "toolchain_environment", return_value=env), \
-             mock.patch.object(windows_build, "verify_toolchain") as verify_toolchain, \
+             mock.patch.object(windows_build, "verify_toolchain", return_value=env) as verify_toolchain, \
              mock.patch.object(windows_build, "mach", return_value=0) as mach, \
              mock.patch.object(windows_build, "executable", return_value=objdir / "firefox.exe"), \
              redirect_stdout(io.StringIO()):
-            for command in ("prepare", "bootstrap", "build") * 2:
+            for command in ("prepare", "bootstrap", "verify-toolchain", "build") * 2:
                 args = ["windows_build.py", "--source", str(self.repo), command]
                 with mock.patch.object(sys, "argv", args):
                     self.assertEqual(windows_build.main(), 0)
@@ -151,9 +151,13 @@ class WindowsBuildTests(unittest.TestCase):
         self.assertEqual(mach.call_args_list, [
             mock.call(self.repo, "bootstrap", "--application-choice", "browser", env=env),
             mock.call(self.repo, "configure", env=env),
+            mock.call(self.repo, "configure", env=env),
             mock.call(self.repo, "build", env=env),
         ] * 2)
-        self.assertEqual(verify_toolchain.call_args_list, [mock.call(self.repo, env)] * 2)
+        self.assertEqual(verify_toolchain.call_args_list, [
+            mock.call(self.repo, env, cargo=True),
+            mock.call(self.repo, env, cargo=False),
+        ] * 2)
         self.assertEqual(marker.read_bytes(), before)
 
     def test_rejects_unexpected_files_and_modified_overlay(self):
@@ -195,42 +199,61 @@ class WindowsBuildTests(unittest.TestCase):
         with mock.patch.dict(os.environ, {
             "PATH": inherited, "VC_PATH": str(toolset), "WINDOWSSDKDIR": str(sdk),
             "INCLUDE": "old headers", "LIB": "old libraries", "LIBPATH": "old library path",
+            "EXTERNAL_INCLUDE": "old headers", "CL": "old compiler flags", "_CL_": "old compiler flags",
         }, clear=True):
             env = windows_build.toolchain_environment()
             self.assertEqual(os.environ["INCLUDE"], "old headers")
         self.assertEqual(env["PATH"].split(os.pathsep), [str(vc_bin), inherited])
         self.assertEqual(env["VC_PATH"], toolset.as_posix())
         self.assertEqual(env["WINDOWSSDKDIR"], sdk.as_posix())
-        self.assertTrue({"INCLUDE", "LIB", "LIBPATH"}.isdisjoint(env))
+        self.assertTrue({"INCLUDE", "LIB", "LIBPATH", "EXTERNAL_INCLUDE", "CL", "_CL_"}.isdisjoint(env))
 
     def test_build_checks_configured_headers_before_compiling(self):
         config_dir = self.repo / windows_build.OBJECT_DIR
         config_dir.mkdir()
         config = config_dir / "config.status.json"
-        good = self.workspace / "MSVC/14.50.35729/include"
-        bad = self.workspace / "MSVC/14.52.37025/include"
-        for includes in (good, bad):
-            includes.mkdir(parents=True)
-            (includes / "yvals_core.h").touch()
+        vc = self.workspace / "VS Build Tools/VC/Tools/MSVC/14.50.35717"
+        old_header = vc / "include/yvals_core.h"
+        new_header = vc.parent / "14.52.37025/include/yvals_core.h"
+        sdk = self.workspace / "Windows Kits/10"
+        windows_header = sdk / "Include/10.0.26100.0/um/windows.h"
+        vc_bin = vc / "bin/Hostx64/x64"
+        for path in (old_header, new_header, windows_header, vc_bin / "cl.exe"):
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.touch()
         compiler = [str(self.workspace / "Mozilla clang/bin/clang-cl.exe"), "--target=x86_64-pc-windows-msvc"]
-        env = {"MOZCONFIG": str(windows_build.MOZCONFIG)}
+        env = {"MOZCONFIG": str(windows_build.MOZCONFIG), "PATH": str(new_header.parent.parent)}
+        includes = f"{old_header.parent};{windows_header.parent}"
 
-        def configure_with(includes):
+        def configure_with(include_paths):
             config.write_text(json.dumps({"substs": {
                 "CC_TYPE": "clang-cl", "CC_VERSION": "21.1.8",
-                "INCLUDE": includes, "LIB": "configured libraries",
+                "HOST_CC_TYPE": "clang-cl", "HOST_CC_VERSION": "21.1.8",
+                "INCLUDE": include_paths, "LIB": "configured libraries",
                 "CXXCPP": [compiler[0], "-E", *compiler[1:]],
             }}), encoding="utf-8")
 
-        def probe(args, *, cwd, env):
+        opened_header = new_header
+
+        def probe(args, *, cwd, env, **capture):
             path = Path(args[-1])
-            self.assertEqual(args[:-1], [*compiler, "/Zs"])
+            self.assertEqual(args[:-1], [*compiler, "/c", "/showIncludes", f"/Fo{path.with_suffix('.obj')}"])
             self.assertEqual(path.parent.parent, config_dir)
             self.assertEqual(path.read_bytes(), b"#include <vector>\n#include <windows.h>\n")
             self.assertEqual(cwd, self.repo)
-            self.assertEqual(env["INCLUDE"], str(good))
+            self.assertEqual(capture["stdout"], subprocess.PIPE)
+            self.assertEqual(env["INCLUDE"], includes)
             self.assertEqual(env["LIB"], "configured libraries")
-            return subprocess.CompletedProcess(args, 0)
+            self.assertEqual(env["VCINSTALLDIR"], str(vc.parent.parent.parent))
+            self.assertEqual(env["VCTOOLSINSTALLDIR"], str(vc))
+            self.assertEqual(env["VSCMD_ARG_TGT_ARCH"], "x64")
+            self.assertEqual(env["PATH"].split(os.pathsep)[0], str(vc_bin))
+            self.assertEqual(env["_CL_"], (
+                f'"/vctoolsdir:{vc.as_posix()}" "/winsdkdir:{sdk.as_posix()}" /winsdkversion:10.0.26100.0'
+            ))
+            return subprocess.CompletedProcess(
+                args, 0, stdout=f"Note: including file:    {opened_header}\nNote: including file: {windows_header}\n",
+            )
 
         args = ["windows_build.py", "--source", str(self.repo), "build"]
         with mock.patch.object(sys, "argv", args), \
@@ -241,7 +264,7 @@ class WindowsBuildTests(unittest.TestCase):
              mock.patch.object(windows_build, "verify_overlay") as verify_overlay, \
              mock.patch.object(windows_build.subprocess, "run", side_effect=probe) as run, \
              redirect_stdout(io.StringIO()):
-            configure_with(f"{bad};{good}")
+            configure_with(f"{new_header.parent};{includes}")
             with self.assertRaisesRegex(ValueError, "14.50.*14.52"):
                 windows_build.verify_toolchain(self.repo, env)
             with self.assertRaises(SystemExit) as error, mock.patch.object(sys, "stderr", io.StringIO()):
@@ -251,9 +274,17 @@ class WindowsBuildTests(unittest.TestCase):
             run.assert_not_called()
 
             mach.reset_mock()
-            configure_with(str(good))
+            configure_with(includes)
+            with self.assertRaisesRegex(ValueError, "Expected Clang to open .*14.50.*observed .*14.52"):
+                windows_build.verify_toolchain(self.repo, env)
+            with self.assertRaises(SystemExit) as error, mock.patch.object(sys, "stderr", io.StringIO()):
+                windows_build.main()
+            self.assertEqual(error.exception.code, 1)
+            mach.assert_called_once_with(self.repo, "configure", env=env)
+
+            mach.reset_mock()
             run.side_effect = None
-            run.return_value = subprocess.CompletedProcess(compiler, 1)
+            run.return_value = subprocess.CompletedProcess(compiler, 1, stdout="STL1000\n")
             with self.assertRaises(SystemExit) as error, mock.patch.object(sys, "stderr", io.StringIO()):
                 windows_build.main()
             self.assertEqual(error.exception.code, 1)
@@ -262,12 +293,45 @@ class WindowsBuildTests(unittest.TestCase):
             mach.reset_mock()
             run.reset_mock()
             run.side_effect = probe
+            opened_header = old_header
             self.assertEqual(windows_build.main(), 0)
+            selected_env = run.call_args.kwargs["env"]
             self.assertEqual(mach.call_args_list, [
-                mock.call(self.repo, "configure", env=env), mock.call(self.repo, "build", env=env),
+                mock.call(self.repo, "configure", env=env), mock.call(self.repo, "build", env=selected_env),
             ])
             run.assert_called_once()
-            self.assertEqual(verify_overlay.call_count, 3)
+            self.assertEqual(verify_overlay.call_count, 4)
+
+    def test_cargo_probe_is_offline_and_uses_configured_compilers(self):
+        directory = self.workspace / "toolchain probe"
+        directory.mkdir()
+        clang = str(self.workspace / "Mozilla clang/clang-cl.exe")
+        substs = {
+            "CC": clang, "CPP": [clang, "-E", "--target=x86_64-pc-windows-msvc"],
+            "CXXCPP": [clang, "-E", "/std:c++20"], "RUSTC": "configured-rustc.exe",
+            "CARGO": "configured-cargo.exe",
+        }
+        env = {"_CL_": "/vctoolsdir:14.50.35717", "VCINSTALLDIR": "selected VC"}
+        headers = (directory / "yvals_core.h", directory / "windows.h")
+        with mock.patch.object(windows_build, "check_header_probe") as check, redirect_stdout(io.StringIO()):
+            windows_build.check_cargo_headers(self.repo, directory, substs, env, headers)
+
+        args, cwd, cargo_env, expected = check.call_args.args
+        self.assertEqual(args, [
+            "configured-cargo.exe", "check", "--offline", "-vv", "--config", str(directory / "vendor.toml"),
+            "--target", "x86_64-pc-windows-msvc", "--target-dir", str(directory / "target"),
+        ])
+        self.assertEqual(cwd, directory)
+        self.assertEqual(expected, headers)
+        self.assertEqual(cargo_env["CC_x86_64_pc_windows_msvc"], clang)
+        self.assertEqual(cargo_env["CXX_x86_64_pc_windows_msvc"], clang)
+        self.assertEqual(cargo_env["CXXFLAGS_x86_64_pc_windows_msvc"], "/std:c++20")
+        self.assertEqual(cargo_env["RUSTC"], "configured-rustc.exe")
+        self.assertEqual(cargo_env["_CL_"], env["_CL_"])
+        self.assertEqual(cargo_env["VCINSTALLDIR"], env["VCINSTALLDIR"])
+        self.assertIn((self.repo / "third_party/rust").as_posix(), (directory / "vendor.toml").read_text())
+        self.assertIn('cc = "=1.2.30"', (directory / "Cargo.toml").read_text())
+        self.assertIn('.cpp(true).file("headers.cpp")', (directory / "build.rs").read_text())
 
 
 if __name__ == "__main__":

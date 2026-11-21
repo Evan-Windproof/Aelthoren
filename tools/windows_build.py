@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import platform
 import re
+import shlex
 import shutil
 import struct
 import subprocess
@@ -21,7 +22,7 @@ LOCK = json.loads((ROOT / "upstream.lock.json").read_text(encoding="utf-8"))
 DEFAULT_SOURCE = ROOT.parent / "aelthoren-gecko-windows"
 MOZCONFIG = ROOT / "config/mozconfig.windows-x64"
 OBJECT_DIR = "obj-aelthoren-windows"
-CLANG_MAJOR = "21"
+CLANG_VERSION = "21.1.8"
 MSVC_SERIES = "14.50"
 BRANDING = Path("browser/branding/aelthoren-windows")
 MARKER = ".aelthoren-windows.json"
@@ -186,14 +187,14 @@ def prepare(source):
 
 def require_windows():
     if sys.platform != "win32" or platform.machine().lower() not in {"amd64", "x86_64"}:
-        raise ValueError("Bootstrap, build, and run require native Windows x64. Source preparation is available here.")
+        raise ValueError("Toolchain checks, bootstrap, build, and run require native Windows x64.")
     if not os.environ.get("MOZILLABUILD"):
         raise ValueError("Start the MozillaBuild shell with C:\\mozilla-build\\start-shell.bat.")
 
 
 def toolchain_environment():
     env = dict(os.environ, MOZCONFIG=MOZCONFIG.as_posix())
-    for name in ("INCLUDE", "LIB", "LIBPATH"):
+    for name in ("INCLUDE", "LIB", "LIBPATH", "EXTERNAL_INCLUDE", "CL", "_CL_"):
         env.pop(name, None)
 
     vc_path = env.get("VC_PATH")
@@ -222,35 +223,119 @@ def mach(source, *args, env):
     return subprocess.run([sys.executable, "mach", *args], cwd=source, env=env).returncode
 
 
-def verify_toolchain(source, env):
+def check_header_probe(args, cwd, env, expected_headers):
+    result = subprocess.run(
+        args, cwd=cwd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+        encoding="utf-8", errors="replace",
+    )
+    if result.returncode:
+        print(result.stdout, file=sys.stderr, end="")
+        raise ValueError("The configured compiler failed the MSVC STL and Windows SDK header check.")
+
+    headers = []
+    for line in result.stdout.splitlines():
+        _, found, path = line.partition("Note: including file:")
+        if found:
+            headers.append(Path(path.strip()))
+    for expected in expected_headers:
+        opened = {path.resolve() for path in headers if path.name.lower() == expected.name}
+        if opened != {expected.resolve()}:
+            actual = ", ".join(str(path) for path in sorted(opened)) or "no include trace"
+            raise ValueError(f"Expected Clang to open {expected}, but observed {actual}.")
+        print(f"Verified header: {expected.resolve()}")
+
+
+def check_cargo_headers(source, directory, substs, env, expected_headers):
+    vendor = json.dumps((source / "third_party/rust").as_posix(), ensure_ascii=False)
+    config = directory / "vendor.toml"
+    config.write_text(
+        '[source.crates-io]\nreplace-with = "vendored-sources"\n'
+        f"[source.vendored-sources]\ndirectory = {vendor}\n", encoding="utf-8",
+    )
+    (directory / "Cargo.toml").write_text(
+        '[package]\nname = "w1-header-probe"\nversion = "0.0.0"\nedition = "2021"\n'
+        '[lib]\npath = "lib.rs"\n[workspace]\n[build-dependencies]\ncc = "=1.2.30"\n',
+        encoding="utf-8",
+    )
+    (directory / "lib.rs").touch()
+    (directory / "headers.c").write_bytes(b"#include <stdlib.h>\n#include <windows.h>\n")
+    (directory / "build.rs").write_bytes(
+        b'fn main() {\n'
+        b'    cc::Build::new().file("headers.c").flag("/showIncludes").compile("probe_c");\n'
+        b'    cc::Build::new().cpp(true).file("headers.cpp").flag("/showIncludes").compile("probe_cpp");\n'
+        b'}\n'
+    )
+    cargo_env = dict(env, RUSTC=substs["RUSTC"], CC_SHELL_ESCAPED_FLAGS="1")
+    for compiler, preprocessor in (("CC", "CPP"), ("CXX", "CXXCPP")):
+        command = substs[preprocessor]
+        separator = command.index("-E")
+        cargo_env[f"{compiler}_x86_64_pc_windows_msvc"] = command[separator - 1]
+        cargo_env[f"{compiler}FLAGS_x86_64_pc_windows_msvc"] = shlex.join(command[separator + 1:])
+    print("Compiling the C and C++ probes through vendored cc-rs (offline)", flush=True)
+    check_header_probe(
+        [substs["CARGO"], "check", "--offline", "-vv", "--config", str(config),
+         "--target", "x86_64-pc-windows-msvc", "--target-dir", str(directory / "target")],
+        directory, cargo_env, expected_headers,
+    )
+
+
+def verify_toolchain(source, env, *, cargo=False):
     configuration = source / OBJECT_DIR / "config.status.json"
     substs = json.loads(configuration.read_text(encoding="utf-8"))["substs"]
-    compiler = substs["CC_TYPE"]
-    version = substs["CC_VERSION"]
-    if compiler != "clang-cl" or version.split(".")[0] != CLANG_MAJOR:
-        raise ValueError(f"Expected Mozilla clang-cl {CLANG_MAJOR}, configured {compiler} {version}.")
+    for cc in ("CC", "HOST_CC"):
+        compiler = substs[f"{cc}_TYPE"]
+        version = substs[f"{cc}_VERSION"]
+        if (compiler, version) != ("clang-cl", CLANG_VERSION):
+            raise ValueError(f"Expected Mozilla clang-cl {CLANG_VERSION}, configured {cc} as {compiler} {version}.")
 
     includes = substs["INCLUDE"]
-    stl = next((path for path in map(Path, includes.split(";")) if (path / "yvals_core.h").is_file()), None)
+    directories = [Path(path).resolve() for path in includes.split(";") if path]
+    stl = next((path for path in directories if (path / "yvals_core.h").is_file()), None)
     if stl is None or not stl.parent.name.startswith(MSVC_SERIES + "."):
         raise ValueError(
             f"Clang {version} expected MSVC {MSVC_SERIES} STL headers, found {stl}. "
             "Use a fresh MozillaBuild shell or select the side-by-side toolset in docs/WINDOWS_BUILD.md."
         )
+    um = next((path for path in directories if path.name.lower() == "um" and (path / "windows.h").is_file()), None)
+    if um is None or um.parent.parent.name.lower() != "include":
+        raise ValueError("Could not locate the configured Windows SDK header directory.")
+    vc = stl.parent
+    vc_bin = vc / "bin/Hostx64/x64"
+    if not (vc_bin / "cl.exe").is_file():
+        raise ValueError(f"Could not locate the configured x64 MSVC tools: {vc_bin}")
 
-    print(f"Checking configured clang-cl {version} against {stl}", flush=True)
+    # cc-rs uses the developer environment instead of rediscovering Visual Studio
+    # when VCINSTALLDIR and the target architecture are set and cl.exe is on PATH.
+    build_env = dict(
+        env,
+        VCINSTALLDIR=str(vc.parent.parent.parent),
+        VCTOOLSINSTALLDIR=str(vc),
+        VSCMD_ARG_TGT_ARCH="x64",
+        PATH=str(vc_bin) + os.pathsep + env["PATH"],
+        INCLUDE=includes,
+        LIB=substs["LIB"],
+    )
+    # clang-cl appends _CL_ to its arguments, including in cc-rs child processes.
+    build_env["_CL_"] = subprocess.list2cmdline([
+        f"/vctoolsdir:{vc.as_posix()}",
+        f"/winsdkdir:{um.parent.parent.parent.as_posix()}",
+        f"/winsdkversion:{um.parent.name}",
+    ])
+
+    print(f"Compiling toolchain probe with clang-cl {CLANG_VERSION} and MSVC {vc.name}", flush=True)
     command = list(substs["CXXCPP"])
     command.remove("-E")
+    expected_headers = (stl / "yvals_core.h", um / "windows.h")
     with TemporaryDirectory(prefix="w1-toolchain-", dir=configuration.parent) as temporary:
         probe = Path(temporary) / "headers.cpp"
         probe.write_bytes(b"#include <vector>\n#include <windows.h>\n")
-        result = subprocess.run(
-            [*command, "/Zs", str(probe)],
-            cwd=source,
-            env=dict(env, INCLUDE=includes, LIB=substs["LIB"]),
+        check_header_probe(
+            [*command, "/c", "/showIncludes", f"/Fo{probe.with_suffix('.obj')}", str(probe)],
+            source, build_env, expected_headers,
         )
-    if result.returncode:
-        raise ValueError("The configured compiler failed the MSVC STL and Windows SDK header check.")
+        if cargo:
+            check_cargo_headers(source, probe.parent, substs, build_env, expected_headers)
+    return build_env
 
 
 def executable(source):
@@ -285,7 +370,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE, help="Dedicated Firefox checkout")
     commands = parser.add_subparsers(dest="command", required=True)
-    for command in ("prepare", "bootstrap", "build"):
+    for command in ("prepare", "bootstrap", "verify-toolchain", "build"):
         commands.add_parser(command)
     run = commands.add_parser("run")
     run.add_argument("--profile", default="default")
@@ -299,12 +384,14 @@ def main():
         verify_overlay(source)
         if args.command == "bootstrap":
             return mach(source, "bootstrap", "--application-choice", "browser", env=toolchain_environment())
-        if args.command == "build":
+        if args.command in ("verify-toolchain", "build"):
             env = toolchain_environment()
             status = mach(source, "configure", env=env)
             if status:
                 return status
-            verify_toolchain(source, env)
+            env = verify_toolchain(source, env, cargo=args.command == "verify-toolchain")
+            if args.command == "verify-toolchain":
+                return 0
             status = mach(source, "build", env=env)
             if status:
                 return status
