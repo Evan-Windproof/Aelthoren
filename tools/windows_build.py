@@ -223,7 +223,7 @@ def mach(source, *args, env):
     return subprocess.run([sys.executable, "mach", *args], cwd=source, env=env).returncode
 
 
-def check_header_probe(args, cwd, env, expected_headers):
+def check_header_probe(args, cwd, env, expected_headers, *, clang_yvals):
     result = subprocess.run(
         args, cwd=cwd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
         encoding="utf-8", errors="replace",
@@ -239,13 +239,14 @@ def check_header_probe(args, cwd, env, expected_headers):
             headers.append(Path(path.strip()))
     for expected in expected_headers:
         opened = {path.resolve() for path in headers if path.name.lower() == expected.name}
+        opened.discard(clang_yvals)
         if opened != {expected.resolve()}:
             actual = ", ".join(str(path) for path in sorted(opened)) or "no include trace"
             raise ValueError(f"Expected Clang to open {expected}, but observed {actual}.")
         print(f"Verified header: {expected.resolve()}")
 
 
-def check_cargo_headers(source, directory, substs, env, expected_headers):
+def check_cargo_headers(source, directory, substs, env, expected_headers, *, clang_yvals):
     vendor = json.dumps((source / "third_party/rust").as_posix(), ensure_ascii=False)
     config = directory / "vendor.toml"
     config.write_text(
@@ -275,7 +276,7 @@ def check_cargo_headers(source, directory, substs, env, expected_headers):
     check_header_probe(
         [substs["CARGO"], "check", "--offline", "-vv", "--config", str(config),
          "--target", "x86_64-pc-windows-msvc", "--target-dir", str(directory / "target")],
-        directory, cargo_env, expected_headers,
+        directory, cargo_env, expected_headers, clang_yvals=clang_yvals,
     )
 
 
@@ -316,25 +317,37 @@ def verify_toolchain(source, env, *, cargo=False):
         LIB=substs["LIB"],
     )
     # clang-cl appends _CL_ to its arguments, including in cc-rs child processes.
+    # Separate the options and values: clang-cl treats a colon as part of the value.
     build_env["_CL_"] = subprocess.list2cmdline([
-        f"/vctoolsdir:{vc.as_posix()}",
-        f"/winsdkdir:{um.parent.parent.parent.as_posix()}",
-        f"/winsdkversion:{um.parent.name}",
+        "/vctoolsdir", vc.as_posix(),
+        "/winsdkdir", um.parent.parent.parent.as_posix(),
+        "/winsdkversion", um.parent.name,
     ])
 
     print(f"Compiling toolchain probe with clang-cl {CLANG_VERSION} and MSVC {vc.name}", flush=True)
     command = list(substs["CXXCPP"])
     command.remove("-E")
-    expected_headers = (stl / "yvals_core.h", um / "windows.h")
+    resource_dir = subprocess.check_output(
+        [*command, "/clang:-print-resource-dir"], cwd=source, env=build_env,
+        encoding="utf-8", errors="replace",
+    ).strip()
+    if not resource_dir:
+        raise ValueError("Clang did not report its resource directory.")
+    # Clang's builtin yvals_core.h forwards to the real MSVC header.
+    clang_yvals = (Path(resource_dir) / "include/yvals_core.h").resolve()
+    expected_headers = (stl / "vector", stl / "yvals_core.h", um / "windows.h")
     with TemporaryDirectory(prefix="w1-toolchain-", dir=configuration.parent) as temporary:
         probe = Path(temporary) / "headers.cpp"
         probe.write_bytes(b"#include <vector>\n#include <windows.h>\n")
+        output = probe.with_suffix(".obj")
         check_header_probe(
-            [*command, "/c", "/showIncludes", f"/Fo{probe.with_suffix('.obj')}", str(probe)],
-            source, build_env, expected_headers,
+            [*command, "/c", "/showIncludes", "/clang:-v", f"/Fo{output.name}", probe.name],
+            probe.parent, build_env, expected_headers, clang_yvals=clang_yvals,
         )
+        if not output.is_file():
+            raise ValueError("The compiler did not produce a toolchain probe object.")
         if cargo:
-            check_cargo_headers(source, probe.parent, substs, build_env, expected_headers)
+            check_cargo_headers(source, probe.parent, substs, build_env, expected_headers, clang_yvals=clang_yvals)
     return build_env
 
 

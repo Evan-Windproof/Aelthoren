@@ -101,10 +101,14 @@ registry. [Firefox Cargo compiler settings](https://github.com/mozilla-firefox/f
 and [Clang 21.1.8 MSVC driver](https://github.com/llvm/llvm-project/blob/2078da43e25a4623cab2d0d60decddf709aaea28/clang/lib/Driver/ToolChains/MSVC.cpp).
 
 The wrapper sets the configured 14.50 toolset in the child environment for
-cc-rs. It also passes `/vctoolsdir:`, `/winsdkdir:`, and `/winsdkversion:`
-through `_CL_`, which clang-cl appends to its command line in both native build
-rules and Cargo build scripts. The compiler probe and full build use the same
-environment. [Clang driver environment handling](https://github.com/llvm/llvm-project/blob/2078da43e25a4623cab2d0d60decddf709aaea28/clang/tools/driver/driver.cpp).
+cc-rs. It passes `/vctoolsdir DIR`, `/winsdkdir DIR`, and
+`/winsdkversion VERSION` through `_CL_`, which clang-cl appends to its command
+line in native build rules and Cargo build scripts. The switches and values are
+separate arguments, and each path with spaces is quoted as a single value.
+The previous colon syntax made the colon part of the path. Clang then ignored
+the resulting nonexistent directories and skipped its normal `INCLUDE`
+lookup because explicit toolchain flags were present. [Clang option definitions](https://github.com/llvm/llvm-project/blob/2078da43e25a4623cab2d0d60decddf709aaea28/clang/include/clang/Driver/Options.td)
+and [MSVC header lookup](https://github.com/llvm/llvm-project/blob/2078da43e25a4623cab2d0d60decddf709aaea28/clang/lib/Driver/ToolChains/MSVC.cpp).
 
 Start MozillaBuild directly from `D:\mozilla\start-shell.bat` or your install
 path, in a fresh shell outside a Visual Studio Developer Command Prompt. Use
@@ -130,9 +134,13 @@ In MozillaBuild, fast-forward the PR branch and run the standalone check:
 The check stops after configure, a direct C++ compilation, and small C and C++
 compilations through Cargo and the vendored cc-rs. It runs Cargo offline and
 stores the probe outputs in a temporary directory. Expect `Verified header:`
-lines for 14.50's `include/yvals_core.h` and the SDK's `um/windows.h` from both
-routes. Once the command succeeds, run `python3 tools/windows_build.py build`
-from Aelthoren.
+lines for 14.50's `include/vector` and `include/yvals_core.h`, plus the SDK's
+`um/windows.h`, from both routes. The trace may also contain Clang's own
+`yvals_core.h` from its reported resource directory. The verifier recognizes
+that forwarding header and still requires the actual 14.50 header underneath.
+If the direct compile fails, its verbose include search is printed with the
+error. Once the command succeeds, run `python3 tools/windows_build.py build`
+from Aelthoren. [Clang's forwarding header](https://github.com/llvm/llvm-project/blob/2078da43e25a4623cab2d0d60decddf709aaea28/clang/lib/Headers/yvals_core.h)
 
 If Mozilla configure still selects an incompatible toolset or cannot install
 the pinned one, install Microsoft MSVC 14.50 alongside the existing toolset.
@@ -177,7 +185,7 @@ cd d:/mozilla-source/Aelthoren
 python3 tools/windows_build.py verify-toolchain
 ```
 
-Once both header paths are verified, run `python3 tools/windows_build.py build`.
+Once the toolchain check succeeds, run `python3 tools/windows_build.py build`.
 The same object directory and Gecko overlay are reused. Expect some files to
 rebuild after the toolchain change.
 
@@ -294,13 +302,13 @@ Regression tests exercise repeated preparation and the validation paths for
 bootstrap and build with Mach stubbed.
 
 The Windows build log reported 14.50 in the Cargo environment and 14.52 in
-the compiler diagnostics. The Linux tooling suite passed all 24 tests,
-including rejection of a 14.52 include trace when the configured path is
-14.50, and use of the same bound environment for the probe and build.
-The tests stub Mach and the native compiler. An adapted Linux run resolved
-the vendored cc-rs offline and compiled the C and C++ fixtures with Linux
-compilers. The standalone Windows probe, full build, and runtime checks
-remain pending.
+the compiler diagnostics. A later Windows probe reported that `vector` was
+missing. On Linux, LLVM clang-cl 21.1.8 reproduced that failure with the
+colon form of the options and compiled an AMD64 COFF object with the corrected
+options and synthetic headers under `Program Files (x86)`. A vendored cc-rs
+test on Linux invoked that same driver and verified the same fixture paths.
+All 25 tooling tests passed. The native Windows probe with the installed MSVC
+and SDK, full build, and runtime checks remain pending.
 
 ## Acceptance on a Windows host
 

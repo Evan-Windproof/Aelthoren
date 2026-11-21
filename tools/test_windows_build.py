@@ -184,7 +184,8 @@ class WindowsBuildTests(unittest.TestCase):
         windows_build.verify_overlay(self.repo)
 
     def test_selects_local_1450_before_inherited_tools(self):
-        toolset = self.workspace / "VS BuildTools" / "14.50.35729"
+        program_files = self.workspace / "Program Files (x86)"
+        toolset = program_files / "Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35729"
         vc_bin = toolset / "bin/Hostx64/x64"
         vc_bin.mkdir(parents=True)
         (vc_bin / "cl.exe").touch()
@@ -192,7 +193,7 @@ class WindowsBuildTests(unittest.TestCase):
         atl_headers.mkdir(parents=True)
         (atl_headers / "atlbase.h").touch()
         (toolset / "atlmfc/lib/x64").mkdir(parents=True)
-        sdk = self.workspace / "Windows Kits/10"
+        sdk = program_files / "Windows Kits/10"
         (sdk / "Include").mkdir(parents=True)
         (sdk / "Lib").mkdir()
         inherited = str(self.workspace / "14.52.37025/bin/Hostx64/x64")
@@ -212,16 +213,19 @@ class WindowsBuildTests(unittest.TestCase):
         config_dir = self.repo / windows_build.OBJECT_DIR
         config_dir.mkdir()
         config = config_dir / "config.status.json"
-        vc = self.workspace / "VS Build Tools/VC/Tools/MSVC/14.50.35717"
+        program_files = self.workspace / "Program Files (x86)"
+        vc = program_files / "Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717"
         old_header = vc / "include/yvals_core.h"
         new_header = vc.parent / "14.52.37025/include/yvals_core.h"
-        sdk = self.workspace / "Windows Kits/10"
+        sdk = program_files / "Windows Kits/10"
         windows_header = sdk / "Include/10.0.26100.0/um/windows.h"
         vc_bin = vc / "bin/Hostx64/x64"
-        for path in (old_header, new_header, windows_header, vc_bin / "cl.exe"):
+        for path in (old_header, old_header.with_name("vector"), new_header, windows_header, vc_bin / "cl.exe"):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.touch()
         compiler = [str(self.workspace / "Mozilla clang/bin/clang-cl.exe"), "--target=x86_64-pc-windows-msvc"]
+        resource_dir = self.workspace / "Mozilla clang/lib/clang/21"
+        clang_yvals = resource_dir / "include/yvals_core.h"
         env = {"MOZCONFIG": str(windows_build.MOZCONFIG), "PATH": str(new_header.parent.parent)}
         includes = f"{old_header.parent};{windows_header.parent}"
 
@@ -236,11 +240,14 @@ class WindowsBuildTests(unittest.TestCase):
         opened_header = new_header
 
         def probe(args, *, cwd, env, **capture):
-            path = Path(args[-1])
-            self.assertEqual(args[:-1], [*compiler, "/c", "/showIncludes", f"/Fo{path.with_suffix('.obj')}"])
+            path = cwd / args[-1]
+            output = path.with_suffix(".obj")
+            self.assertEqual(args[:-1], [
+                *compiler, "/c", "/showIncludes", "/clang:-v", f"/Fo{output.name}",
+            ])
             self.assertEqual(path.parent.parent, config_dir)
             self.assertEqual(path.read_bytes(), b"#include <vector>\n#include <windows.h>\n")
-            self.assertEqual(cwd, self.repo)
+            self.assertEqual(args[-1], path.name)
             self.assertEqual(capture["stdout"], subprocess.PIPE)
             self.assertEqual(env["INCLUDE"], includes)
             self.assertEqual(env["LIB"], "configured libraries")
@@ -249,10 +256,16 @@ class WindowsBuildTests(unittest.TestCase):
             self.assertEqual(env["VSCMD_ARG_TGT_ARCH"], "x64")
             self.assertEqual(env["PATH"].split(os.pathsep)[0], str(vc_bin))
             self.assertEqual(env["_CL_"], (
-                f'"/vctoolsdir:{vc.as_posix()}" "/winsdkdir:{sdk.as_posix()}" /winsdkversion:10.0.26100.0'
+                f'/vctoolsdir "{vc.as_posix()}" /winsdkdir "{sdk.as_posix()}" /winsdkversion 10.0.26100.0'
             ))
+            output.touch()
             return subprocess.CompletedProcess(
-                args, 0, stdout=f"Note: including file:    {opened_header}\nNote: including file: {windows_header}\n",
+                args, 0, stdout=(
+                    f"Note: including file: {opened_header.with_name('vector')}\n"
+                    f"Note: including file:    {clang_yvals}\n"
+                    f"Note: including file:    {opened_header}\n"
+                    f"Note: including file: {windows_header}\n"
+                ),
             )
 
         args = ["windows_build.py", "--source", str(self.repo), "build"]
@@ -262,6 +275,7 @@ class WindowsBuildTests(unittest.TestCase):
              mock.patch.object(windows_build, "executable", return_value=config_dir / "firefox.exe"), \
              mock.patch.object(windows_build, "mach", return_value=0) as mach, \
              mock.patch.object(windows_build, "verify_overlay") as verify_overlay, \
+             mock.patch.object(windows_build.subprocess, "check_output", return_value=str(resource_dir)) as query, \
              mock.patch.object(windows_build.subprocess, "run", side_effect=probe) as run, \
              redirect_stdout(io.StringIO()):
             configure_with(f"{new_header.parent};{includes}")
@@ -299,8 +313,23 @@ class WindowsBuildTests(unittest.TestCase):
             self.assertEqual(mach.call_args_list, [
                 mock.call(self.repo, "configure", env=env), mock.call(self.repo, "build", env=selected_env),
             ])
+            self.assertEqual(query.call_args.args[0], [*compiler, "/clang:-print-resource-dir"])
+            self.assertEqual(query.call_args.kwargs["env"], selected_env)
             run.assert_called_once()
             self.assertEqual(verify_overlay.call_count, 4)
+
+    def test_clang_forwarder_does_not_replace_the_verified_msvc_header(self):
+        stl = self.workspace / "Program Files (x86)/VC/Tools/MSVC/14.50.35717/include"
+        expected = stl / "yvals_core.h"
+        newer = stl.parent.parent / "14.52.37025/include/yvals_core.h"
+        clang_yvals = self.workspace / "Mozilla clang/lib/clang/21/include/yvals_core.h"
+        trace = f"Note: including file: {clang_yvals}\n"
+        for output in (trace, trace + f"Note: including file: {newer}\n"):
+            with self.subTest(trace=output), mock.patch.object(
+                windows_build.subprocess, "run",
+                return_value=subprocess.CompletedProcess(["clang-cl"], 0, stdout=output),
+            ), self.assertRaisesRegex(ValueError, "Expected Clang to open .*14.50"):
+                windows_build.check_header_probe(["clang-cl"], self.repo, {}, (expected,), clang_yvals=clang_yvals)
 
     def test_cargo_probe_is_offline_and_uses_configured_compilers(self):
         directory = self.workspace / "toolchain probe"
@@ -311,10 +340,16 @@ class WindowsBuildTests(unittest.TestCase):
             "CXXCPP": [clang, "-E", "/std:c++20"], "RUSTC": "configured-rustc.exe",
             "CARGO": "configured-cargo.exe",
         }
-        env = {"_CL_": "/vctoolsdir:14.50.35717", "VCINSTALLDIR": "selected VC"}
-        headers = (directory / "yvals_core.h", directory / "windows.h")
+        vc = self.workspace / "Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717"
+        sdk = self.workspace / "Program Files (x86)/Windows Kits/10"
+        env = {
+            "_CL_": f'/vctoolsdir "{vc.as_posix()}" /winsdkdir "{sdk.as_posix()}" /winsdkversion 10.0.26100.0',
+            "VCINSTALLDIR": str(vc.parent.parent.parent),
+        }
+        headers = (vc / "include/vector", vc / "include/yvals_core.h", sdk / "Include/10.0.26100.0/um/windows.h")
+        clang_yvals = self.workspace / "Mozilla clang/lib/clang/21/include/yvals_core.h"
         with mock.patch.object(windows_build, "check_header_probe") as check, redirect_stdout(io.StringIO()):
-            windows_build.check_cargo_headers(self.repo, directory, substs, env, headers)
+            windows_build.check_cargo_headers(self.repo, directory, substs, env, headers, clang_yvals=clang_yvals)
 
         args, cwd, cargo_env, expected = check.call_args.args
         self.assertEqual(args, [
@@ -323,6 +358,7 @@ class WindowsBuildTests(unittest.TestCase):
         ])
         self.assertEqual(cwd, directory)
         self.assertEqual(expected, headers)
+        self.assertEqual(check.call_args.kwargs["clang_yvals"], clang_yvals)
         self.assertEqual(cargo_env["CC_x86_64_pc_windows_msvc"], clang)
         self.assertEqual(cargo_env["CXX_x86_64_pc_windows_msvc"], clang)
         self.assertEqual(cargo_env["CXXFLAGS_x86_64_pc_windows_msvc"], "/std:c++20")
