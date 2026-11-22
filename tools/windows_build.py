@@ -26,11 +26,12 @@ CLANG_VERSION = "21.1.8"
 MSVC_SERIES = "14.50"
 BRANDING = Path("browser/branding/aelthoren-windows")
 MARKER = ".aelthoren-windows.json"
+RUST_LINK_PATCH = ROOT / "patches/0004-w1-windows-rust-sync.patch"
 PATCHES = tuple(ROOT / "patches" / name for name in (
     "0001-phase2-ui.patch",
     "0002-phase3-search.patch",
     "0003-phase3-account-settings.patch",
-))
+)) + (RUST_LINK_PATCH,)
 CONTENT = tuple(ROOT / "branding/content" / name for name in (
     "newtab.html", "about-aelthoren.html", "aelthoren.css",
 ))
@@ -82,21 +83,32 @@ def overlay_state(source, brand, patches):
     }
 
 
-def verify_overlay(source):
+def verify_overlay(source, *, allow_link_upgrade=False):
     verify_source(source)
     brand = source / BRANDING
     marker = brand / MARKER
     if not marker.is_file():
         raise ValueError("Windows overlay is missing. Run prepare in a clean, pinned checkout.")
-    state = overlay_state(source, brand, read_patches())
-    if json.loads(marker.read_text(encoding="utf-8")) != state:
-        raise ValueError("Windows overlay or inputs changed. Preserve edits and prepare a clean checkout.")
+    patches = read_patches()
+    state = overlay_state(source, brand, patches)
+    recorded = json.loads(marker.read_text(encoding="utf-8"))
+    needs_link_patch = False
+    if recorded != state:
+        if RUST_LINK_PATCH in patches:
+            # An existing overlay can be upgraded only if every other hash matches.
+            del state["inputs"][RUST_LINK_PATCH.relative_to(ROOT).as_posix()]
+            needs_link_patch = recorded == state
+        if not needs_link_patch:
+            raise ValueError("Windows overlay or inputs changed. Preserve edits and prepare a clean checkout.")
 
     allowed = {os.fsencode((BRANDING / name).as_posix()) for name in (*state["branding"], MARKER)}
     untracked = git(source, "ls-files", "--others", "--exclude-standard", "-z")
     for path in untracked.split(b"\0"):
         if path and path not in allowed:
             raise ValueError(f"Unexpected untracked Firefox files. Review {os.fsdecode(path)!r}.")
+    if needs_link_patch and not allow_link_upgrade:
+        raise ValueError("Windows overlay needs the Rust link patch. Run prepare.")
+    return needs_link_patch
 
 
 def edit_text(path, replacements=(), suffix=""):
@@ -155,34 +167,40 @@ def generate_branding(template, brand):
 def prepare(source):
     verify_source(source)
     brand = source / BRANDING
-    if brand.exists():
-        verify_overlay(source)
+    upgrading = brand.exists()
+    if upgrading and not verify_overlay(source, allow_link_upgrade=True):
         print(f"Windows overlay verified at {LOCK['revision']}")
         return
-    if git(source, "status", "--porcelain=v1", "--untracked-files=normal"):
+    if not upgrading and git(source, "status", "--porcelain=v1", "--untracked-files=normal"):
         raise ValueError("Prepare requires a clean Windows-specific Firefox checkout.")
 
     patches = read_patches()
+    pending = {RUST_LINK_PATCH: patches[RUST_LINK_PATCH]} if upgrading else patches
     with TemporaryDirectory(prefix="aelthoren-brand-", dir=brand.parent) as temporary:
         staging = Path(temporary)
         patch_args = []
-        for path, data in patches.items():
+        for path, data in pending.items():
             staged_patch = staging / path.name
             staged_patch.write_bytes(data)
             patch_args.append(str(staged_patch))
         git(source, "apply", "--check", *patch_args)
-        staged_brand = staging / brand.name
-        generate_branding(brand.parent / "unofficial", staged_brand)
+        staged_brand = brand if upgrading else staging / brand.name
+        if not upgrading:
+            generate_branding(brand.parent / "unofficial", staged_brand)
         git(source, "apply", *patch_args)
         try:
             manifest = json.dumps(overlay_state(source, staged_brand, patches), indent=2, sort_keys=True)
-            (staged_brand / MARKER).write_bytes((manifest + "\n").encode("utf-8"))
-            staged_brand.rename(brand)
+            staged_marker = staging / MARKER
+            staged_marker.write_bytes((manifest + "\n").encode("utf-8"))
+            staged_marker.replace(staged_brand / MARKER)
+            if not upgrading:
+                staged_brand.rename(brand)
         except (OSError, subprocess.CalledProcessError):
             git(source, "apply", "--reverse", *patch_args)
             raise
     verify_overlay(source)
-    print(f"Prepared Windows overlay at {LOCK['revision']}")
+    action = "Updated" if upgrading else "Prepared"
+    print(f"{action} Windows overlay at {LOCK['revision']}")
 
 
 def require_windows():
@@ -381,8 +399,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE, help="Dedicated Firefox checkout")
     commands = parser.add_subparsers(dest="command", required=True)
-    for command in ("prepare", "bootstrap", "verify-toolchain", "build"):
+    for command in ("prepare", "bootstrap", "verify-toolchain"):
         commands.add_parser(command)
+    build = commands.add_parser("build")
+    build.add_argument("--verbose", action="store_true", help="Show Mach build commands, including linker inputs")
     run = commands.add_parser("run")
     run.add_argument("--profile", default="default")
     args = parser.parse_args()
@@ -403,7 +423,8 @@ def main():
             env = verify_toolchain(source, env)
             if args.command == "verify-toolchain":
                 return 0
-            status = mach(source, "build", env=env)
+            build_args = ("--verbose",) if args.verbose else ()
+            status = mach(source, "build", *build_args, env=env)
             if status:
                 return status
             print(f"Windows x64 build output: {executable(source)}")

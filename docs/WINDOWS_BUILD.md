@@ -199,7 +199,7 @@ rebuild after the toolchain change.
 
 ### Retry bootstrap with an existing overlay
 
-The Windows branding directory and the five patched Firefox files are expected
+The Windows branding directory and the six patched Firefox files are expected
 after `prepare`. Verification checks the recorded file paths and hashes, the
 tracked source diff, and the overlay inputs. It lists individual untracked files
 so empty directories do not affect the result. Git's standard exclusions apply
@@ -220,9 +220,54 @@ branch and retry from the MozillaBuild shell:
 )
 ```
 
-Expect `Windows overlay verified` from `prepare`. To inspect a path reported by
-the validator, run `git -C ../aelthoren-gecko-windows status --short --untracked-files=all`
+Expect `Windows overlay verified` or `Updated Windows overlay` from `prepare`.
+To inspect a path reported by the validator, run
+`git -C ../aelthoren-gecko-windows status --short --untracked-files=all`
 from Aelthoren and review the file before retrying.
+
+### Resume after Rust 1.100.0 `crashhelper.exe` link errors
+
+On `x86_64-pc-windows-msvc`, Rust 1.100.0 reports these native dependencies for
+a `staticlib` that uses the standard library:
+
+```text
+kernel32.lib ntdll.lib userenv.lib ws2_32.lib dbghelp.lib synchronization.lib /defaultlib:msvcrt
+```
+
+`crashhelper.exe` is linked by Gecko's native linker and consumes
+`crash_helper_server.lib`. Gecko carries each static library's declared
+system dependencies to the final link. The pinned `crash_helper_server` did
+not declare `synchronization.lib`, which supplies `WaitOnAddress`,
+`WakeByAddressSingle`, and `WakeByAddressAll`. The Windows overlay now declares
+it for all MSVC-targeted Rust static libraries at their shared metadata layer.
+Gecko emits it through `OS_LIBS` (or `HOST_EXTRA_LIBS` for host libraries) after
+the Rust archive. The existing SDK search paths resolve it. [Windows SDK `WaitOnAddress` documentation](https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-waitonaddress)
+
+In MozillaBuild, update your Aelthoren branch and rerun `prepare` against the
+existing Firefox checkout. It verifies the old overlay and adds only the Rust
+link patch. Keep the existing `obj-aelthoren-windows` directory. The next
+incremental build regenerates the backend and checks both toolchain probes
+before invoking Mach with verbose logging.
+
+```sh
+(
+  set -e -o pipefail
+  cd d:/mozilla-source/Aelthoren
+  git switch w1-windows
+  git fetch origin codex/aelthoren-w1-windows
+  git merge --ff-only FETCH_HEAD
+  python3 tools/windows_build.py prepare
+  python3 tools/windows_build.py build --verbose 2>&1 | tee ../aelthoren-build-rust-link.log
+)
+```
+
+From the Aelthoren checkout, inspect the recorded `crashhelper.exe` linker
+command and any remaining undefined symbols. Expect `synchronization.lib`
+after `crash_helper_server.lib` in that command.
+
+```sh
+grep -Ein '(-out:.*crashhelper\.exe|undefined symbol:)' ../aelthoren-build-rust-link.log
+```
 
 ### Recover from a patch application failure
 
@@ -288,7 +333,7 @@ python3 tools/windows_build.py --source ../aelthoren-gecko-windows-retry prepare
 
 ## Verification status
 
-The implementation was checked on Linux x86_64. The official release tag
+The initial implementation was checked on Linux x86_64. The official release tag
 resolved to the locked SHA, the three patches and branding overlay prepared
 successfully in a separate pinned checkout, and a repeat prepare verified the
 existing overlay. A wrong pin or an unexpected source change stopped preparation.
@@ -319,9 +364,22 @@ The subsequent Windows failure reported switches as filenames and multiple
 inputs. On Linux, the pinned vendored cc-rs and Clang 21.1.8 reproduced both
 errors using `_CL_` and cc-rs's actual object-compile command with `--`.
 With `CL`, both direct and cc-rs C/C++ probes produced x64 COFF
-objects using the synthetic 14.50 and SDK headers. All 25 tooling tests passed,
-including the build gate when the Cargo probe fails. The native Windows
-diagnostic, full build, and runtime checks remain pending.
+objects using the synthetic 14.50 and SDK headers. Both probes subsequently
+passed on Windows 11 x64 with Clang 21.1.8, MSVC 14.50.35717 and SDK 10.0.26100.
+The ensuing Windows build reported the three undefined synchronization symbols
+while linking `crashhelper.exe` with Rust 1.100.0.
+
+On Linux, Rust 1.100.0 emitted the MSVC `native-static-libs` list above and the
+test archive contained references to all three SDK symbols. A separate x64
+COFF link probe failed on those three symbols without the library and linked
+successfully with Microsoft's SDK 10.0.26100 import library. Its PE import
+table named `api-ms-win-core-synch-l1-2-0.dll`. The pinned Gecko build backend,
+exercised with fixture configurations, emitted `synchronization.lib` for
+`crashhelper.exe`, an `xul.dll` link using `gkrust`, and a host Rust library
+consumer. Linux link metadata was unchanged. All 26 tooling tests passed and an
+existing overlay in a pinned checkout upgraded in place. The actual Windows
+`crashhelper.exe` link command and result with this patch, subsequent Gecko
+links, and runtime acceptance remain unverified.
 
 ## Acceptance on a Windows host
 

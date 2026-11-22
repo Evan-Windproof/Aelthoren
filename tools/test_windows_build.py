@@ -108,7 +108,7 @@ class WindowsBuildTests(unittest.TestCase):
             self.assertEqual(marker.read_bytes(), previous)
             self.assertEqual(branding.call_count, 1)
 
-    def prepared_overlay(self):
+    def prepared_overlay(self, *, legacy=False):
         (self.repo / ".gitattributes").write_bytes(b"* -text\n")
         (self.repo / ".gitignore").write_bytes(b"/obj*/\n*.ignored\n")
         tracked = self.repo / "browser/branding/unofficial/README"
@@ -123,9 +123,70 @@ class WindowsBuildTests(unittest.TestCase):
         (brand / "distribution").mkdir(parents=True)
         (brand / "configure.sh").write_bytes(b"Reviewed branding\n")
         (brand / "distribution/default.ignored").write_bytes(b"Reviewed distribution file\n")
-        state = windows_build.overlay_state(self.repo, brand, windows_build.read_patches())
+        patches = windows_build.read_patches()
+        if legacy:
+            del patches[windows_build.RUST_LINK_PATCH]
+        state = windows_build.overlay_state(self.repo, brand, patches)
         (brand / windows_build.MARKER).write_text(json.dumps(state), encoding="utf-8")
         return tracked, brand
+
+    def test_upgrades_verified_overlay_with_only_the_new_link_patch(self):
+        link_rule = self.repo / "link.txt"
+        link_rule.write_bytes(b"old link rule\n")
+        tracked, brand = self.prepared_overlay(legacy=True)
+        marker = brand / windows_build.MARKER
+        original_marker = marker.read_bytes()
+        original_tracked = tracked.read_bytes()
+        branding = brand / "configure.sh"
+        original_branding = branding.read_bytes()
+        objdir = self.repo / windows_build.OBJECT_DIR
+        objdir.mkdir()
+        output = objdir / "build-output"
+        output.write_bytes(b"incremental build artifact")
+
+        link_rule.write_bytes(b"new link rule\n")
+        patches = windows_build.read_patches()
+        patches[windows_build.RUST_LINK_PATCH] = self.git("diff", "--", "link.txt").stdout
+        self.git("restore", "--worktree", "--", "link.txt")
+
+        with mock.patch.object(windows_build, "read_patches", return_value=patches), \
+             mock.patch.object(windows_build, "generate_branding") as generate_branding, \
+             redirect_stdout(io.StringIO()):
+            with self.assertRaisesRegex(ValueError, "needs the Rust link patch. Run prepare"):
+                windows_build.verify_overlay(self.repo)
+
+            tracked.write_bytes(b"Unreviewed source edit\n")
+            with self.assertRaisesRegex(ValueError, "Windows overlay or inputs changed"):
+                windows_build.prepare(self.repo)
+            self.assertEqual(link_rule.read_bytes(), b"old link rule\n")
+            self.assertEqual(marker.read_bytes(), original_marker)
+            tracked.write_bytes(original_tracked)
+
+            unexpected = self.repo / "unknown file"
+            unexpected.touch()
+            with self.assertRaisesRegex(ValueError, "Unexpected untracked Firefox files"):
+                windows_build.prepare(self.repo)
+            self.assertEqual(link_rule.read_bytes(), b"old link rule\n")
+            unexpected.unlink()
+
+            with mock.patch.object(Path, "replace", side_effect=OSError("manifest update failed")):
+                with self.assertRaisesRegex(OSError, "manifest update failed"):
+                    windows_build.prepare(self.repo)
+            self.assertEqual(link_rule.read_bytes(), b"old link rule\n")
+            self.assertEqual(marker.read_bytes(), original_marker)
+
+            windows_build.prepare(self.repo)
+            self.assertEqual(link_rule.read_bytes(), b"new link rule\n")
+            upgraded_marker = marker.read_bytes()
+            self.assertNotEqual(upgraded_marker, original_marker)
+            windows_build.verify_overlay(self.repo)
+            windows_build.prepare(self.repo)
+            self.assertEqual(marker.read_bytes(), upgraded_marker)
+            generate_branding.assert_not_called()
+
+        self.assertEqual(branding.read_bytes(), original_branding)
+        self.assertEqual(tracked.read_bytes(), original_tracked)
+        self.assertEqual(output.read_bytes(), b"incremental build artifact")
 
     def test_reuses_verified_overlay_for_prepare_bootstrap_and_build(self):
         _, brand = self.prepared_overlay()
@@ -143,17 +204,25 @@ class WindowsBuildTests(unittest.TestCase):
              mock.patch.object(windows_build, "mach", return_value=0) as mach, \
              mock.patch.object(windows_build, "executable", return_value=objdir / "firefox.exe"), \
              redirect_stdout(io.StringIO()):
-            for command in ("prepare", "bootstrap", "verify-toolchain", "build") * 2:
-                args = ["windows_build.py", "--source", str(self.repo), command]
-                with mock.patch.object(sys, "argv", args):
-                    self.assertEqual(windows_build.main(), 0)
+            for build_options in ([], ["--verbose"]):
+                for command in ("prepare", "bootstrap", "verify-toolchain", "build"):
+                    args = ["windows_build.py", "--source", str(self.repo), command]
+                    if command == "build":
+                        args.extend(build_options)
+                    with mock.patch.object(sys, "argv", args):
+                        self.assertEqual(windows_build.main(), 0)
 
-        self.assertEqual(mach.call_args_list, [
+        setup_calls = [
             mock.call(self.repo, "bootstrap", "--application-choice", "browser", env=env),
             mock.call(self.repo, "configure", env=env),
             mock.call(self.repo, "configure", env=env),
+        ]
+        self.assertEqual(mach.call_args_list, [
+            *setup_calls,
             mock.call(self.repo, "build", env=env),
-        ] * 2)
+            *setup_calls,
+            mock.call(self.repo, "build", "--verbose", env=env),
+        ])
         self.assertEqual(verify_toolchain.call_args_list, [mock.call(self.repo, env)] * 4)
         self.assertEqual(marker.read_bytes(), before)
 
