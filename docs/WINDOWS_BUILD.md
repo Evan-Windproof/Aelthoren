@@ -60,9 +60,9 @@ python3 tools/windows_build.py run --profile w1-smoke
 ```
 
 The wrapper runs `mach configure` with [the Windows mozconfig](../config/mozconfig.windows-x64)
-in the existing object directory. It compiles a small C++ object and checks
-the STL and SDK paths Clang opened before starting `mach build`. The executable
-should be at
+in the existing object directory. The direct clang-cl and vendored cc-rs probes
+must both compile with the expected STL and SDK headers before the wrapper
+starts `mach build`. The executable should be at
 `aelthoren-gecko-windows/obj-aelthoren-windows/dist/bin/firefox.exe`. The build
 checks that the file has an AMD64 Windows PE header and that the reviewed
 distribution files exist beside it. The launcher uses an explicit persistent
@@ -102,9 +102,16 @@ and [Clang 21.1.8 MSVC driver](https://github.com/llvm/llvm-project/blob/2078da4
 
 The wrapper sets the configured 14.50 toolset in the child environment for
 cc-rs. It passes `/vctoolsdir DIR`, `/winsdkdir DIR`, and
-`/winsdkversion VERSION` through `_CL_`, which clang-cl appends to its command
-line in native build rules and Cargo build scripts. The switches and values are
-separate arguments, and each path with spaces is quoted as a single value.
+`/winsdkversion VERSION` through `CL`, which clang-cl prepends to its command
+line. cc-rs generates a command of the form
+`clang-cl … -Foheaders.o -c -- headers.cpp`. Using `_CL_` appended the switches
+after the `--` delimiter, where Clang treated them as input files. The switches
+and values are separate arguments. Windows command-line quoting keeps a path
+like `Program Files (x86)` together. Python launches Cargo directly and cc-rs
+launches Clang directly, so these arguments use the native Windows parser after
+MozillaBuild starts Python. [cc-rs compile command](https://github.com/mozilla-firefox/firefox/blob/a34c4160e3f75ab9918fbe4669ff7ae56f1977c8/third_party/rust/cc/src/lib.rs#L1783)
+and [Clang driver variable handling](https://github.com/llvm/llvm-project/blob/2078da43e25a4623cab2d0d60decddf709aaea28/clang/tools/driver/driver.cpp#L279).
+
 The previous colon syntax made the colon part of the path. Clang then ignored
 the resulting nonexistent directories and skipped its normal `INCLUDE`
 lookup because explicit toolchain flags were present. [Clang option definitions](https://github.com/llvm/llvm-project/blob/2078da43e25a4623cab2d0d60decddf709aaea28/clang/include/clang/Driver/Options.td)
@@ -139,8 +146,9 @@ lines for 14.50's `include/vector` and `include/yvals_core.h`, plus the SDK's
 `yvals_core.h` from its reported resource directory. The verifier recognizes
 that forwarding header and still requires the actual 14.50 header underneath.
 If the direct compile fails, its verbose include search is printed with the
-error. Once the command succeeds, run `python3 tools/windows_build.py build`
-from Aelthoren. [Clang's forwarding header](https://github.com/llvm/llvm-project/blob/2078da43e25a4623cab2d0d60decddf709aaea28/clang/lib/Headers/yvals_core.h)
+error. The Cargo probe prints the generated cc-rs command on failure. A later
+`build` invocation reruns both probes and starts Gecko compilation only if
+both pass. [Clang's forwarding header](https://github.com/llvm/llvm-project/blob/2078da43e25a4623cab2d0d60decddf709aaea28/clang/lib/Headers/yvals_core.h)
 
 If Mozilla configure still selects an incompatible toolset or cannot install
 the pinned one, install Microsoft MSVC 14.50 alongside the existing toolset.
@@ -307,8 +315,13 @@ missing. On Linux, LLVM clang-cl 21.1.8 reproduced that failure with the
 colon form of the options and compiled an AMD64 COFF object with the corrected
 options and synthetic headers under `Program Files (x86)`. A vendored cc-rs
 test on Linux invoked that same driver and verified the same fixture paths.
-All 25 tooling tests passed. The native Windows probe with the installed MSVC
-and SDK, full build, and runtime checks remain pending.
+The subsequent Windows failure reported switches as filenames and multiple
+inputs. On Linux, the pinned vendored cc-rs and Clang 21.1.8 reproduced both
+errors using `_CL_` and cc-rs's actual object-compile command with `--`.
+With `CL`, both direct and cc-rs C/C++ probes produced x64 COFF
+objects using the synthetic 14.50 and SDK headers. All 25 tooling tests passed,
+including the build gate when the Cargo probe fails. The native Windows
+diagnostic, full build, and runtime checks remain pending.
 
 ## Acceptance on a Windows host
 

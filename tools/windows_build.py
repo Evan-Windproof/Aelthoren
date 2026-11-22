@@ -259,14 +259,14 @@ def check_cargo_headers(source, directory, substs, env, expected_headers, *, cla
         encoding="utf-8",
     )
     (directory / "lib.rs").touch()
-    (directory / "headers.c").write_bytes(b"#include <stdlib.h>\n#include <windows.h>\n")
+    (directory / "headers-c.c").write_bytes(b"#include <stdlib.h>\n#include <windows.h>\n")
     (directory / "build.rs").write_bytes(
         b'fn main() {\n'
-        b'    cc::Build::new().file("headers.c").flag("/showIncludes").compile("probe_c");\n'
-        b'    cc::Build::new().cpp(true).file("headers.cpp").flag("/showIncludes").compile("probe_cpp");\n'
+        b'    cc::Build::new().file("headers-c.c").flag("/showIncludes").compile_intermediates();\n'
+        b'    cc::Build::new().cpp(true).file("headers.cpp").flag("/showIncludes").compile_intermediates();\n'
         b'}\n'
     )
-    cargo_env = dict(env, RUSTC=substs["RUSTC"], CC_SHELL_ESCAPED_FLAGS="1")
+    cargo_env = dict(env, RUSTC=substs["RUSTC"], CC_SHELL_ESCAPED_FLAGS="1", CC_ENABLE_DEBUG_OUTPUT="1")
     for compiler, preprocessor in (("CC", "CPP"), ("CXX", "CXXCPP")):
         command = substs[preprocessor]
         separator = command.index("-E")
@@ -280,7 +280,7 @@ def check_cargo_headers(source, directory, substs, env, expected_headers, *, cla
     )
 
 
-def verify_toolchain(source, env, *, cargo=False):
+def verify_toolchain(source, env):
     configuration = source / OBJECT_DIR / "config.status.json"
     substs = json.loads(configuration.read_text(encoding="utf-8"))["substs"]
     for cc in ("CC", "HOST_CC"):
@@ -316,9 +316,8 @@ def verify_toolchain(source, env, *, cargo=False):
         INCLUDE=includes,
         LIB=substs["LIB"],
     )
-    # clang-cl appends _CL_ to its arguments, including in cc-rs child processes.
-    # Separate the options and values: clang-cl treats a colon as part of the value.
-    build_env["_CL_"] = subprocess.list2cmdline([
+    # clang-cl prepends CL so the options stay before cc-rs's -- delimiter.
+    build_env["CL"] = subprocess.list2cmdline([
         "/vctoolsdir", vc.as_posix(),
         "/winsdkdir", um.parent.parent.parent.as_posix(),
         "/winsdkversion", um.parent.name,
@@ -341,13 +340,12 @@ def verify_toolchain(source, env, *, cargo=False):
         probe.write_bytes(b"#include <vector>\n#include <windows.h>\n")
         output = probe.with_suffix(".obj")
         check_header_probe(
-            [*command, "/c", "/showIncludes", "/clang:-v", f"/Fo{output.name}", probe.name],
+            [*command, "/c", "/showIncludes", "/clang:-v", f"/Fo{output.name}", "--", probe.name],
             probe.parent, build_env, expected_headers, clang_yvals=clang_yvals,
         )
         if not output.is_file():
             raise ValueError("The compiler did not produce a toolchain probe object.")
-        if cargo:
-            check_cargo_headers(source, probe.parent, substs, build_env, expected_headers, clang_yvals=clang_yvals)
+        check_cargo_headers(source, probe.parent, substs, build_env, expected_headers, clang_yvals=clang_yvals)
     return build_env
 
 
@@ -402,7 +400,7 @@ def main():
             status = mach(source, "configure", env=env)
             if status:
                 return status
-            env = verify_toolchain(source, env, cargo=args.command == "verify-toolchain")
+            env = verify_toolchain(source, env)
             if args.command == "verify-toolchain":
                 return 0
             status = mach(source, "build", env=env)
