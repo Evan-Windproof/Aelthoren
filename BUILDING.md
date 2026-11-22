@@ -1,5 +1,8 @@
 # Linux Gecko artifact development
 
+For the separate native Windows x64 source-build workflow and current W1
+verification status, see [Windows development build](docs/WINDOWS_BUILD.md).
+
 ## Current Phase 3 workflow
 
 Use the existing verified source/artifacts and prerequisites below. Do not reacquire
