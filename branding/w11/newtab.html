@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src chrome:; style-src chrome:; form-action 'none'; base-uri 'none'">
+  <title data-aelthoren-l10n="newtab-title"></title>
+  <link rel="stylesheet" href="chrome://branding/content/w11/aelthoren.css">
+</head>
+<body>
+  <main class="newtab" hidden>
+    <header class="identity">
+      <img class="logo" src="chrome://branding/content/about-logo.svg" width="88" height="88" alt="">
+      <h1 data-aelthoren-l10n="brand-name"></h1>
+      <p class="slogan" data-aelthoren-l10n="slogan"></p>
+    </header>
+    <form id="search" role="search">
+      <label for="query" data-aelthoren-l10n="search-label"></label>
+      <div class="search-row">
+        <input id="query" type="search" name="q" maxlength="4096" autocomplete="off" required
+          data-aelthoren-l10n="search-placeholder" data-aelthoren-attr="placeholder">
+        <button class="submit" type="submit" data-aelthoren-l10n="search-submit"></button>
+      </div>
+    </form>
+    <nav id="shortcuts" data-aelthoren-l10n="shortcuts-label" data-aelthoren-attr="aria-label">
+      <button type="button" data-action="bookmarks" data-aelthoren-l10n="open-bookmarks"></button>
+      <button type="button" data-action="settings" data-aelthoren-l10n="open-settings"></button>
+      <button type="button" data-action="privacy" data-aelthoren-l10n="open-privacy"></button>
+      <button type="button" data-action="about" data-aelthoren-l10n="open-about"></button>
+    </nav>
+    <p class="status" role="status" id="action-status"></p>
+  </main>
+</body>
+</html>

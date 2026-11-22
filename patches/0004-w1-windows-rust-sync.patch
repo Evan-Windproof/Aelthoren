@@ -1,0 +1,18 @@
+diff --git a/python/mozbuild/mozbuild/frontend/data.py b/python/mozbuild/mozbuild/frontend/data.py
+--- a/python/mozbuild/mozbuild/frontend/data.py
++++ b/python/mozbuild/mozbuild/frontend/data.py
+@@ -749,6 +749,14 @@
+         self.dependencies = dependencies
+         self.features = features
+         self.output_category = context.get("RUST_LIBRARY_OUTPUT_CATEGORY")
++
++        # Rust 1.100's Windows MSVC std requires this SDK import library.
++        # Carry it to the native final link through the static library's
++        # system dependencies, as Gecko does for OS_LIBS and HOST_OS_LIBS.
++        rust_target = context.config.substs.get(self.TARGET_SUBST_VAR) or ""
++        if rust_target.endswith("-windows-msvc"):
++            self.link_system_library("synchronization")
++
+         # Skip setting properties below which depend on cargo
+         # when we don't have a compile environment. The required
+         # config keys won't be available, but the instance variables

@@ -1,0 +1,141 @@
+:root {
+  color-scheme: light dark;
+  font: 1rem/1.55 system-ui, sans-serif;
+  --canvas: light-dark(#f7f8f5, #141b1d);
+  --surface: light-dark(#fff, #1e2729);
+  --text: light-dark(#1b2c2a, #edf4f1);
+  --muted: light-dark(#4f615e, #b2c3bf);
+  --border: light-dark(#849691, #657c76);
+  --accent: light-dark(#236658, #9fe0cd);
+  --accent-text: light-dark(#fff, #152722);
+  --hover: light-dark(#eaf3ef, #2b3c38);
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  min-block-size: 100vh;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: clamp(1rem, 5vw, 3rem);
+  background: var(--canvas);
+  color: var(--text);
+}
+
+main { inline-size: min(100%, 38rem); }
+
+.logo {
+  display: block;
+  inline-size: 5.5rem;
+  block-size: 5.5rem;
+  margin: 0 auto 0.9rem;
+  border-radius: 1rem;
+  background: #e5eeeb;
+}
+
+h1, h2, p { margin: 0; }
+h1 { font-size: clamp(1.75rem, 6vw, 2.5rem); line-height: 1.15; }
+h2 { font-size: 1.15rem; }
+
+.slogan {
+  margin-block-start: 0.45rem;
+  color: var(--muted);
+}
+
+.newtab .identity { text-align: center; }
+form { margin-block: clamp(1.5rem, 5vw, 2.4rem) 1rem; }
+label { font-weight: 600; }
+
+.search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block-start: 0.5rem;
+}
+
+input, button, nav a {
+  min-block-size: 2.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  padding: 0.55rem 0.85rem;
+  background: var(--surface);
+  color: inherit;
+  font: inherit;
+}
+
+input {
+  flex: 1 1 12rem;
+  min-inline-size: 0;
+}
+
+input::placeholder { color: var(--muted); }
+button { cursor: pointer; overflow-wrap: anywhere; }
+button:hover, nav a:hover { background: var(--hover); }
+
+.submit {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+  font-weight: 650;
+}
+
+.submit:hover { filter: brightness(0.87); background: var(--accent); }
+
+nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 7.75rem), 1fr));
+  gap: 0.5rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.status {
+  min-block-size: 1.6em;
+  margin-block-start: 0.65rem;
+  color: var(--muted);
+}
+
+.about {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.about .identity {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-block-end: 0.35rem;
+}
+
+.about .logo {
+  inline-size: 4.5rem;
+  block-size: 4.5rem;
+  margin: 0;
+}
+
+.about h2 { margin-block-start: 0.45rem; }
+
+.about nav {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  margin-block-start: 0.45rem;
+}
+
+nav a {
+  color: var(--accent);
+  overflow-wrap: anywhere;
+  text-underline-offset: 0.18em;
+}
+
+@media (max-width: 24rem) {
+  .submit { flex-grow: 1; }
+}
+
+@media (forced-colors: active) {
+  :focus-visible { outline-color: Highlight; }
+}
