@@ -1,0 +1,227 @@
+diff --git a/browser/actors/AboutNewTabChild.sys.mjs b/browser/actors/AboutNewTabChild.sys.mjs
+--- a/browser/actors/AboutNewTabChild.sys.mjs
++++ b/browser/actors/AboutNewTabChild.sys.mjs
+@@ -38,25 +38,12 @@
+ 
+ export class AboutNewTabChild extends RemotePageChild {
+   async handleEvent(event) {
++    // The Aelthoren actor owns the bundled New Tab and Home pages.
+     if (
+-      ["about:newtab", "about:home"].includes(this.document.documentURI.split(/[?#]/)[0]) &&
+-      this.browsingContext === this.browsingContext.top
++      ["about:newtab", "about:home"].includes(
++        this.document?.documentURI.split(/[?#]/)[0]
++      )
+     ) {
+-      if (event.type === "DOMContentLoaded") {
+-        const form = this.document.getElementById("aelthoren-search");
+-        if (form) {
+-          const input = form.querySelector("input");
+-          const engine = await this.sendQuery("Aelthoren:GetSearchEngine");
+-          input.placeholder = `Search with ${engine.name}`;
+-          form.addEventListener("submit", async event => {
+-            event.preventDefault();
+-            const query = input.value.trim();
+-            if (query) {
+-              await this.sendQuery("Aelthoren:Search", { query });
+-            }
+-          });
+-        }
+-      }
+       return;
+     }
+     if (event.type == "DOMDocElementInserted") {
+diff --git a/browser/actors/AboutNewTabParent.sys.mjs b/browser/actors/AboutNewTabParent.sys.mjs
+--- a/browser/actors/AboutNewTabParent.sys.mjs
++++ b/browser/actors/AboutNewTabParent.sys.mjs
+@@ -7,7 +7,6 @@
+ ChromeUtils.defineESModuleGetters(lazy, {
+   AboutNewTab: "resource:///modules/AboutNewTab.sys.mjs",
+   ASRouter: "resource:///modules/asrouter/ASRouter.sys.mjs",
+-  SearchService: "moz-src:///toolkit/components/search/SearchService.sys.mjs",
+ });
+ 
+ // A mapping of loaded new tab pages, where the mapping is:
+@@ -63,33 +62,6 @@
+   }
+ 
+   async receiveMessage(message) {
+-    if (["Aelthoren:GetSearchEngine", "Aelthoren:Search"].includes(message.name)) {
+-      const context = this.browsingContext;
+-      const uri = context.currentWindowGlobal?.documentURI?.spec.split(/[?#]/)[0];
+-      if (context !== context.top || !["about:newtab", "about:home"].includes(uri)) {
+-        throw new Error("Search requests are restricted to the local top-level new tab");
+-      }
+-      await lazy.SearchService.init();
+-      const engine = context.usePrivateBrowsing
+-        ? await lazy.SearchService.getDefaultPrivate()
+-        : await lazy.SearchService.getDefault();
+-      if (message.name === "Aelthoren:GetSearchEngine") {
+-        return { name: engine.name };
+-      }
+-      const query = message.data?.query;
+-      if (typeof query !== "string" || !query.trim() || query.length > 4096) {
+-        throw new Error("Invalid search query");
+-      }
+-      const submission = engine.getSubmission(query.trim(), null, "newtab");
+-      if (!submission || !["http", "https"].includes(submission.uri.scheme)) {
+-        throw new Error("Unsupported search provider URL");
+-      }
+-      context.loadURI(submission.uri, {
+-        triggeringPrincipal: Services.scriptSecurityManager.getSystemPrincipal(),
+-        postData: submission.postData,
+-      });
+-      return null;
+-    }
+     switch (message.name) {
+       case "AboutNewTabVisible":
+         {
+diff --git a/browser/base/content/aboutDialog.js b/browser/base/content/aboutDialog.js
+--- a/browser/base/content/aboutDialog.js
++++ b/browser/base/content/aboutDialog.js
+@@ -19,6 +19,13 @@
+ }
+ 
+ function init() {
++  const { createLocalization, localizeDocument, resolveLocale } =
++    ChromeUtils.importESModule("resource://aelthoren-w11/AelthorenL10n.sys.mjs");
++  localizeDocument(
++    document,
++    createLocalization(resolveLocale(Services.locale.appLocaleAsBCP47))
++  ).catch(console.error);
++
+   let defaults = Services.prefs.getDefaultBranch(null);
+   let distroId = defaults.getCharPref("distribution.id", "");
+   if (distroId) {
+@@ -73,7 +80,6 @@
+     versionAttributes.isodate = `${year}-${month}-${day}`;
+ 
+     document.getElementById("experimental").hidden = false;
+-    document.getElementById("communityDesc").hidden = true;
+   }
+ 
+   // Use Fluent arguments for append version and the architecture of the build
+diff --git a/browser/base/content/aboutDialog.xhtml b/browser/base/content/aboutDialog.xhtml
+--- a/browser/base/content/aboutDialog.xhtml
++++ b/browser/base/content/aboutDialog.xhtml
+@@ -103,7 +103,7 @@
+                 <label id="releasenotes" is="text-link" hidden="true" data-l10n-id="releaseNotes-link"/>
+               </hbox>
+               <description class="text-blurb">
+-                <label id="aboutDialogHelpLink" is="text-link" data-l10n-id="aboutdialog-help-user"/>
++                <label id="aboutDialogHelpLink" is="text-link" data-aelthoren-l10n="upstream-help" data-aelthoren-attr="value"/>
+                 <label id="submit-feedback" is="text-link" data-l10n-id="aboutdialog-submit-feedback"/>
+               </description>
+             </vbox>
+@@ -119,18 +119,12 @@
+ #endif
+           <vbox id="experimental" hidden="true">
+             <description class="text-blurb" id="warningDesc" data-l10n-id="warningDesc-version"></description>
+-            <description class="text-blurb" id="communityExperimentalDesc" data-l10n-id="community-exp">
+-              <label is="text-link" href="https://www.mozilla.org/?utm_source=firefox-browser&#38;utm_medium=firefox-desktop&#38;utm_campaign=about-dialog" data-l10n-name="community-exp-mozillaLink"/>
+-              <label is="text-link" useoriginprincipal="true" href="about:credits" data-l10n-name="community-exp-creditsLink"/>
+-            </description>
+           </vbox>
+-          <description class="text-blurb" id="communityDesc" data-l10n-id="community-2">
+-            <label is="text-link" href="https://www.mozilla.org/?utm_source=firefox-browser&#38;utm_medium=firefox-desktop&#38;utm_campaign=about-dialog" data-l10n-name="community-mozillaLink"/>
+-            <label is="text-link" useoriginprincipal="true" href="about:credits" data-l10n-name="community-creditsLink"/>
+-          </description>
+-          <description class="text-blurb" id="contributeDesc" data-l10n-id="helpus">
+-            <label is="text-link" href="https://foundation.mozilla.org/?form=firefox-about" data-l10n-name="helpus-donateLink"/>
+-            <label is="text-link" href="https://www.mozilla.org/contribute/?utm_source=firefox-browser&#38;utm_medium=firefox-desktop&#38;utm_campaign=about-dialog" data-l10n-name="helpus-getInvolvedLink"/>
++          <description class="text-blurb" data-aelthoren-l10n="about-project"/>
++          <description class="text-blurb" data-aelthoren-l10n="about-build"/>
++          <description class="text-blurb">
++            <label is="text-link" href="https://github.com/Evan-Windproof/Aelthoren"
++                   data-aelthoren-l10n="about-dialog-project" data-aelthoren-attr="value"/>
+           </description>
+         </vbox>
+       </vbox>
+diff --git a/browser/components/DesktopActorRegistry.sys.mjs b/browser/components/DesktopActorRegistry.sys.mjs
+--- a/browser/components/DesktopActorRegistry.sys.mjs
++++ b/browser/components/DesktopActorRegistry.sys.mjs
+@@ -77,6 +77,21 @@
+  * available at https://firefox-source-docs.mozilla.org/dom/ipc/jsactors.html
+  */
+ let JSWINDOWACTORS = {
++  Aelthoren: {
++    parent: {
++      esModuleURI: "resource://aelthoren-w11/AelthorenParent.sys.mjs",
++    },
++    child: {
++      esModuleURI: "resource://aelthoren-w11/AelthorenChild.sys.mjs",
++      events: {
++        DOMContentLoaded: { capture: true },
++        pageshow: {},
++      },
++    },
++    matches: ["about:newtab*", "about:home*", "about:aelthoren*"],
++    remoteTypes: ["privilegedabout"],
++  },
++
+   Megalist: {
+     parent: {
+       esModuleURI: "resource://gre/actors/MegalistParent.sys.mjs",
+diff --git a/browser/components/about/AboutRedirector.cpp b/browser/components/about/AboutRedirector.cpp
+--- a/browser/components/about/AboutRedirector.cpp
++++ b/browser/components/about/AboutRedirector.cpp
+@@ -44,6 +44,10 @@
+     browser/components/about/components.conf
+ */
+ static const RedirEntry kRedirMap[] = {
++    {"aelthoren", "resource://aelthoren-w11/about.html",
++     nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
++         nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
++         nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS},
+     {"aichatcontent", "chrome://browser/content/aiwindow/aiChatContent.html",
+      nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
+          nsIAboutModule::URI_CAN_LOAD_IN_PRIVILEGEDABOUT_PROCESS |
+diff --git a/browser/components/about/components.conf b/browser/components/about/components.conf
+--- a/browser/components/about/components.conf
++++ b/browser/components/about/components.conf
+@@ -3,6 +3,7 @@
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+ pages = [
++    'aelthoren',
+     'aichatcontent',
+     'asrouter',
+     'blocked',
+diff --git a/browser/components/newtab/AboutNewTabRedirector.sys.mjs b/browser/components/newtab/AboutNewTabRedirector.sys.mjs
+--- a/browser/components/newtab/AboutNewTabRedirector.sys.mjs
++++ b/browser/components/newtab/AboutNewTabRedirector.sys.mjs
+@@ -425,7 +425,7 @@
+    * the newtab page has no effect on the result of this function.
+    */
+   get defaultURL() {
+-    return "resource://aelthoren/newtab.html";
++    return "resource://aelthoren-w11/newtab.html";
+   }
+ 
+   newChannel() {
+@@ -541,7 +541,7 @@
+ 
+     if (
+       !this.#addonInitialized &&
+-      chromeURI.spec !== "resource://aelthoren/newtab.html"
++      chromeURI.spec !== "resource://aelthoren-w11/newtab.html"
+     ) {
+       return this.#getSuspendedChannel(resultChannel);
+     }
+@@ -585,13 +585,9 @@
+     let pageURI;
+ 
+     if (uri.spec.startsWith("about:home")) {
+-      let cacheChannel = AboutHomeStartupCacheChild.maybeGetCachedPageChannel(
+-        uri,
+-        loadInfo
+-      );
+-      if (cacheChannel) {
+-        return cacheChannel;
+-      }
++      // Load the bundled Aelthoren page even if a profile still contains
++      // a cached about:home document from before this overlay.
++      AboutHomeStartupCacheChild.disqualifyCache();
+       pageURI = Services.io.newURI(this.defaultURL);
+     } else {
+       // The only other possibility is about:newtab.

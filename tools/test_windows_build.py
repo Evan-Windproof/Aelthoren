@@ -108,7 +108,7 @@ class WindowsBuildTests(unittest.TestCase):
             self.assertEqual(marker.read_bytes(), previous)
             self.assertEqual(branding.call_count, 1)
 
-    def prepared_overlay(self, *, legacy=False):
+    def prepared_overlay(self, *, missing_patch=None):
         (self.repo / ".gitattributes").write_bytes(b"* -text\n")
         (self.repo / ".gitignore").write_bytes(b"/obj*/\n*.ignored\n")
         tracked = self.repo / "browser/branding/unofficial/README"
@@ -121,19 +121,22 @@ class WindowsBuildTests(unittest.TestCase):
 
         brand = self.repo / windows_build.BRANDING
         (brand / "distribution").mkdir(parents=True)
+        (brand / "content").mkdir()
+        (brand / "content/jar.mn").write_bytes(b"browser.jar:\n")
         (brand / "configure.sh").write_bytes(b"Reviewed branding\n")
         (brand / "distribution/default.ignored").write_bytes(b"Reviewed distribution file\n")
         patches = windows_build.read_patches()
-        if legacy:
-            del patches[windows_build.RUST_LINK_PATCH]
+        if missing_patch:
+            del patches[missing_patch]
         state = windows_build.overlay_state(self.repo, brand, patches)
         (brand / windows_build.MARKER).write_text(json.dumps(state), encoding="utf-8")
         return tracked, brand
 
+    @mock.patch.object(windows_build, "PATCHES", windows_build.PATCHES[:-1])
     def test_upgrades_verified_overlay_with_only_the_new_link_patch(self):
         link_rule = self.repo / "link.txt"
         link_rule.write_bytes(b"old link rule\n")
-        tracked, brand = self.prepared_overlay(legacy=True)
+        tracked, brand = self.prepared_overlay(missing_patch=windows_build.RUST_LINK_PATCH)
         marker = brand / windows_build.MARKER
         original_marker = marker.read_bytes()
         original_tracked = tracked.read_bytes()
@@ -187,6 +190,50 @@ class WindowsBuildTests(unittest.TestCase):
         self.assertEqual(branding.read_bytes(), original_branding)
         self.assertEqual(tracked.read_bytes(), original_tracked)
         self.assertEqual(output.read_bytes(), b"incremental build artifact")
+
+    def test_upgrades_verified_w1_overlay_and_packages_locale_resources(self):
+        route = self.repo / "route.txt"
+        route.write_bytes(b"W1\n")
+        _, brand = self.prepared_overlay(missing_patch=windows_build.PRODUCT_PATCH)
+        marker = brand / windows_build.MARKER
+        old_marker = marker.read_bytes()
+        objdir = self.repo / windows_build.OBJECT_DIR
+        objdir.mkdir()
+        artifact = objdir / "existing-output"
+        artifact.write_bytes(b"build artifact")
+
+        route.write_bytes(b"W1.1\n")
+        patches = windows_build.read_patches()
+        patches[windows_build.PRODUCT_PATCH] = self.git("diff", "--", "route.txt").stdout
+        self.git("restore", "--worktree", "--", "route.txt")
+
+        with mock.patch.object(windows_build, "read_patches", return_value=patches), redirect_stdout(io.StringIO()):
+            with self.assertRaisesRegex(ValueError, "needs the W1.1 product UI patch"):
+                windows_build.verify_overlay(self.repo)
+            with mock.patch.object(windows_build, "add_product_branding", side_effect=OSError("write failed")):
+                with self.assertRaisesRegex(OSError, "write failed"):
+                    windows_build.prepare(self.repo)
+            self.assertEqual(route.read_bytes(), b"W1\n")
+            self.assertEqual(marker.read_bytes(), old_marker)
+
+            windows_build.prepare(self.repo)
+            self.assertEqual(route.read_bytes(), b"W1.1\n")
+            updated = marker.read_bytes()
+            self.assertNotEqual(updated, old_marker)
+            windows_build.prepare(self.repo)
+            self.assertEqual(marker.read_bytes(), updated)
+            for path in windows_build.PRODUCT_FILES:
+                relative = path.relative_to(windows_build.PRODUCT_ROOT)
+                self.assertEqual((brand / "content/w11" / relative).read_bytes(), path.read_bytes())
+                self.assertIn(relative.as_posix(), (brand / "content/jar.mn").read_text())
+            jar = (brand / "content/jar.mn").read_text()
+            self.assertIn("% resource aelthoren-w11 %content/aelthoren-w11/\n", jar)
+            self.assertIn("content/aelthoren-w11/AelthorenParent.sys.mjs", jar)
+            self.assertNotIn("content/branding/w11/AelthorenParent.sys.mjs", jar)
+            (brand / "content/w11/about.html").write_bytes(b"local change")
+            with self.assertRaisesRegex(ValueError, "Windows overlay or inputs changed"):
+                windows_build.prepare(self.repo)
+        self.assertEqual(artifact.read_bytes(), b"build artifact")
 
     def test_reuses_verified_overlay_for_prepare_bootstrap_and_build(self):
         _, brand = self.prepared_overlay()

@@ -5,6 +5,7 @@ Phase W1 prepares a full source build of Aelthoren using Firefox ESR
 pin comes from [upstream.lock.json](../upstream.lock.json). Gecko and
 SpiderMonkey compile locally. The Linux artifact workflow and its validation
 reports remain available in [BUILDING.md](../BUILDING.md).
+For the W1.1 overlay, see the [product UI build and acceptance guide](WINDOWS_W11.md).
 
 ## Required software
 
@@ -380,6 +381,9 @@ consumer. Linux link metadata was unchanged. All 26 tooling tests passed and an
 existing overlay in a pinned checkout upgraded in place. The actual Windows
 `crashhelper.exe` link command and result with this patch, subsequent Gecko
 links, and runtime acceptance remain unverified.
+
+The project owner subsequently reported the first successful native Windows
+x64 build and launch. W1.1 has its own [acceptance checklist](WINDOWS_W11.md#windows-runtime-acceptance).
 
 ## Acceptance on a Windows host
 

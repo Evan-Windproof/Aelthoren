@@ -27,15 +27,22 @@ MSVC_SERIES = "14.50"
 BRANDING = Path("browser/branding/aelthoren-windows")
 MARKER = ".aelthoren-windows.json"
 RUST_LINK_PATCH = ROOT / "patches/0004-w1-windows-rust-sync.patch"
+PRODUCT_PATCH = ROOT / "patches/0005-w11-product-ui.patch"
 PATCHES = tuple(ROOT / "patches" / name for name in (
     "0001-phase2-ui.patch",
     "0002-phase3-search.patch",
     "0003-phase3-account-settings.patch",
-)) + (RUST_LINK_PATCH,)
+)) + (RUST_LINK_PATCH, PRODUCT_PATCH)
 CONTENT = tuple(ROOT / "branding/content" / name for name in (
     "newtab.html", "about-aelthoren.html", "aelthoren.css",
 ))
 WINDOWS_ASSETS = ROOT / "branding/windows"
+PRODUCT_ROOT = ROOT / "branding/w11"
+PRODUCT_FILES = tuple(PRODUCT_ROOT / name for name in (
+    "newtab.html", "about.html", "aelthoren.css",
+    "AelthorenChild.sys.mjs", "AelthorenParent.sys.mjs", "AelthorenL10n.sys.mjs",
+    "l10n/en-US/aelthoren.ftl", "l10n/zh-CN/aelthoren.ftl", "l10n/zh-TW/aelthoren.ftl",
+))
 LOGO = ROOT / "assets/A_text.svg"
 DISTRIBUTION = {
     "policies.json": ROOT / "config/privacy-policies.json",
@@ -70,6 +77,8 @@ def overlay_state(source, brand, patches):
     inputs = dict(patches)
     for path in (*CONTENT, *DISTRIBUTION.values(), LOGO, *WINDOWS_ASSETS.iterdir()):
         inputs[path] = path.read_bytes()
+    if PRODUCT_PATCH in patches:
+        inputs.update((path, path.read_bytes()) for path in PRODUCT_FILES)
     return {
         "revision": LOCK["revision"],
         "inputs": {path.relative_to(ROOT).as_posix(): digest(data) for path, data in inputs.items()},
@@ -83,7 +92,7 @@ def overlay_state(source, brand, patches):
     }
 
 
-def verify_overlay(source, *, allow_link_upgrade=False):
+def verify_overlay(source, *, allow_upgrade=False):
     verify_source(source)
     brand = source / BRANDING
     marker = brand / MARKER
@@ -92,23 +101,27 @@ def verify_overlay(source, *, allow_link_upgrade=False):
     patches = read_patches()
     state = overlay_state(source, brand, patches)
     recorded = json.loads(marker.read_text(encoding="utf-8"))
-    needs_link_patch = False
+    pending = set()
+    # A predecessor must match every hash for its exact set of inputs.
+    for patch, extra in ((PRODUCT_PATCH, PRODUCT_FILES), (RUST_LINK_PATCH, ())):
+        if recorded == state:
+            break
+        if patch in patches:
+            pending.add(patch)
+            for path in (patch, *extra):
+                del state["inputs"][path.relative_to(ROOT).as_posix()]
     if recorded != state:
-        if RUST_LINK_PATCH in patches:
-            # An existing overlay can be upgraded only if every other hash matches.
-            del state["inputs"][RUST_LINK_PATCH.relative_to(ROOT).as_posix()]
-            needs_link_patch = recorded == state
-        if not needs_link_patch:
-            raise ValueError("Windows overlay or inputs changed. Preserve edits and prepare a clean checkout.")
+        raise ValueError("Windows overlay or inputs changed. Preserve edits and prepare a clean checkout.")
 
     allowed = {os.fsencode((BRANDING / name).as_posix()) for name in (*state["branding"], MARKER)}
     untracked = git(source, "ls-files", "--others", "--exclude-standard", "-z")
     for path in untracked.split(b"\0"):
         if path and path not in allowed:
             raise ValueError(f"Unexpected untracked Firefox files. Review {os.fsdecode(path)!r}.")
-    if needs_link_patch and not allow_link_upgrade:
-        raise ValueError("Windows overlay needs the Rust link patch. Run prepare.")
-    return needs_link_patch
+    if pending and not allow_upgrade:
+        reason = "the W1.1 product UI patch" if PRODUCT_PATCH in pending else "the Rust link patch"
+        raise ValueError(f"Windows overlay needs {reason}. Run prepare.")
+    return pending
 
 
 def edit_text(path, replacements=(), suffix=""):
@@ -164,40 +177,81 @@ def generate_branding(template, brand):
     ))
 
 
+def add_product_branding(brand):
+    content = brand / "content"
+    entries = ["% resource aelthoren-w11 %content/aelthoren-w11/\n"]
+    for path in PRODUCT_FILES:
+        name = path.relative_to(PRODUCT_ROOT)
+        relative = Path("w11") / name
+        dest = content / relative
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(path, dest)
+        if name == Path("aelthoren.css"):
+            packaged = Path("content/branding") / relative
+        else:
+            packaged = Path("content/aelthoren-w11") / name
+        entries.append(f"  {packaged.as_posix()} ({relative.as_posix()})\n")
+    edit_text(content / "jar.mn", suffix="".join(entries))
+
+
 def prepare(source):
     verify_source(source)
     brand = source / BRANDING
     upgrading = brand.exists()
-    if upgrading and not verify_overlay(source, allow_link_upgrade=True):
+    pending = verify_overlay(source, allow_upgrade=True) if upgrading else set(PATCHES)
+    if upgrading and not pending:
         print(f"Windows overlay verified at {LOCK['revision']}")
         return
     if not upgrading and git(source, "status", "--porcelain=v1", "--untracked-files=normal"):
         raise ValueError("Prepare requires a clean Windows-specific Firefox checkout.")
 
     patches = read_patches()
-    pending = {RUST_LINK_PATCH: patches[RUST_LINK_PATCH]} if upgrading else patches
+    product_ui = PRODUCT_PATCH in pending
+    backup = brand.with_name(brand.name + ".previous")
+    if product_ui and backup.exists():
+        raise ValueError(f"An earlier upgrade left a branding backup. Review {backup} before retrying.")
     with TemporaryDirectory(prefix="aelthoren-brand-", dir=brand.parent) as temporary:
         staging = Path(temporary)
-        patch_args = []
-        for path, data in pending.items():
+        base_args = []
+        product_args = []
+        for path, data in patches.items():
+            if path not in pending:
+                continue
             staged_patch = staging / path.name
             staged_patch.write_bytes(data)
-            patch_args.append(str(staged_patch))
-        git(source, "apply", "--check", *patch_args)
-        staged_brand = brand if upgrading else staging / brand.name
-        if not upgrading:
-            generate_branding(brand.parent / "unofficial", staged_brand)
-        git(source, "apply", *patch_args)
+            (product_args if path == PRODUCT_PATCH else base_args).append(str(staged_patch))
+        replace_brand = product_ui or not upgrading
+        staged_brand = staging / brand.name if replace_brand else brand
+        applied = []
         try:
+            # The UI patch is based on the W1 sources after the base patches.
+            for args in (base_args, product_args):
+                if args:
+                    git(source, "apply", "--check", *args)
+                    git(source, "apply", *args)
+                    applied.append(args)
+            if not upgrading:
+                generate_branding(brand.parent / "unofficial", staged_brand)
+            elif product_ui:
+                shutil.copytree(brand, staged_brand)
+            if product_ui:
+                add_product_branding(staged_brand)
             manifest = json.dumps(overlay_state(source, staged_brand, patches), indent=2, sort_keys=True)
             staged_marker = staging / MARKER
             staged_marker.write_bytes((manifest + "\n").encode("utf-8"))
             staged_marker.replace(staged_brand / MARKER)
-            if not upgrading:
+            if replace_brand:
+                if upgrading:
+                    brand.rename(backup)
                 staged_brand.rename(brand)
-        except (OSError, subprocess.CalledProcessError):
-            git(source, "apply", "--reverse", *patch_args)
+        except (OSError, ValueError, subprocess.CalledProcessError):
+            if upgrading and backup.exists() and not brand.exists():
+                backup.rename(brand)
+            for args in reversed(applied):
+                git(source, "apply", "--reverse", *args)
             raise
+        if upgrading and product_ui:
+            shutil.rmtree(backup)
     verify_overlay(source)
     action = "Updated" if upgrading else "Prepared"
     print(f"{action} Windows overlay at {LOCK['revision']}")
